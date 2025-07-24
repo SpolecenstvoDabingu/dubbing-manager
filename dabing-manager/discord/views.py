@@ -189,7 +189,9 @@ def get_announce_data(request, type, id):
                 "sxex": episode.get_se(),
                 "season": episode.season,
                 "episode": episode.episode,
+                "deadline": episode.deadline.timestamp(),
                 "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'episode', 'obj_id': episode.id})}",
+                "full_info": f"{EXTERNAL_URL}{reverse('stats_episode', kwargs={'episode_id': episode.id})}",
                 "dubbers": dubbers,
             })
 
@@ -216,7 +218,9 @@ def get_announce_data(request, type, id):
                 "dubbing": f"{scene.dubbing}",
                 "name": scene.name,
                 "name_full": f"{scene}",
+                "deadline": scene.deadline.timestamp(),
                 "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'scene', 'obj_id': scene.id})}",
+                "full_info": f"{EXTERNAL_URL}{reverse('stats_scene', kwargs={'scene_id': scene.id})}",
                 "dubbers": dubbers,
             })
     
