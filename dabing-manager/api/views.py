@@ -10,6 +10,8 @@ from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from core.settingz.urls import NO_THUMBNAIL_URL
 from database.utils import get_character_user_type
+from datetime import datetime
+from django.utils import timezone
 
 from database.models import Dubbing, Episode, Scene, Character, UserCharacterStable, UserCharacterTemporary
 
@@ -125,11 +127,19 @@ def add_episode(request):
 
     if not is_manager(request, dubbing.id) and not is_admin_f(request.user):
         return JsonResponse({"access": "You don't have neccessary access"}, status=403)
+    
+    
+    try:
+        dt = datetime.fromisoformat(deadline)
+        if timezone.is_naive(dt):
+            dt = timezone.make_aware(dt)
+    except (ValueError, TypeError):
+        dt = None
 
     episode = Episode(
         name=str(name),
         dubbing=dubbing,
-        deadline=deadline,
+        deadline=dt,
         season=int(season),
         episode=int(episode_number),
         script=request.FILES.get("script"),
@@ -181,7 +191,13 @@ def modify_episode(request, id):
         save = True
 
     if deadline != episode_old.deadline.isoformat() if episode_old.deadline else None:
-        episode_old.deadline = deadline or None
+        try:
+            dt = datetime.fromisoformat(deadline)
+            if timezone.is_naive(dt):
+                dt = timezone.make_aware(dt)
+        except (ValueError, TypeError):
+            dt = None
+        episode_old.deadline = datetime.fromisoformat(deadline) or None
         save = True
 
     if str(episode_old.season) != str(season):
@@ -237,11 +253,18 @@ def add_scene(request):
 
     if not is_manager(request, dubbing.id) and not is_admin_f(request.user):
         return JsonResponse({"access": "You don't have neccessary access"}, status=403)
+    
+    try:
+        dt = datetime.fromisoformat(deadline)
+        if timezone.is_naive(dt):
+            dt = timezone.make_aware(dt)
+    except (ValueError, TypeError):
+        dt = None
 
     scene = Scene(
         name=str(name),
         dubbing=dubbing,
-        deadline=deadline,
+        deadline=dt,
         script=request.FILES.get("script"),
         urls=str(urls),
     )
@@ -289,7 +312,13 @@ def modify_scene(request, id):
         save = True
 
     if deadline != scene_old.deadline.isoformat() if scene_old.deadline else None:
-        scene_old.deadline = deadline or None
+        try:
+            dt = datetime.fromisoformat(deadline)
+            if timezone.is_naive(dt):
+                dt = timezone.make_aware(dt)
+        except (ValueError, TypeError):
+            dt = None
+        scene_old.deadline = datetime.fromisoformat(deadline) or None
         save = True
 
     if scene_old.urls != urls:
