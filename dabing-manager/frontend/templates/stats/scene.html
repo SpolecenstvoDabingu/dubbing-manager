@@ -20,11 +20,16 @@
         {{ scene.urls|markdown_links }}<br>
         {% endif %}
     </p>
-    {% if scene.script %}
-    <a href="{% url 'download_script' 'scene' scene.id %}" class="btn btn-primary">
-        {% trans "frontend.scene.download_script" context "Download script button title" %}
-    </a>
-    {% endif %}
+    <div class="d-flex flex-column responsive-fit w-100">
+        {% if scene.script %}
+        <a href="{% url 'download_script' 'scene' scene.id %}" class="btn btn-primary mb-2">
+            {% trans "frontend.scene.download_script" context "Download script button title" %}
+        </a>
+        {% endif %}
+        {% if request.user|is_admin or scene.dubbing.manager == request.user %}
+        <button class="btn btn-primary" onclick="copyToClipboard('{{ announcement_command }}')">{% trans "frontend.scene.copy_announcement_command" context "Scene announcement command" %}</button>
+        {% endif %}
+    </div>
 
 
 

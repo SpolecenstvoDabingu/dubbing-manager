@@ -26,3 +26,5 @@ INSTANCE_NAME = CONFIG.get('Other', 'instance_name', 'Manager', description='Nam
 COMMUNITY_NAME = CONFIG.get('Other', 'community_name', 'Společenstvo dabignu', description='Name of the community.')
 
 LANGUAGE_CODE = CONFIG.get('Localization', 'locale', 'en', description='Default language.', choices=LANGUAGES_KEYS)
+
+EXTERNAL_URL = CONFIG.get('Networking', 'external_url', 'http://localhost', description='External URL.')

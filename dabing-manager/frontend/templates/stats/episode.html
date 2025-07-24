@@ -20,14 +20,16 @@
         {{ episode.urls|markdown_links }}<br>
         {% endif %}
     </p>
-    {% if episode.script %}
-    <a href="{% url 'download_script' 'episode' episode.id %}" class="btn btn-primary">
-        {% trans "frontend.episode.download_script" context "Download script button title" %}
-    </a>
-    {% endif %}
-
-
-
+    <div class="d-flex flex-column responsive-fit w-100">
+        {% if episode.script %}
+        <a href="{% url 'download_script' 'episode' episode.id %}" class="btn btn-primary mb-2">
+            {% trans "frontend.episode.download_script" context "Download script button title" %}
+        </a>
+        {% endif %}
+        {% if request.user|is_admin or episode.dubbing.manager == request.user %}
+        <button class="btn btn-primary" onclick="copyToClipboard('{{ announcement_command }}')">{% trans "frontend.episode.copy_announcement_command" context "Episode announcement command" %}</button>
+        {% endif %}
+    </div>
 
 
 

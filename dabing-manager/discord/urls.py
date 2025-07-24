@@ -5,4 +5,6 @@ urlpatterns = [
     path("users/sync", views.sync_users, name="api_sync_users"),
     path("users/add", views.add_users, name="api_add_users"),
     path("users/remove", views.remove_users, name="api_sync_users"),
+
+    path("commands/announcement/<str:type>/<int:id>", views.get_announce_data, name="api_get_announce_data"),
 ]

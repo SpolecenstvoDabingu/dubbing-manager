@@ -90,3 +90,13 @@ function fetchFail(loadingId, failId, buttonId) {
     buttonEl.disabled = false;
   }
 }
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      alert("Copied to clipboard!");
+    })
+    .catch(err => {
+      alert("Failed to copy: " + err);
+    });
+}

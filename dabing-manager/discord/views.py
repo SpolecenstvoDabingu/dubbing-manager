@@ -1,10 +1,14 @@
 from django.shortcuts import render
+from django.urls import reverse
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET, require_POST
 from django.views.decorators.csrf import csrf_exempt
 from .utils import validate_token, is_admin
 from .models import DiscordUser
 import json
+from core.settingz.config import EXTERNAL_URL
+
+from database.models import Episode, Scene
 
 @csrf_exempt
 @require_POST
@@ -149,3 +153,72 @@ def remove_users(request):
         "deleted": deleted_count,
         "total_received": len(discord_ids_to_delete)
     }, status=200)
+
+
+@csrf_exempt
+@require_GET
+@validate_token
+@is_admin
+def get_announce_data(request, type, id):
+    if type not in ("episode", "scene"):
+        return JsonResponse({"error": "Type needs to be 'episode' or 'scene'"}, status=400)
+    try:
+        if type == "episode":
+            episode = Episode.objects.filter(id=id).first()
+            if episode is None:
+                return JsonResponse({"error": "Episode not found"}, status=404)
+            
+            dubbers = []
+
+            for e_dubbers in episode.usercharacterstable.all():
+                dubbers.append({
+                    "character_name": f"{e_dubbers.character}",
+                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}",
+                })
+
+            for e_dubbers in episode.usercharactertemporary.all():
+                dubbers.append({
+                    "character_name": f"{e_dubbers.name}",
+                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}",
+                })
+
+            return JsonResponse({
+                "dubbing": f"{episode.dubbing}",
+                "name": episode.name,
+                "name_full": f"{episode}",
+                "sxex": episode.get_se(),
+                "season": episode.season,
+                "episode": episode.episode,
+                "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'episode', 'obj_id': episode.id})}",
+                "dubbers": dubbers,
+            })
+
+        elif type == "scene":
+            scene = Scene.objects.filter(id=id).first()
+            if scene is None:
+                return JsonResponse({"error": "Scene not found"}, status=404)
+            
+            dubbers = []
+
+            for s_dubbers in scene.usercharacterstable.all():
+                dubbers.append({
+                    "character_name": f"{s_dubbers.character}",
+                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}",
+                })
+
+            for s_dubbers in scene.usercharactertemporary.all():
+                dubbers.append({
+                    "character_name": f"{s_dubbers.name}",
+                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}",
+                })
+
+            return JsonResponse({
+                "dubbing": f"{scene.dubbing}",
+                "name": scene.name,
+                "name_full": f"{scene}",
+                "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'scene', 'obj_id': scene.id})}",
+                "dubbers": dubbers,
+            })
+    
+    except Exception as e:
+        return JsonResponse({"error": f"There was an error while trying to het {type}: {e}"}, status=500)

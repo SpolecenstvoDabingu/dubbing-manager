@@ -8,6 +8,7 @@ from django.http import Http404
 from .utils import manages_something, is_admin, get_character_user
 from database.utils import is_default_value
 import json
+from core.settingz.discord_commands import EPISODE_ANNOUNCEMENT, SCENE_ANNOUNCEMENT
 
 @login_required
 def home(request):
@@ -231,6 +232,7 @@ def stats_episode(request, episode_id):
 
     return custom_render(request, "stats/episode.html", {
         "episode": episode,
+        "announcement_command": EPISODE_ANNOUNCEMENT(episode.id),
         "stable_chars": stable_chars,
         "temporary_chars": temporary_chars,
         "add_character_temp_data": UserCharacterTemporary.get_add_modal_fields_json(episode=episode),
@@ -251,6 +253,7 @@ def stats_scene(request, scene_id):
 
     return custom_render(request, "stats/scene.html", {
         "scene": scene,
+        "announcement_command": SCENE_ANNOUNCEMENT(scene.id),
         "stable_chars": stable_chars,
         "temporary_chars": temporary_chars,
         "add_character_temp_data": UserCharacterTemporary.get_add_modal_fields_json(scene=scene),

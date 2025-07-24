@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-24 12:47+0200\n"
+"POT-Creation-Date: 2025-07-24 22:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,103 +53,103 @@ msgctxt "Episode field label"
 msgid "frontend.database.models.character.dubbing"
 msgstr "Dubbing"
 
-#: .\database\models.py:151 .\database\models.py:186 .\database\models.py:613
-#: .\database\models.py:678
+#: .\database\models.py:151 .\database\models.py:186 .\database\models.py:621
+#: .\database\models.py:686
 msgctxt "Character name field label"
 msgid "frontend.database.models.character.name"
 msgstr "Name"
 
-#: .\database\models.py:157 .\database\models.py:193 .\database\models.py:619
-#: .\database\models.py:685
+#: .\database\models.py:157 .\database\models.py:193 .\database\models.py:627
+#: .\database\models.py:693
 msgctxt "Character image field label"
 msgid "frontend.database.models.character.image"
 msgstr "Photo"
 
-#: .\database\models.py:163 .\database\models.py:199 .\database\models.py:625
-#: .\database\models.py:691
+#: .\database\models.py:163 .\database\models.py:199 .\database\models.py:633
+#: .\database\models.py:699
 msgctxt "Character description field label"
 msgid "frontend.database.models.character.description"
 msgstr "Description"
 
-#: .\database\models.py:257 .\database\models.py:283
+#: .\database\models.py:261 .\database\models.py:287
 msgctxt "Episode name field label"
 msgid "frontend.database.models.episode.name"
 msgstr "Name"
 
-#: .\database\models.py:260 .\database\models.py:290
+#: .\database\models.py:264 .\database\models.py:294
 msgctxt "Dubbing field label"
 msgid "frontend.database.models.episode.dubbing"
 msgstr "Dubbing"
 
-#: .\database\models.py:264 .\database\models.py:297
+#: .\database\models.py:268 .\database\models.py:301
 msgctxt "Episode deadline field label"
 msgid "frontend.database.models.episode.deadline"
 msgstr "Deadline"
 
-#: .\database\models.py:265 .\database\models.py:303
+#: .\database\models.py:269 .\database\models.py:307
 msgctxt "Episode season field label"
 msgid "frontend.database.models.episode.season"
 msgstr "Season"
 
-#: .\database\models.py:266 .\database\models.py:309
+#: .\database\models.py:270 .\database\models.py:313
 msgctxt "Episode episode field label"
 msgid "frontend.database.models.episode.episode"
 msgstr "Episode"
 
-#: .\database\models.py:267 .\database\models.py:315
+#: .\database\models.py:271 .\database\models.py:319
 msgctxt "Episode script field label"
 msgid "frontend.database.models.episode.script"
 msgstr "Script"
 
-#: .\database\models.py:268 .\database\models.py:321
+#: .\database\models.py:272 .\database\models.py:325
 msgctxt "Episode urls field label"
 msgid "frontend.database.models.episode.urls"
 msgstr "URLs"
 
-#: .\database\models.py:373 .\database\models.py:397
+#: .\database\models.py:381 .\database\models.py:405
 msgctxt "Scene name field label"
 msgid "frontend.database.models.scene.name"
 msgstr "Name"
 
-#: .\database\models.py:376 .\database\models.py:404
+#: .\database\models.py:384 .\database\models.py:412
 msgctxt "Dubbing field label"
 msgid "frontend.database.models.scene.dubbing"
 msgstr "Dubbing"
 
-#: .\database\models.py:380 .\database\models.py:411
+#: .\database\models.py:388 .\database\models.py:419
 msgctxt "Scene deadline field label"
 msgid "frontend.database.models.scene.deadline"
 msgstr "Deadline"
 
-#: .\database\models.py:381 .\database\models.py:417
+#: .\database\models.py:389 .\database\models.py:425
 msgctxt "Scene script field label"
 msgid "frontend.database.models.scene.script"
 msgstr "Script"
 
-#: .\database\models.py:382 .\database\models.py:423
+#: .\database\models.py:390 .\database\models.py:431
 msgctxt "Scene urls field label"
 msgid "frontend.database.models.scene.urls"
 msgstr "URLs"
 
-#: .\database\models.py:497 .\database\models.py:511
+#: .\database\models.py:505 .\database\models.py:519
 msgctxt "Character field label"
 msgid "frontend.database.models.user_character.character"
 msgstr "Character"
 
-#: .\database\models.py:503 .\database\models.py:556 .\database\models.py:633
-#: .\database\models.py:700
+#: .\database\models.py:511 .\database\models.py:564 .\database\models.py:641
+#: .\database\models.py:708
 msgctxt "Episode field label"
 msgid "frontend.database.models.user_character.episode"
 msgstr "Episode"
 
-#: .\database\models.py:517 .\database\models.py:564 .\database\models.py:641
-#: .\database\models.py:708
+#: .\database\models.py:525 .\database\models.py:572 .\database\models.py:649
+#: .\database\models.py:716
 msgctxt "Scene field label"
 msgid "frontend.database.models.user_character.scene"
 msgstr "Scene"
 
-#: .\database\models.py:524 .\database\models.py:571 .\database\models.py:648
-#: .\database\models.py:715
+#: .\database\models.py:532 .\database\models.py:579 .\database\models.py:656
+#: .\database\models.py:723
 msgctxt "User field label"
 msgid "frontend.database.models.user_character.user"
 msgstr "User"
@@ -172,8 +172,8 @@ msgstr "Stats"
 #: .\frontend\templates\base.html:210
 #: .\frontend\templates\stats\episode.html:128
 #: .\frontend\templates\stats\episode.html:185
-#: .\frontend\templates\stats\scene.html:128
-#: .\frontend\templates\stats\scene.html:185
+#: .\frontend\templates\stats\scene.html:131
+#: .\frontend\templates\stats\scene.html:188
 msgctxt "Title for expired"
 msgid "frontend.base.expired"
 msgstr "Expired"
@@ -460,7 +460,7 @@ msgid "frontend.dubbing.edit_button"
 msgstr "Edit"
 
 #: .\frontend\templates\stats\dubbing.html:235
-#: .\frontend\templates\stats\episode.html:84
+#: .\frontend\templates\stats\episode.html:86
 #: .\frontend\templates\stats\episode.html:157
 #: .\frontend\templates\stats\episode.html:214
 #, python-format
@@ -581,81 +581,86 @@ msgctxt "Episode URLs label"
 msgid "frontend.episode.urls"
 msgstr "URLs"
 
-#: .\frontend\templates\stats\episode.html:25
+#: .\frontend\templates\stats\episode.html:26
 msgctxt "Download script button title"
 msgid "frontend.episode.download_script"
 msgstr "Download script"
 
-#: .\frontend\templates\stats\episode.html:43
-#: .\frontend\templates\stats\scene.html:43
+#: .\frontend\templates\stats\episode.html:30
+msgctxt "Episode announcement command"
+msgid "frontend.episode.copy_announcement_command"
+msgstr "Copy command"
+
+#: .\frontend\templates\stats\episode.html:45
+#: .\frontend\templates\stats\scene.html:48
 msgctxt "Modal title for adding static character"
 msgid "frontend.dubbing.add_character_static"
 msgstr "Add static character"
 
-#: .\frontend\templates\stats\episode.html:47
-#: .\frontend\templates\stats\scene.html:47
+#: .\frontend\templates\stats\episode.html:49
+#: .\frontend\templates\stats\scene.html:52
 msgctxt "Add static character button"
 msgid "frontend.dubbing.add_character_static_button"
 msgstr "Add static character"
 
-#: .\frontend\templates\stats\episode.html:55
-#: .\frontend\templates\stats\scene.html:55
+#: .\frontend\templates\stats\episode.html:57
+#: .\frontend\templates\stats\scene.html:60
 msgctxt "Modal title for adding temporary character"
 msgid "frontend.dubbing.add_character_temp"
 msgstr "Add temporary character"
 
-#: .\frontend\templates\stats\episode.html:59
-#: .\frontend\templates\stats\scene.html:59
+#: .\frontend\templates\stats\episode.html:61
+#: .\frontend\templates\stats\scene.html:64
 msgctxt "Add temporary character button"
 msgid "frontend.dubbing.add_character_temp_button"
 msgstr "Add temporary character"
 
-#: .\frontend\templates\stats\episode.html:69
-#: .\frontend\templates\stats\episode.html:82
+#: .\frontend\templates\stats\episode.html:71
+#: .\frontend\templates\stats\episode.html:84
 msgctxt "Modal title for editing episode"
 msgid "frontend.episode.edit_title"
 msgstr "Edit"
 
-#: .\frontend\templates\stats\episode.html:73
+#: .\frontend\templates\stats\episode.html:75
 #: .\frontend\templates\stats\episode.html:146
 #: .\frontend\templates\stats\episode.html:203
 msgctxt "Edit episode button"
 msgid "frontend.episode.edit_button"
 msgstr "Edit"
 
-#: .\frontend\templates\stats\episode.html:85
+#: .\frontend\templates\stats\episode.html:87
 #: .\frontend\templates\stats\episode.html:158
 #: .\frontend\templates\stats\episode.html:215
 msgctxt "Delete episode button"
 msgid "frontend.episode.delete_button"
 msgstr "Delete"
 
-#: .\frontend\templates\stats\episode.html:98
+#: .\frontend\templates\stats\episode.html:100
 msgctxt "Title image"
 msgid "frontend.episode.image"
 msgstr "Photo"
 
-#: .\frontend\templates\stats\episode.html:99
+#: .\frontend\templates\stats\episode.html:101
 msgctxt "Title character name"
 msgid "frontend.episode.character_name"
 msgstr "Character name"
 
-#: .\frontend\templates\stats\episode.html:100
+#: .\frontend\templates\stats\episode.html:102
 msgctxt "Title user"
 msgid "frontend.episode.user"
 msgstr "User"
 
-#: .\frontend\templates\stats\episode.html:101
+#: .\frontend\templates\stats\episode.html:103
 msgctxt "Title type"
 msgid "frontend.episode.type"
 msgstr "Type"
 
-#: .\frontend\templates\stats\episode.html:102
+#: .\frontend\templates\stats\episode.html:104
 msgctxt "Title status"
 msgid "frontend.episode.status"
 msgstr "Status"
 
-#: .\frontend\templates\stats\episode.html:104
+#: .\frontend\templates\stats\episode.html:105
 msgctxt "Title actions"
 msgid "frontend.episode.actions"
 msgstr "Actions"
@@ -724,109 +729,114 @@ msgctxt "Scene URLs label"
 msgid "frontend.scene.urls"
 msgstr "URLs"
 
-#: .\frontend\templates\stats\scene.html:25
+#: .\frontend\templates\stats\scene.html:26
 msgctxt "Download script button title"
 msgid "frontend.scene.download_script"
 msgstr "Download script"
 
-#: .\frontend\templates\stats\scene.html:69
-#: .\frontend\templates\stats\scene.html:82
+#: .\frontend\templates\stats\scene.html:30
+msgctxt "Scene announcement command"
+msgid "frontend.scene.copy_announcement_command"
+msgstr "Copy command"
+
+#: .\frontend\templates\stats\scene.html:74
+#: .\frontend\templates\stats\scene.html:87
 msgctxt "Modal title for editing scene"
 msgid "frontend.scene.edit_title"
 msgstr "Edit"
 
-#: .\frontend\templates\stats\scene.html:73
-#: .\frontend\templates\stats\scene.html:146
-#: .\frontend\templates\stats\scene.html:203
+#: .\frontend\templates\stats\scene.html:78
+#: .\frontend\templates\stats\scene.html:149
+#: .\frontend\templates\stats\scene.html:206
 msgctxt "Edit scene button"
 msgid "frontend.scene.edit_button"
 msgstr "Edit"
 
-#: .\frontend\templates\stats\scene.html:84
-#: .\frontend\templates\stats\scene.html:157
-#: .\frontend\templates\stats\scene.html:214
+#: .\frontend\templates\stats\scene.html:89
+#: .\frontend\templates\stats\scene.html:160
+#: .\frontend\templates\stats\scene.html:217
 #, python-format
 msgctxt "Confirming deletion of NAME"
 msgid "frontend.scene.confirm_delete_text %(name)s"
 msgstr "Are you sure you want to delete %(name)s?"
 
-#: .\frontend\templates\stats\scene.html:85
-#: .\frontend\templates\stats\scene.html:158
-#: .\frontend\templates\stats\scene.html:215
+#: .\frontend\templates\stats\scene.html:90
+#: .\frontend\templates\stats\scene.html:161
+#: .\frontend\templates\stats\scene.html:218
 msgctxt "Delete scene button"
 msgid "frontend.scene.delete_button"
 msgstr "Delete"
 
-#: .\frontend\templates\stats\scene.html:98
+#: .\frontend\templates\stats\scene.html:103
 msgctxt "Title image"
 msgid "frontend.scene.image"
 msgstr "Photo"
 
-#: .\frontend\templates\stats\scene.html:99
+#: .\frontend\templates\stats\scene.html:104
 msgctxt "Title character name"
 msgid "frontend.scene.character_name"
 msgstr "Character name"
 
-#: .\frontend\templates\stats\scene.html:100
+#: .\frontend\templates\stats\scene.html:105
 msgctxt "Title user"
 msgid "frontend.scene.user"
 msgstr "User"
 
-#: .\frontend\templates\stats\scene.html:101
+#: .\frontend\templates\stats\scene.html:106
 msgctxt "Title type"
 msgid "frontend.scene.type"
 msgstr "Type"
 
-#: .\frontend\templates\stats\scene.html:102
+#: .\frontend\templates\stats\scene.html:107
 msgctxt "Title status"
 msgid "frontend.scene.status"
 msgstr "Status"
 
-#: .\frontend\templates\stats\scene.html:104
+#: .\frontend\templates\stats\scene.html:108
 msgctxt "Title actions"
 msgid "frontend.scene.actions"
 msgstr "Actions"
 
-#: .\frontend\templates\stats\scene.html:114
+#: .\frontend\templates\stats\scene.html:117
 msgctxt "Text stable"
 msgid "frontend.scene.stable"
 msgstr "Stable"
 
-#: .\frontend\templates\stats\scene.html:117
-#: .\frontend\templates\stats\scene.html:174
+#: .\frontend\templates\stats\scene.html:120
+#: .\frontend\templates\stats\scene.html:177
 msgctxt "Text done"
 msgid "frontend.scene.done"
 msgstr "Done"
 
-#: .\frontend\templates\stats\scene.html:119
-#: .\frontend\templates\stats\scene.html:176
+#: .\frontend\templates\stats\scene.html:122
+#: .\frontend\templates\stats\scene.html:179
 msgctxt "Text pending"
 msgid "frontend.scene.pending"
 msgstr "Pending"
 
-#: .\frontend\templates\stats\scene.html:125
-#: .\frontend\templates\stats\scene.html:182
+#: .\frontend\templates\stats\scene.html:128
+#: .\frontend\templates\stats\scene.html:185
 msgctxt "Text unhand over"
 msgid "frontend.scene.unhand_over"
 msgstr "Unhand over"
 
-#: .\frontend\templates\stats\scene.html:130
 #: .\frontend\templates\stats\scene.html:133
-#: .\frontend\templates\stats\scene.html:187
+#: .\frontend\templates\stats\scene.html:136
 #: .\frontend\templates\stats\scene.html:190
+#: .\frontend\templates\stats\scene.html:193
 msgctxt "Text hand over"
 msgid "frontend.scene.hand_over"
 msgstr "Hand over"
 
-#: .\frontend\templates\stats\scene.html:142
-#: .\frontend\templates\stats\scene.html:155
-#: .\frontend\templates\stats\scene.html:199
-#: .\frontend\templates\stats\scene.html:212
+#: .\frontend\templates\stats\scene.html:145
+#: .\frontend\templates\stats\scene.html:158
+#: .\frontend\templates\stats\scene.html:202
+#: .\frontend\templates\stats\scene.html:215
 msgctxt "Modal title for editing character"
 msgid "frontend.scene.edit_title"
 msgstr "Edit"
 
-#: .\frontend\templates\stats\scene.html:171
+#: .\frontend\templates\stats\scene.html:174
 msgctxt "Text temporary"
 msgid "frontend.scene.temporary"
 msgstr "Temporary"

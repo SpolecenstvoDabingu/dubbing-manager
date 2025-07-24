@@ -1,6 +1,7 @@
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
 from discordoauth2 import views as discord_views
 from django.conf.urls.static import static
 from . import settings
@@ -9,6 +10,7 @@ from django.conf.urls.i18n import set_language
 
 urlpatterns = [
     path('', redirect_to_home),
+    path("healthz", lambda request: HttpResponse("ok")),
     path('api/', include('api.urls')),
     path('discord/', include('discord.urls')),
     path('admin/', admin.site.urls),
