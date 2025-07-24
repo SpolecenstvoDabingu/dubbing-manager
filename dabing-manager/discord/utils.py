@@ -16,7 +16,13 @@ def validate_token(func):
 
 def is_admin(func):
     def wrapper(request, *args, **kwargs):
-        if not ia(request.user):
+        token = request.GET.get("token") or request.POST.get("token")
+        if token is None:
+            return JsonResponse({"error": "Token is not defined"}, status=401)
+        user_profile = UserProfile.objects.filter(token=token)
+        if not user_profile.exists():
+            return JsonResponse({"error": "Token is invalid"}, status=401)
+        if not ia(user_profile.first().user):
             return JsonResponse({"error": "User is not Admin"}, status=403)
         
         return func(request, *args, **kwargs)
