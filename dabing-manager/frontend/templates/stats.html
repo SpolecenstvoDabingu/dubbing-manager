@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+  {% regroup done by dubbing as dubbing_groups %}
+  {% for group in dubbing_groups %}
+  <h4 class="text-white">{{ group.grouper.name }}</h4>
+  <table class="table table-striped table-hover text-white">
+    <thead>
+      <tr>
+        <th class="col-3 text-center">{% trans "frontend.home.name" context "Title name for done/not done" %}</th>
+        <th class="col-3 text-center">{% trans "frontend.home.created" context "Title created for done" %}</th>
+        <th class="col-3 text-center">{% trans "frontend.home.type" context "Title type for done/not done" %}</th>
+        <th class="col-3 text-center">{% trans "frontend.home.character_s" context "Title charater's for done/not done" %}</th>
+        <th class="col-3 text-center">{% trans "frontend.home.script" context "Title script for done/not done" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in group.list %}
+      <tr>
+        <td class="text-center">{{ item.object.name }}</td>
+        <td class="text-center">{{ item.object.created|date:"Y-m-d H:i" }}</td>
+        <td class="text-center">
+          {% if item.type == "episode" %}
+              {% trans "frontend.home.episode_title" context "Episode title for type" %}
+          {% elif item.type == "scene" %}
+              {% trans "frontend.home.scene_title" context "Scene title for type" %}
+          {% endif %}
+        </td>
+        <td class="text-center">
+          {% if item.type == "episode" %}
+            {% for uc in item.object.character_stable.all %}
+              {% if uc.user == request.user %}
+                {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
+              {% endif %}
+            {% endfor %}
+            {% for uc in item.object.character_temporary.all %}
+              {% if uc.user == request.user %}
+                {{ uc.name }}{% if not forloop.last %}, {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% elif item.type == "scene" %}
+            {% for uc in item.object.character_stable.all %}
+              {% if uc.user == request.user %}
+                {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
+              {% endif %}
+            {% endfor %}
+            {% for uc in item.object.character_temporary.all %}
+              {% if uc.user == request.user %}
+                {{ uc.name }}{% if not forloop.last %}, {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </td>
+        <td class="text-center">
+            {% if item.type == "episode" %}
+                <a href="{% url 'download_script' 'episode' item.object.id %}" class="btn btn-primary">
+                    {% trans "frontend.home.download_script" context "Download script button title" %}
+                </a>
+            {% elif item.type == "scene" %}
+                <a href="{% url 'download_script' 'scene' item.object.id %}" class="btn btn-primary">
+                    {% trans "frontend.home.download_script" context "Download script button title" %}
+                </a>
+            {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="text-center">{% trans "frontend.home.no_items_found" context "No items found for done/not done" %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="{% static 'imgs/favicon.ico' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+
+    <div class="bg-gray-800 rounded-xl shadow-lg p-10 w-full max-w-md text-center">
+        <h1 class="text-3xl font-bold mb-6">Welcome</h1>
+
+        <a href="{% url 'social:begin' 'discord' %}"
+           class="inline-flex items-center justify-center w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-semibold transition">
+            <i class="fab fa-discord text-2xl mr-2"></i>
+            Login with Discord
+        </a>
+
+        {% if show_local %}
+            <div class="mt-6 text-sm text-gray-300">
+                Or <a href="/admin/login/?next=/cs/" class="underline hover:text-white">login local superuser</a>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

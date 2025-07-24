@@ -1,0 +1,24 @@
+{% load i18n %}
+
+<div class="modal fade" id="AddModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content text-black background-light text-white">
+      <form method="post" id="AddModalForm" action="">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="AddModalLabel">Add</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body" id="AddModalBody"></div>
+        
+        <div class="modal-error alert alert-danger d-none mx-3" role="alert" id="AddModalErrorBox"></div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'frontend.add_modal.cancel' context 'Modal cancel button' %}</button>
+          <button type="submit" class="btn btn-primary" id="AddModalSubmit">{% trans 'frontend.add_modal.submit' context 'Modal submit button' %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

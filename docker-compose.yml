@@ -1,0 +1,10 @@
+services:
+  dabing-manager:
+    image: manager
+    container_name: dabing-manager
+    ports:
+      - "80:80"
+    volumes:
+      - D:\Nextcloud\Discord\Společenstvo\docker\root:/app/project_root
+      - D:\Nextcloud\Discord\Společenstvo\docker\media:/media
+    restart: unless-stopped

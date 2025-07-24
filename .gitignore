@@ -1,0 +1,8 @@
+# Generated
+*__pycache__
+*db.sqlite3
+*project_root/
+*django.mo
+*dabing-manager/static/*
+venv/*
+.env

@@ -1,0 +1,7 @@
+Django>=5.2,<6.0
+social-auth-app-django>=5.4.0
+djangorestframework
+whitenoise
+requests
+gunicorn
+Pillow

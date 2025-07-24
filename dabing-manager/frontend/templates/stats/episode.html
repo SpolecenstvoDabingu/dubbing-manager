@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load is_admin %}
+{% load discord_username %}
+{% load markdown_links %}
+
+
+{% block content %}
+<!-- Episode Info Section -->
+<div class="card mb-4 shadow background-light text-white">
+  <div class="card-body">
+    <h2 class="card-title">{{ episode.name }}</h2>
+    <p class="card-text">
+        <strong>{% trans "frontend.episode.dubbing" context "Text dubbing" %}:</strong> {{ episode.dubbing.name }} | {{ episode.get_se }} <br>
+        <strong>{% trans "frontend.episode.deadline" context "Text deadline" %}:</strong> <span class="countdown" data-deadline="{{ episode.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span><br>
+        <strong>{% trans "frontend.episode.created" context "Text created" %}:</strong> {{ episode.created }}<br>
+        {% if episode.urls %}
+        <strong>{% trans "frontend.episode.urls" context "Episode URLs label" %}:</strong><br>
+        {{ episode.urls|markdown_links }}<br>
+        {% endif %}
+    </p>
+    {% if episode.script %}
+    <a href="{% url 'download_script' 'episode' episode.id %}" class="btn btn-primary">
+        {% trans "frontend.episode.download_script" context "Download script button title" %}
+    </a>
+    {% endif %}
+
+
+
+
+
+
+
+
+
+    <div class="d-flex flex-column flex-md-row gap-2 mt-3">
+    {% if request.user|is_admin or episode.dubbing.manager == request.user %}
+    <button 
+        class="btn btn-success mb-2 mb-md-0 ml-md-auto"
+        data-toggle="modal"
+        data-target="#AddModal"
+        data-modal-title="{% trans 'frontend.dubbing.add_character_static' context 'Modal title for adding static character' %}"
+        data-action-url="{% url 'api_add_character_user' 'static' %}?token={{ user.profile.token }}"
+        data-redirect-url="{% url 'stats_episode' episode.id %}"
+        data-fields='{{ add_character_stable_data|safe }}'>
+        {% trans "frontend.dubbing.add_character_static_button" context "Add static character button" %}
+    </button>
+
+    
+    <button 
+        class="btn btn-success mb-2 mb-md-0 ml-md-2"
+        data-toggle="modal"
+        data-target="#AddModal"
+        data-modal-title="{% trans 'frontend.dubbing.add_character_temp' context 'Modal title for adding temporary character' %}"
+        data-action-url="{% url 'api_add_character_user' 'temporary' %}?token={{ user.profile.token }}"
+        data-redirect-url="{% url 'stats_episode' episode.id %}"
+        data-fields='{{ add_character_temp_data|safe }}'>
+        {% trans "frontend.dubbing.add_character_temp_button" context "Add temporary character button" %}
+    </button>
+
+
+
+    
+    <button 
+        class="btn btn-warning mb-2 mb-md-0 ml-md-2"
+        data-toggle="modal"
+        data-target="#ModifyModal"
+        data-modal-title="{% trans 'frontend.episode.edit_title' context 'Modal title for editing episode' %}"
+        data-action-url="{% url 'api_modify_episode' episode.id %}?token={{ user.profile.token }}"
+        data-redirect-url="{% url 'stats_episode' episode.id %}"
+        data-fields='{{ modify_episode_data|safe }}'>
+        {% trans "frontend.episode.edit_button" context "Edit episode button" %}
+    </button>
+
+    {% if request.user|is_admin %}
+    <button 
+        class="btn btn-danger mb-2 mb-md-0 ml-md-2"
+        data-toggle="modal" 
+        data-target="#DeleteModal"
+        data-action-url="{% url 'api_delete_episode' episode.id %}?token={{ user.profile.token }}"
+        data-modal-title="{% trans 'frontend.episode.edit_title' context 'Modal title for editing episode' %}"
+        data-redirect-url="{% url 'stats_dubbing' episode.dubbing.id %}"
+        data-confirm-text="{% blocktrans with name=episode.name context 'Confirming deletion of NAME' %}frontend.episode.confirm_delete_text {{ name }}{% endblocktrans %}">
+        {% trans "frontend.episode.delete_button" context "Delete episode button" %}
+    </button>
+    {% endif %}
+    {% endif %}
+</div>
+  </div>
+</div>
+
+<!-- Characters Table -->
+<div class="table-responsive mb-2">
+    <table class="table table-striped table-hover text-white">
+        <thead>
+        <tr>
+            <th class="col-2 text-center">{% trans "frontend.episode.image" context "Title image" %}</th>
+            <th class="col-3 text-center">{% trans "frontend.episode.character_name" context "Title character name" %}</th>
+            <th class="col-3 text-center">{% trans "frontend.episode.user" context "Title user" %}</th>
+            <th class="col-1 text-center">{% trans "frontend.episode.type" context "Title type" %}</th>
+            <th class="col-1 text-center">{% trans "frontend.episode.status" context "Title status" %}</th>
+            <th class="col-1 text-center">{% trans "frontend.episode.actions" context "Title actions" %}</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for uc in episode.usercharacterstable.all %}
+            <tr>
+                <td class="text-center align-middle"><img src="{{ uc.character.image.url }}" alt="{{ uc.character.name }}" class="img-thumbnail" style="width: 60px;"></td>
+                <td class="text-center align-middle">{{ uc.character.name }}</td>
+                <td class="text-center align-middle">{{ uc.user|discord_username }}</td>
+                <td class="text-center align-middle"><span class="badge bg-primary">{% trans "frontend.episode.stable" context "Text stable" %}</span></td>
+                <td class="text-center align-middle">
+                    {% if uc.done %}
+                        <span class="badge bg-success">{% trans "frontend.episode.done" context "Text done" %}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{% trans "frontend.episode.pending" context "Text pending" %}</span>
+                    {% endif %}
+                </td>
+                <td class="text-center align-middle">
+                    {% if user == uc.user or user|is_admin %}
+                        {% if uc.done %}
+                        <a href="{% url 'unhand-over-character' 'stable' uc.id %}" class="btn btn-sm btn-outline-danger w-100">{% trans "frontend.episode.unhand_over" context "Text unhand over" %}</a>
+                        {% else %}
+                            {% if uc.episode.times_up %}
+                            <a href="#" class="btn btn-sm btn-outline-warning w-100">{% trans 'frontend.base.expired' context 'Title for expired' %}</a>
+                            {% else %}
+                            <a href="{% url 'hand-over-character' 'stable' uc.id %}" class="btn btn-sm btn-outline-success w-100">{% trans "frontend.episode.hand_over" context "Text hand over" %}</a>
+                            {% endif %}
+                            {% if uc.episode.times_up and request.user|is_admin %}
+                            <a href="{% url 'hand-over-character' 'stable' uc.id %}" class="btn btn-sm btn-outline-success w-100 mt-2">{% trans "frontend.episode.hand_over" context "Text hand over" %}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    {% if request.user|is_admin or episode.dubbing.manager == request.user %}
+                        <button 
+                            class="btn btn-warning mt-2 w-100"
+                            data-toggle="modal"
+                            data-target="#ModifyModal"
+                            data-modal-title="{% trans 'frontend.episode.edit_title' context 'Modal title for editing character' %}"
+                            data-action-url="{% url 'api_modify_character_user' 'stable' uc.id %}?token={{ user.profile.token }}"
+                            data-redirect-url="{% url 'stats_episode' episode.id %}"
+                            data-fields='{{ uc.modify_character_data|safe }}'>
+                            {% trans "frontend.episode.edit_button" context "Edit episode button" %}
+                        </button>
+
+                        {% if request.user|is_admin %}
+                        <button 
+                            class="btn btn-danger mt-2 w-100"
+                            data-toggle="modal" 
+                            data-target="#DeleteModal"
+                            data-action-url="{% url 'api_delete_character_user' 'stable' uc.id %}?token={{ user.profile.token }}"
+                            data-modal-title="{% trans 'frontend.episode.edit_title' context 'Modal title for editing character' %}"
+                            data-redirect-url="{% url 'stats_episode' episode.id %}"
+                            data-confirm-text="{% blocktrans with name=uc.character.name context 'Confirming deletion of NAME' %}frontend.episode.confirm_delete_text {{ name }}{% endblocktrans %}">
+                            {% trans "frontend.episode.delete_button" context "Delete episode button" %}
+                        </button>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            
+            {% for uc in episode.usercharactertemporary.all %}
+            <tr>
+                <td class="text-center align-middle"><img src="{{ uc.image.url }}" alt="{{ uc.name }}" class="img-thumbnail" style="width: 60px;"></td>
+                <td class="text-center align-middle">{{ uc.name }}</td>
+                <td class="text-center align-middle">{{ uc.user|discord_username }}</td>
+                <td class="text-center align-middle"><span class="badge bg-warning text-dark">{% trans "frontend.episode.temporary" context "Text temporary" %}</span></td>
+                <td class="text-center align-middle">
+                    {% if uc.done %}
+                        <span class="badge bg-success">{% trans "frontend.episode.done" context "Text done" %}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{% trans "frontend.episode.pending" context "Text pending" %}</span>
+                    {% endif %}
+                </td>
+                <td class="text-center align-middle">
+                    {% if user == uc.user or user|is_admin %}
+                        {% if uc.done %}
+                        <a href="{% url 'unhand-over-character' 'temporary' uc.id %}" class="btn btn-sm btn-outline-danger w-100">{% trans "frontend.episode.unhand_over" context "Text unhand over" %}</a>
+                        {% else %}
+                            {% if uc.episode.times_up %}
+                            <a href="#" class="btn btn-sm btn-outline-warning w-100">{% trans 'frontend.base.expired' context 'Title for expired' %}</a>
+                            {% else %}
+                            <a href="{% url 'hand-over-character' 'temporary' uc.id %}" class="btn btn-sm btn-outline-success w-100">{% trans "frontend.episode.hand_over" context "Text hand over" %}</a>
+                            {% endif %}
+                            {% if uc.episode.times_up and request.user|is_admin %}
+                            <a href="{% url 'hand-over-character' 'temporary' uc.id %}" class="btn btn-sm btn-outline-success w-100 mt-2">{% trans "frontend.episode.hand_over" context "Text hand over" %}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    {% if request.user|is_admin or episode.dubbing.manager == request.user %}
+                        <button 
+                            class="btn btn-warning mt-2 w-100"
+                            data-toggle="modal"
+                            data-target="#ModifyModal"
+                            data-modal-title="{% trans 'frontend.episode.edit_title' context 'Modal title for editing character' %}"
+                            data-action-url="{% url 'api_modify_character_user' 'temporary' uc.id %}?token={{ user.profile.token }}"
+                            data-redirect-url="{% url 'stats_episode' episode.id %}"
+                            data-fields='{{ uc.modify_character_data|safe }}'>
+                            {% trans "frontend.episode.edit_button" context "Edit episode button" %}
+                        </button>
+
+                        {% if request.user|is_admin %}
+                        <button 
+                            class="btn btn-danger mt-2 w-100"
+                            data-toggle="modal" 
+                            data-target="#DeleteModal"
+                            data-action-url="{% url 'api_delete_character_user' 'temporary' uc.id %}?token={{ user.profile.token }}"
+                            data-modal-title="{% trans 'frontend.episode.edit_title' context 'Modal title for editing character' %}"
+                            data-redirect-url="{% url 'stats_episode' episode.id %}"
+                            data-confirm-text="{% blocktrans with name=uc.name context 'Confirming deletion of NAME' %}frontend.episode.confirm_delete_text {{ name }}{% endblocktrans %}">
+                            {% trans "frontend.episode.delete_button" context "Delete episode button" %}
+                        </button>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include "components/add_modal.html" %}
+{% include "components/modify_modal.html" %}
+{% include "components/delete_modal.html" %}
+
+{% endblock %}
