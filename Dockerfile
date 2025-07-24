@@ -13,6 +13,7 @@ RUN apt-get update && \
     sqlite3 \
     nginx \
     gettext \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip
