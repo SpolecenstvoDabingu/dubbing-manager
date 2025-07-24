@@ -5,6 +5,6 @@ services:
     ports:
       - "80:80"
     volumes:
-      - D:\Nextcloud\Discord\Společenstvo\docker\root:/app/project_root
-      - D:\Nextcloud\Discord\Společenstvo\docker\media:/media
+      - root:/app/project_root
+      - media:/media
     restart: unless-stopped
