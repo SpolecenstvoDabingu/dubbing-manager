@@ -246,6 +246,10 @@ class Episode(models.Model):
     def is_manager(self, user) -> bool:
         return self.dubbing.manager == user
     
+    @property
+    def modify_episode_data(self):
+        return self.get_modify_modal_fields_json()
+    
     @staticmethod
     def get_add_modal_fields_json():
         dubbing_options = [
@@ -345,6 +349,10 @@ class Scene(models.Model):
     @property
     def is_manager(self, user) -> bool:
         return self.dubbing.manager == user
+    
+    @property
+    def modify_scene_data(self):
+        return self.get_modify_modal_fields_json()
     
     def save(self, ia=False):
         if not ia:

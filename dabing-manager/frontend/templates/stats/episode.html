@@ -69,7 +69,7 @@
         data-modal-title="{% trans 'frontend.episode.edit_title' context 'Modal title for editing episode' %}"
         data-action-url="{% url 'api_modify_episode' episode.id %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_episode' episode.id %}"
-        data-fields='{{ modify_episode_data|safe }}'>
+        data-fields='{{ episode.modify_episode_data|safe }}'>
         {% trans "frontend.episode.edit_button" context "Edit episode button" %}
     </button>
 
