@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-24 22:05+0200\n"
+"POT-Creation-Date: 2025-07-25 19:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,21 +156,26 @@ msgid "frontend.database.models.user_character.user"
 msgstr "Dabér"
 
 #: .\frontend\templates\base.html:55
+msgctxt "Title for manage users"
+msgid "frontend.base.manage_users"
+msgstr "Spravovat uživatele"
+
+#: .\frontend\templates\base.html:60
 msgctxt "Title for logout"
 msgid "frontend.base.logout"
 msgstr "Odhlásit se"
 
-#: .\frontend\templates\base.html:68
+#: .\frontend\templates\base.html:73
 msgctxt "Title for home"
 msgid "frontend.base.home"
 msgstr "Domů"
 
-#: .\frontend\templates\base.html:73
+#: .\frontend\templates\base.html:78
 msgctxt "Title for stats"
 msgid "frontend.base.stats"
 msgstr "Statistiky"
 
-#: .\frontend\templates\base.html:210
+#: .\frontend\templates\base.html:215
 #: .\frontend\templates\stats\episode.html:128
 #: .\frontend\templates\stats\episode.html:185
 #: .\frontend\templates\stats\scene.html:131
@@ -219,69 +224,107 @@ msgctxt "Title not done for table"
 msgid "frontend.home.not_done_title"
 msgstr "Neodevzdáno"
 
-#: .\frontend\templates\home.html:10 .\frontend\templates\home.html:79
+#: .\frontend\templates\home.html:11 .\frontend\templates\home.html:82
 #: .\frontend\templates\stats.html:12
 msgctxt "Title name for done/not done"
 msgid "frontend.home.name"
 msgstr "Název"
 
-#: .\frontend\templates\home.html:11
+#: .\frontend\templates\home.html:12
 msgctxt "Title deadline for not done"
 msgid "frontend.home.deadline"
 msgstr "Deadline"
 
-#: .\frontend\templates\home.html:12 .\frontend\templates\home.html:81
+#: .\frontend\templates\home.html:13 .\frontend\templates\home.html:84
 #: .\frontend\templates\stats.html:14
 msgctxt "Title type for done/not done"
 msgid "frontend.home.type"
 msgstr "Typ"
 
-#: .\frontend\templates\home.html:13 .\frontend\templates\home.html:82
+#: .\frontend\templates\home.html:14 .\frontend\templates\home.html:85
 #: .\frontend\templates\stats.html:15
 msgctxt "Title charater's for done/not done"
 msgid "frontend.home.character_s"
 msgstr "Charakter(ři)"
 
-#: .\frontend\templates\home.html:14 .\frontend\templates\home.html:83
+#: .\frontend\templates\home.html:15 .\frontend\templates\home.html:86
 #: .\frontend\templates\stats.html:16
 msgctxt "Title script for done/not done"
 msgid "frontend.home.script"
 msgstr "Skript"
 
-#: .\frontend\templates\home.html:24 .\frontend\templates\home.html:93
+#: .\frontend\templates\home.html:25 .\frontend\templates\home.html:96
 #: .\frontend\templates\stats.html:26
 msgctxt "Episode title for type"
 msgid "frontend.home.episode_title"
 msgstr "Episoda"
 
-#: .\frontend\templates\home.html:26 .\frontend\templates\home.html:95
+#: .\frontend\templates\home.html:27 .\frontend\templates\home.html:98
 #: .\frontend\templates\stats.html:28
 msgctxt "Scene title for type"
 msgid "frontend.home.scene_title"
 msgstr "Scéna"
 
-#: .\frontend\templates\home.html:57 .\frontend\templates\home.html:61
-#: .\frontend\templates\home.html:126 .\frontend\templates\home.html:130
+#: .\frontend\templates\home.html:58 .\frontend\templates\home.html:62
+#: .\frontend\templates\home.html:129 .\frontend\templates\home.html:133
 #: .\frontend\templates\stats.html:59 .\frontend\templates\stats.html:63
 msgctxt "Download script button title"
 msgid "frontend.home.download_script"
 msgstr "Stáhnout"
 
-#: .\frontend\templates\home.html:67 .\frontend\templates\home.html:136
+#: .\frontend\templates\home.html:68 .\frontend\templates\home.html:139
 #: .\frontend\templates\stats.html:69
 msgctxt "No items found for done/not done"
 msgid "frontend.home.no_items_found"
 msgstr "Žádné epizody/scény"
 
-#: .\frontend\templates\home.html:72
+#: .\frontend\templates\home.html:74
 msgctxt "Title done for table"
 msgid "frontend.home.done_title"
 msgstr "Odevzdáno"
 
-#: .\frontend\templates\home.html:80 .\frontend\templates\stats.html:13
+#: .\frontend\templates\home.html:83 .\frontend\templates\stats.html:13
 msgctxt "Title created for done"
 msgid "frontend.home.created"
 msgstr "Vytvořeno"
+
+#: .\frontend\templates\manager\users.html:11
+#: .\frontend\templates\manager\users.html:42
+msgctxt "Username title"
+msgid "frontend.users.username"
+msgstr "Uživatelské jméno"
+
+#: .\frontend\templates\manager\users.html:12
+#: .\frontend\templates\manager\users.html:49
+msgctxt "Email title"
+msgid "frontend.users.email"
+msgstr "Email"
+
+#: .\frontend\templates\manager\users.html:13
+#: .\frontend\templates\manager\users.html:55
+msgctxt "Roles title"
+msgid "frontend.users.roles"
+msgstr "Role"
+
+#: .\frontend\templates\manager\users.html:14
+msgctxt "Super user title"
+msgid "frontend.users.super_user"
+msgstr "Superuser"
+
+#: .\frontend\templates\manager\users.html:15
+msgctxt "Actions title"
+msgid "frontend.users.actions"
+msgstr "Akce"
+
+#: .\frontend\templates\manager\users.html:37
+msgctxt "Modal title for editing"
+msgid "frontend.users.edit_title"
+msgstr "Upravit"
+
+#: .\frontend\templates\manager\users.html:75
+msgctxt "Edit button title"
+msgid "frontend.users.edit"
+msgstr "Upravit"
 
 #: .\frontend\templates\stats\dubbing.html:14
 msgctxt "Dubbing manager label"

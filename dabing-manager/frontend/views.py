@@ -2,10 +2,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from core.utils import custom_render
 from django.shortcuts import redirect
 from django.db.models import Prefetch
-from database.models import Dubbing, Episode, Scene, UserCharacterStable, UserCharacterTemporary, UserCharacterBase, Character
+from database.models import Dubbing, Episode, Scene, UserCharacterStable, UserCharacterTemporary, UserCharacterBase, Character, UserProfile
+from django.contrib.auth.models import User, Permission
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.http import Http404
-from .utils import manages_something, is_admin, get_character_user
+from django.views.decorators.http import require_POST
+from .utils import manages_something, is_admin, get_character_user, is_superuser, have_permissions_changed
 from database.utils import is_default_value
 import json
 from core.settingz.discord_commands import EPISODE_ANNOUNCEMENT, SCENE_ANNOUNCEMENT
@@ -260,3 +263,69 @@ def stats_scene(request, scene_id):
         "add_character_stable_data": UserCharacterStable.get_add_modal_fields_json(scene=scene),
         "is_admin": is_admin(request.user)
     })
+
+
+
+
+@login_required
+@user_passes_test(is_superuser)
+def manage_users(request):
+    if request.method == "POST":
+        user_id = request.POST.get("user_id")
+        action = request.POST.get("action")
+
+        try:
+            user = User.objects.get(id=user_id)
+            if action == "regenerate":
+                user.profile.regenerate_token()
+                print(request, f"Token regenerated for {user.username}.")
+        except User.DoesNotExist:
+            print(request, "User not found.")
+
+        return redirect("manage_users")
+
+    users = User.objects.select_related("profile").all()
+    role_choices = UserProfile._meta.permissions
+    return custom_render(request, "manager/users.html", {
+        "users": users,
+        "user_permissions": [f"database.{perm}" for perm in role_choices],
+        "role_choices": role_choices,
+        })
+
+@login_required
+@require_POST
+@user_passes_test(is_superuser)
+def update_user(request, id):
+    user = User.objects.filter(id=id).first()
+    if user is None:
+        return JsonResponse({'error': "User does not exists"}, status=404)
+    
+    username = request.POST.get("username")
+    if username is None or len(username) == 0:
+        return JsonResponse({'error': "User username can not be blank"}, status=400)
+    
+    email = request.POST.get("email")
+    selected_roles = request.POST.getlist('role[]')
+
+    save = False
+
+    if user.username != username:
+        user.username = username
+        save = True
+
+    if user.email != email:
+        user.email = email
+        save = True
+
+    if have_permissions_changed(user, selected_roles):
+        permissions = Permission.objects.filter(
+            content_type__app_label="database",
+            codename__in=selected_roles
+        )
+        user.user_permissions.set(permissions)
+        save = True
+
+    if save:
+        user.save()
+
+    return JsonResponse({'success': True}, status=200)

@@ -50,6 +50,13 @@
                         <span class="dropdown-item {% if user.is_superuser %}text-orange{% elif user.is_staff %}text-yellow{% else %}text-white{% endif %}">{{ user.username }}</span>
                     </div>
                 </div>
+                {% if user.is_superuser %}
+                <div class="d-inline">    
+                    <div class="py-2">
+                        <a href="{% url 'manage_users' %}" style="text-decoration: none;"><button style="cursor: pointer;" class="highlighted dropdown-item text-warning"><i class="fa fa-users"></i> {% trans "frontend.base.manage_users" context "Title for manage users" %}</button></a>
+                    </div>
+                </div>
+                {% endif %}
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button style="cursor: pointer;" class="highlighted dropdown-item text-danger" type="submit"><i class="fa fa-sign-out-alt"></i> {% trans "frontend.base.logout" context "Title for logout" %}</button>
@@ -272,18 +279,56 @@ $(document).ready(function () {
           input = $('<textarea>')
             .addClass('form-control bg-transparent border-left-0 border-top-0 border-right-0 rounded-0 text-white');
         } else if (field.type === 'select') {
-          input = $('<select>')
-            .addClass('form-control custom-select bg-transparent border-left-0 border-top-0 border-right-0 rounded-0 text-white')
-            .attr('name', field.name)
-            .attr('id', 'modalField_' + field.name);
-          if (field.options && Array.isArray(field.options)) {
-            field.options.forEach(opt => {
-              const option = $('<option>').addClass('form-control custom-select background-dark border-left-0 border-top-0 border-right-0 rounded-0 text-white').attr('value', opt.value).text(opt.label);
-              if (field.value && field.value == opt.value) {
-                option.prop('selected', true);
-              }
-              input.append(option);
-            });
+          if (field.multiple) {
+            input = $('<div>').addClass('form-group');
+
+            if (field.options && Array.isArray(field.options)) {
+              const selectedValues = Array.isArray(field.value) ? field.value : [field.value];
+
+              field.options.forEach(opt => {
+                const checkboxId = 'modalField_' + field.name + '_' + opt.value;
+
+                const checkboxWrapper = $('<div>').addClass('form-check');
+                const checkbox = $('<input>')
+                  .addClass('form-check-input')
+                  .attr('type', 'checkbox')
+                  .attr('name', field.name + '[]')
+                  .attr('id', checkboxId)
+                  .attr('value', opt.value);
+
+                if (selectedValues.includes(opt.value)) {
+                  checkbox.prop('checked', true);
+                }
+
+                const label = $('<label>')
+                  .addClass('form-check-label text-white')
+                  .attr('for', checkboxId)
+                  .text(opt.label);
+
+                checkboxWrapper.append(checkbox, label);
+                input.append(checkboxWrapper);
+              });
+            }
+          } else {
+            input = $('<select>')
+              .addClass('form-control custom-select bg-transparent border-left-0 border-top-0 border-right-0 rounded-0 text-white')
+              .attr('name', field.name)
+              .attr('id', 'modalField_' + field.name);
+
+            if (field.options && Array.isArray(field.options)) {
+              field.options.forEach(opt => {
+                const option = $('<option>')
+                  .addClass('form-control custom-select background-dark border-left-0 border-top-0 border-right-0 rounded-0 text-white')
+                  .attr('value', opt.value)
+                  .text(opt.label);
+
+                if (field.value && field.value === opt.value) {
+                  option.prop('selected', true);
+                }
+
+                input.append(option);
+              });
+            }
           }
         } else if (field.type === 'date') {
             input = $('<input>')
