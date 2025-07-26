@@ -12,6 +12,7 @@ from core.settingz.urls import NO_THUMBNAIL_URL
 from database.utils import get_character_user_type
 from datetime import datetime
 from django.utils import timezone
+from script.utils import handle_uploaded_script
 
 from database.models import Dubbing, Episode, Scene, Character, UserCharacterStable, UserCharacterTemporary
 
@@ -142,7 +143,7 @@ def add_episode(request):
         deadline=dt,
         season=int(season),
         episode=int(episode_number),
-        script=request.FILES.get("script"),
+        script=handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", serie_number=f"{int(season):02d}", episode_number=f"{int(episode):02d}", title=f"{name}"),
         urls=str(urls),
     )
 
@@ -213,7 +214,7 @@ def modify_episode(request, id):
         save = True
 
     if "script" in request.FILES:
-        episode_old.script = request.FILES["script"]
+        episode_old.script = handle_uploaded_script(request.FILES["script"], dubbing_id=episode_old.dubbing.id, dubbing_title=f"{episode_old.dubbing}", serie_number=f"{int(episode_old.season):02d}", episode_number=f"{int(episode_old.episode):02d}", title=f"{episode_old.name}")
         save = True
 
     if save:
@@ -265,7 +266,7 @@ def add_scene(request):
         name=str(name),
         dubbing=dubbing,
         deadline=dt,
-        script=request.FILES.get("script"),
+        script=handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", title=f"{name}"),
         urls=str(urls),
     )
 
@@ -326,7 +327,7 @@ def modify_scene(request, id):
         save = True
 
     if "script" in request.FILES:
-        scene_old.script = request.FILES["script"]
+        scene_old.script = handle_uploaded_script(request.FILES["script"], dubbing_id=scene_old.dubbing.id, dubbing_title=f"{scene_old.dubbing}", title=f"{scene_old.name}")
         save = True
 
     if save:

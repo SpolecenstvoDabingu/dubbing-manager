@@ -34,3 +34,7 @@ IMAGES_PATH.mkdir(exist_ok=True)
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT = FILE_PATH_ROOT
+
+
+LATEX_TEMPLATE_PATH = Path(os.path.join(PROJECT_ROOT, 'latex'))
+LATEX_TEMPLATE_PATH.mkdir(exist_ok=True)

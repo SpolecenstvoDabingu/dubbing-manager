@@ -5,3 +5,5 @@ whitenoise
 requests
 gunicorn
 Pillow
+pygments
+sympy

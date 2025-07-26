@@ -268,7 +268,7 @@ class Episode(models.Model):
             {"type": "datetime", "label": pgettext('Episode deadline field label', 'frontend.database.models.episode.deadline'), "name": "deadline", "value": one_week_from_now().strftime("%Y-%m-%dT%H:%M")},
             {"type": "number", "label": pgettext('Episode season field label', 'frontend.database.models.episode.season'), "name": "season", "value": 1},
             {"type": "number", "label": pgettext('Episode episode field label', 'frontend.database.models.episode.episode'), "name": "episode", "value": 1},
-            {"type": "file", "label": pgettext('Episode script field label', 'frontend.database.models.episode.script'), "name": "script", "accept": ".pdf", "required": True},
+            {"type": "file", "label": pgettext('Episode script field label', 'frontend.database.models.episode.script'), "name": "script", "accept": ".pdf,.ass", "required": True},
             {"type": "textarea", "label": pgettext('Episode urls field label', 'frontend.database.models.episode.urls'), "name": "urls"},
         ]
 
@@ -318,7 +318,7 @@ class Episode(models.Model):
                 "type": "file",
                 "label": pgettext('Episode script field label', 'frontend.database.models.episode.script'),
                 "name": "script",
-                "accept": ".pdf"
+                "accept": ".pdf,.ass"
             },
             {
                 "type": "textarea",
@@ -386,7 +386,7 @@ class Scene(models.Model):
                 "options": dubbing_options
             },
             {"type": "datetime", "label": pgettext('Scene deadline field label', 'frontend.database.models.scene.deadline'), "name": "deadline", "value": one_week_from_now().strftime("%Y-%m-%dT%H:%M")},
-            {"type": "file", "label": pgettext('Scene script field label', 'frontend.database.models.scene.script'), "name": "script", "accept": ".pdf", "required": True},
+            {"type": "file", "label": pgettext('Scene script field label', 'frontend.database.models.scene.script'), "name": "script", "accept": ".pdf,.ass", "required": True},
             {"type": "textarea", "label": pgettext('Scene urls field label', 'frontend.database.models.scene.urls'), "name": "urls"},
         ]
 
@@ -424,7 +424,7 @@ class Scene(models.Model):
                 "type": "file",
                 "label": pgettext('Scene script field label', 'frontend.database.models.scene.script'),
                 "name": "script",
-                "accept": ".pdf"
+                "accept": ".pdf,.ass"
             },
             {
                 "type": "textarea",

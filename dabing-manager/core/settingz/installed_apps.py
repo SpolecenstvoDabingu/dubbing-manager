@@ -11,6 +11,7 @@ INSTALLED_APPS = [
     'api',
     'database',
     'frontend',
+    'script',
 ]
 
 STATICFILES_FINDERS = [

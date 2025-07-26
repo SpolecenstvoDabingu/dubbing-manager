@@ -14,6 +14,10 @@ RUN apt-get update && \
     nginx \
     gettext \
     curl \
+    unzip \
+    texlive-latex-base \
+    file \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip
