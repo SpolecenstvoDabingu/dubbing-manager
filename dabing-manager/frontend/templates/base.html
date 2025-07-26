@@ -331,20 +331,20 @@ $(document).ready(function () {
             }
           }
         } else if (field.type === 'date') {
-            input = $('<input>')
-                .addClass('form-control bg-transparent border-left-0 border-top-0 border-right-0 rounded-0 text-white')
-                .attr('type', 'date');
+          input = $('<input>')
+            .addClass('form-control bg-transparent border-left-0 border-top-0 border-right-0 rounded-0 text-white')
+            .attr('type', 'date');
         } else if (field.type === 'datetime') {
-            input = $('<input>')
-                .addClass('form-control bg-transparent border-left-0 border-top-0 border-right-0 rounded-0 text-white')
-                .attr('type', 'datetime-local');
+          input = $('<input>')
+            .addClass('form-control bg-transparent border-left-0 border-top-0 border-right-0 rounded-0 text-white')
+            .attr('type', 'datetime-local');
         } else if (field.type === 'file') {
-            input = $('<input>')
-                .addClass('form-control bg-transparent border-0 rounded-0 text-white')
-                .attr('type', 'file');
-            if (field.accept) {
-              input.attr("accept", field.accept);
-            }
+          input = $('<input>')
+            .addClass('form-control bg-transparent border-0 rounded-0 text-white')
+            .attr('type', 'file');
+          if (field.accept) {
+            input.attr("accept", field.accept);
+          }
         } else {
           input = $('<input>')
             .addClass('form-control bg-transparent border-left-0 border-top-0 border-right-0 rounded-0 text-white')
@@ -374,6 +374,13 @@ $(document).ready(function () {
       const redirectUrl = form.attr('data-redirect-url');
       const errorBox = modal.find('.modal-error');
       const formData = new FormData(this);
+
+      const submitButton = form.find('button[type="submit"]');
+      const originalButtonHtml = submitButton.html();
+
+      // Disable button and add spinner icon
+      submitButton.prop('disabled', true);
+      submitButton.html('<i class="fas fa-spinner fa-spin"></i> ' + (submitButton.text() || 'Loading'));
 
       fetch(url, {
         method: 'POST',
@@ -416,6 +423,11 @@ $(document).ready(function () {
           } else {
             errorBox.text('An unknown error occurred.');
           }
+        })
+        .finally(() => {
+          // Re-enable button and restore original text
+          submitButton.prop('disabled', false);
+          submitButton.html(originalButtonHtml);
         });
     });
   }
@@ -424,7 +436,7 @@ $(document).ready(function () {
   setupDynamicModal('#ModifyModal');
 });
 
-  $(document).ready(function () {
+$(document).ready(function () {
   const deleteModal = $('#DeleteModal');
 
   deleteModal.on('show.bs.modal', function (event) {
@@ -450,6 +462,13 @@ $(document).ready(function () {
     const url = form.attr('action');
     const formData = new FormData(this);
 
+    const submitButton = form.find('button[type="submit"]');
+    const originalButtonHtml = submitButton.html();
+
+    // Disable button and add spinner icon
+    submitButton.prop('disabled', true);
+    submitButton.html('<i class="fas fa-spinner fa-spin"></i> ' + (submitButton.text() || 'Loading'));
+
     fetch(url, {
       method: 'POST',
       headers: {
@@ -465,11 +484,11 @@ $(document).ready(function () {
       })
       .then(data => {
         if (redirectUrl) {
-            console.info("redirecting")
-            window.location.href = redirectUrl;
+          console.info("redirecting")
+          window.location.href = redirectUrl;
         } else {
-            console.info("hiding")
-            modal.modal('hide');
+          console.info("hiding")
+          deleteModal.modal('hide');
         }
       })
       .catch(errorData => {
@@ -492,6 +511,11 @@ $(document).ready(function () {
         } else {
           errorBox.text('An unknown error occurred.');
         }
+      })
+      .finally(() => {
+        // Re-enable button and restore original text
+        submitButton.prop('disabled', false);
+        submitButton.html(originalButtonHtml);
       });
   });
 });
