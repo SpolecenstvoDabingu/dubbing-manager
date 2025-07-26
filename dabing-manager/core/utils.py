@@ -40,3 +40,5 @@ def custom_render(request, template_name, context={}, status=200):
     return render(request, template_name, context, status=status)
 
 require_DELETE = require_http_methods(["DELETE"])
+
+require_GET_or_POST = require_http_methods(["GET", "POST"])

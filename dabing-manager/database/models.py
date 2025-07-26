@@ -453,6 +453,13 @@ class UserCharacterBase(models.Model):
             raise ValidationError("Exactly one of episode or scene must be set.")
         
     @property
+    def notification_data(self):
+        return {
+            "e_s_name": self.episode.name if self.episode else self.scene.name,
+            "dubbing_name": self.episode.dubbing.name if self.episode else self.scene.dubbing.name
+        }
+        
+    @property
     def modify_character_data(self):
         return self.get_modify_modal_fields_json(episode=self.episode, scene=self.scene)
         
