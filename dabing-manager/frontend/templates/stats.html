@@ -19,16 +19,16 @@
     <tbody>
       {% for item in group.list %}
       <tr>
-        <td class="text-center">{{ item.object.name }}</td>
-        <td class="text-center">{{ item.object.created|date:"Y-m-d H:i" }}</td>
-        <td class="text-center">
+        <td class="text-center align-middle">{{ item.object.name }}</td>
+        <td class="text-center align-middle">{{ item.object.created|date:"Y-m-d H:i" }}</td>
+        <td class="text-center align-middle">
           {% if item.type == "episode" %}
               {% trans "frontend.home.episode_title" context "Episode title for type" %}
           {% elif item.type == "scene" %}
               {% trans "frontend.home.scene_title" context "Scene title for type" %}
           {% endif %}
         </td>
-        <td class="text-center">
+        <td class="text-center align-middle">
           {% if item.type == "episode" %}
             {% for uc in item.object.character_stable.all %}
               {% if uc.user == request.user %}
@@ -53,7 +53,7 @@
             {% endfor %}
           {% endif %}
         </td>
-        <td class="text-center">
+        <td class="text-center align-middle">
             {% if item.type == "episode" %}
                 <a href="{% url 'download_script' 'episode' item.object.id %}" class="btn btn-primary">
                     {% trans "frontend.home.download_script" context "Download script button title" %}

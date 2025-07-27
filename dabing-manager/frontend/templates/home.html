@@ -18,16 +18,16 @@
     <tbody>
       {% for item in not_done %}
       <tr>
-        <td class="text-center"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.pk %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.pk %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
-        <td class="text-center"><span class="countdown" data-deadline="{{ item.object.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
-        <td class="text-center">
+        <td class="text-center align-middle"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.pk %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.pk %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
+        <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.object.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
+        <td class="text-center align-middle">
           {% if item.type == "episode" %}
               {% trans "frontend.home.episode_title" context "Episode title for type" %}
           {% elif item.type == "scene" %}
               {% trans "frontend.home.scene_title" context "Scene title for type" %}
           {% endif %}
         </td>
-        <td class="text-center">
+        <td class="text-center align-middle">
           {% if item.type == "episode" %}
             {% for uc in item.object.usercharacterstable.all %}
               {% if uc.user == request.user %}
@@ -52,7 +52,7 @@
             {% endfor %}
           {% endif %}
         </td>
-        <td class="text-center">
+        <td class="text-center align-middle">
             {% if item.type == "episode" %}
                 <a href="{% url 'download_script' 'episode' item.object.id %}" class="btn btn-primary">
                     {% trans "frontend.home.download_script" context "Download script button title" %}
@@ -89,16 +89,16 @@
     <tbody>
       {% for item in group.list %}
       <tr>
-        <td class="text-center"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.pk %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.pk %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
-        <td class="text-center">{{ item.object.created }}</td>
-        <td class="text-center">
+        <td class="text-center align-middle"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.pk %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.pk %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
+        <td class="text-center align-middle">{{ item.object.created }}</td>
+        <td class="text-center align-middle">
           {% if item.type == "episode" %}
               {% trans "frontend.home.episode_title" context "Episode title for type" %}
           {% elif item.type == "scene" %}
               {% trans "frontend.home.scene_title" context "Scene title for type" %}
           {% endif %}
         </td>
-        <td class="text-center">
+        <td class="text-center align-middle">
           {% if item.type == "episode" %}
             {% for uc in item.object.usercharacterstable.all %}
               {% if uc.user == request.user %}
@@ -123,7 +123,7 @@
             {% endfor %}
           {% endif %}
         </td>
-        <td class="text-center">
+        <td class="text-center align-middle">
             {% if item.type == "episode" %}
                 <a href="{% url 'download_script' 'episode' item.object.id %}" class="btn btn-primary">
                     {% trans "frontend.home.download_script" context "Download script button title" %}

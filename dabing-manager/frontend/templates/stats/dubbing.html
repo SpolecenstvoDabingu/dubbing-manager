@@ -9,6 +9,7 @@
 <!-- Dubbing Info Section -->
 <div class="card mb-4 shadow background-light text-white">
   <div class="card-body">
+    <a href="{% url 'stats' %}" class="text-white"><i class="fa fa-chevron-left"></i></a>
     <h2 class="card-title">{{ dubbing.name }}</h2>
     <p class="card-text">
         <strong>{% trans "frontend.dubbing.manager" context "Dubbing manager label" %}:</strong>
@@ -197,8 +198,9 @@
         <thead>
             <tr>
                 <th class="col-2 text-center">{% trans "frontend.dubbing.characters.image" context "Title image" %}</th>
-                <th class="col-3 text-center">{% trans "frontend.dubbing.characters.character_name" context "Title character name" %}</th>
-                <th class="col-6 text-center">{% trans "frontend.dubbing.characters.descrtiption" context "Title character name" %}</th>
+                <th class="col-2 text-center">{% trans "frontend.dubbing.characters.character_name" context "Title character name" %}</th>
+                <th class="col-5 text-center">{% trans "frontend.dubbing.characters.descrtiption" context "Title character name" %}</th>
+                <th class="col-2 text-center">{% trans "frontend.dubbing.characters.last_dubber" context "Last dubber name" %}</th>
                 {% if request.user|is_admin or dubbing.manager == request.user %}
                 <th class="col-1 text-center">{% trans "frontend.dubbing.characters.actions" context "Title actions" %}</th>
                 {% endif %}
@@ -211,6 +213,7 @@
                 <td class="text-center align-middle"><img src="{{ character.image.url }}" alt="{{ character.name }}" class="img-thumbnail" style="width: 60px;"></td>
                 <td class="text-center align-middle">{{ character.name }}</td>
                 <td class="text-center align-middle"><div class="truncate-multiline">{{ character.description }}</div></td>
+                <td class="text-center align-middle">{% if character.last_user %}{{ character.last_user }}{% else %}{% trans "frontend.dubbing.characters.none_yet" context "No last character yet text" %}{% endif %}</td>
                 {% if request.user|is_admin or dubbing.manager == request.user %}
                     <td class="text-center align-middle">
                         <button 

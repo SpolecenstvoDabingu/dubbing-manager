@@ -10,7 +10,7 @@
 <!-- Scene Info Section -->
 <div class="card mb-4 shadow background-light text-white">
   <div class="card-body">
-    <h2 class="card-title">{{ scene.name }}</h2>
+    <a href="{% url 'stats_dubbing' scene.dubbing.id %}" class="text-white"><h2 class="card-title">{{ scene.name }}</h2></a>
     <p class="card-text">
         <strong>{% trans "frontend.scene.dubbing" context "Text dubbing" %}:</strong> {{ scene.dubbing.name }} | {{ scene.get_se }} <br>
         <strong>{% trans "frontend.scene.deadline" context "Text deadline" %}:</strong> <span class="countdown" data-deadline="{{ scene.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span><br>
@@ -109,7 +109,7 @@
         </tr>
         </thead>
         <tbody>
-            {% for uc in scene.usercharacterstable.all %}
+            {% for uc in stable_chars %}
             <tr>
                 <td class="text-center align-middle"><img src="{{ uc.character.image.url }}" alt="{{ uc.character.name }}" class="img-thumbnail" style="width: 60px;"></td>
                 <td class="text-center align-middle">{{ uc.character.name }}</td>
@@ -166,7 +166,7 @@
             </tr>
             {% endfor %}
             
-            {% for uc in scene.usercharactertemporary.all %}
+            {% for uc in temporary_chars %}
             <tr>
                 <td class="text-center align-middle"><img src="{{ uc.image.url }}" alt="{{ uc.name }}" class="img-thumbnail" style="width: 60px;"></td>
                 <td class="text-center align-middle">{{ uc.name }}</td>

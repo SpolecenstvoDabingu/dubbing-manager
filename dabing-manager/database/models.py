@@ -480,7 +480,7 @@ class UserCharacterStable(UserCharacterBase):
             character_options = [
                 {"label": f"{i}", "value": i.id}
                 for i in Character.objects.all()
-                if episode.dubbing == i.dubbing
+                if episode.dubbing == i.dubbing and not UserCharacterStable.objects.filter(episode=episode).filter(character=i).exists()
             ]
             episode_options = [
                 {"label": f"{i}", "value": i.id}
@@ -491,7 +491,7 @@ class UserCharacterStable(UserCharacterBase):
             character_options = [
                 {"label": f"{i}", "value": i.id}
                 for i in Character.objects.all()
-                if scene.dubbing == i.dubbing
+                if scene.dubbing == i.dubbing and not UserCharacterStable.objects.filter(scene=scene).filter(character=i).exists()
             ]
             scene_options = [
                 {"label": f"{i}", "value": i.id}

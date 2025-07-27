@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from core.utils import custom_render
 from django.shortcuts import redirect
-from django.db.models import Prefetch
+from django.db.models import Count, OuterRef, Subquery, Prefetch
+from django.db.models.functions import Coalesce
 from database.models import Dubbing, Episode, Scene, UserCharacterStable, UserCharacterTemporary, UserCharacterBase, Character, UserProfile
 from django.contrib.auth.models import User, Permission
 from django.http import JsonResponse
@@ -103,15 +104,15 @@ def download_script(request, obj_type, obj_id):
 @user_passes_test(manages_something)
 def stats(request):
     if is_admin(request.user):
-        dubbings = Dubbing.objects.all()
+        dubbings = Dubbing.objects.order_by("name").all()
     else:
-        dubbings = Dubbing.objects.filter(manager=request.user)
+        dubbings = Dubbing.objects.filter(manager=request.user).order_by("name")
 
     result_dubs = {}
 
     for dubbing in dubbings:
         episodes = []
-        for ep in dubbing.episode.all():
+        for ep in dubbing.episode.order_by("season", "episode", "name").all():
             total = ep.usercharacterstable.count() + ep.usercharactertemporary.count()
             done = ep.usercharacterstable.filter(done=True).count() + ep.usercharactertemporary.filter(done=True).count()
             episodes.append({
@@ -125,7 +126,7 @@ def stats(request):
 
             
         scenes = []
-        for scene in dubbing.scene.all():
+        for scene in dubbing.scene.order_by("name").all():
             total = scene.usercharacterstable.count() + scene.usercharactertemporary.count()
             done = scene.usercharacterstable.filter(done=True).count() + scene.usercharactertemporary.filter(done=True).count()
             scenes.append({
@@ -179,7 +180,7 @@ def stats_dubbing(request, dubbing_id):
         return json.dumps(new_obj)
     
     episodes = []
-    for ep in dubbing.episode.all():
+    for ep in dubbing.episode.order_by("season", "episode", "name").all():
         total = ep.usercharacterstable.count() + ep.usercharactertemporary.count()
         done = ep.usercharacterstable.filter(done=True).count() + ep.usercharactertemporary.filter(done=True).count()
         episodes.append({
@@ -194,7 +195,7 @@ def stats_dubbing(request, dubbing_id):
 
         
     scenes = []
-    for scene in dubbing.scene.all():
+    for scene in dubbing.scene.order_by("name").all():
         total = scene.usercharacterstable.count() + scene.usercharactertemporary.count()
         done = scene.usercharacterstable.filter(done=True).count() + scene.usercharactertemporary.filter(done=True).count()
         scenes.append({
@@ -207,8 +208,24 @@ def stats_dubbing(request, dubbing_id):
             "modify_scene_data": filter_options(scene.get_modify_modal_fields_json(), dubbing.id),
         })
 
+
+    latest_user_subquery = UserCharacterStable.objects.filter(
+        character=OuterRef('pk')
+    ).annotate(
+        effective_deadline=Coalesce('episode__deadline', 'scene__deadline')
+    ).order_by('-effective_deadline').values('user_id')[:1]
         
-    characters = Character.objects.filter(dubbing=dubbing)
+    characters = Character.objects.filter(dubbing=dubbing).annotate(
+        usage_count=Count('user'),
+        last_user_id=Subquery(latest_user_subquery)
+    ).order_by("-usage_count", "name")
+
+    user_map = {
+        user.id: user for user in User.objects.filter(id__in=[c.last_user_id for c in characters if c.last_user_id])
+    }
+
+    for c in characters:
+        c.last_user = user_map[c.last_user_id].discord_display_name if user_map.get(c.last_user_id) else None
 
     return custom_render(request, "stats/dubbing.html", {
         "dubbing": dubbing,
@@ -230,8 +247,8 @@ def stats_episode(request, episode_id):
 
     episode = episode.first()
 
-    stable_chars = UserCharacterStable.objects.filter(episode=episode).select_related('character', 'user')
-    temporary_chars = UserCharacterTemporary.objects.filter(episode=episode).select_related('user')
+    stable_chars = UserCharacterStable.objects.filter(episode=episode).order_by("character__name").select_related('character', 'user')
+    temporary_chars = UserCharacterTemporary.objects.filter(episode=episode).order_by("name").select_related('user')
 
     return custom_render(request, "stats/episode.html", {
         "episode": episode,
@@ -251,8 +268,8 @@ def stats_scene(request, scene_id):
     
     scene = scene.first()
 
-    stable_chars = UserCharacterStable.objects.filter(scene=scene).select_related('character', 'user')
-    temporary_chars = UserCharacterTemporary.objects.filter(scene=scene).select_related('user')
+    stable_chars = UserCharacterStable.objects.filter(scene=scene).order_by("character__name").select_related('character', 'user')
+    temporary_chars = UserCharacterTemporary.objects.filter(scene=scene).order_by("name").select_related('user')
 
     return custom_render(request, "stats/scene.html", {
         "scene": scene,
