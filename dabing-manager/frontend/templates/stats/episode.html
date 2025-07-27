@@ -10,14 +10,15 @@
 <!-- Episode Info Section -->
 <div class="card mb-4 shadow background-light text-white">
   <div class="card-body">
-    <a href="{% url 'stats_dubbing' episode.dubbing.id %}" class="text-white"><h2 class="card-title">{{ episode.name }}</h2></a>
+    <a href="{% url 'stats_dubbing' episode.dubbing.id %}" class="text-white"><i class="fa fa-chevron-left"></i></a>
+    <h2 class="card-title">{{ episode.name }}</h2>
     <p class="card-text">
         <strong>{% trans "frontend.episode.dubbing" context "Text dubbing" %}:</strong> {{ episode.dubbing.name }} | {{ episode.get_se }} <br>
         <strong>{% trans "frontend.episode.deadline" context "Text deadline" %}:</strong> <span class="countdown" data-deadline="{{ episode.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span><br>
         <strong>{% trans "frontend.episode.created" context "Text created" %}:</strong> {{ episode.created }}<br>
         {% if episode.urls %}
         <strong>{% trans "frontend.episode.urls" context "Episode URLs label" %}:</strong><br>
-        {{ episode.urls|markdown_links }}<br>
+        {{ episode.urls|markdown_links|linebreaksbr }}<br>
         {% endif %}
     </p>
     <div class="d-flex flex-column responsive-fit w-100">
