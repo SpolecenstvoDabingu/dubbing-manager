@@ -18,6 +18,7 @@ RUN apt-get update && \
     texlive-latex-base \
     file \
     wget \
+    python3-pygments \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip

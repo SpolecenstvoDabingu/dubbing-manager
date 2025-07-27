@@ -1,4 +1,5 @@
 import os
+import sys
 import tempfile
 import shutil
 import subprocess
@@ -71,6 +72,14 @@ def handle_uploaded_script(file: UploadedFile, dubbing_id=None, dubbing_title=No
 
     return None
 
+def remove_ms(t: str) -> str:
+    out = t
+    try:
+        out = t.split(".")[0]
+    except:
+        pass
+
+    return out
 
 def parse_ass(ass_content):
     lines = ass_content.splitlines()
@@ -89,7 +98,7 @@ def parse_ass(ass_content):
             text = re.sub(r"{.*?}", "", parts[9]).strip()
 
             characters_used.add((actor_raw, actor, actor_raw!=actor))
-            dialog_lines.append(f"\\characterLine{{{actor_raw}}}{{{start_time}}}{{{text}}}")
+            dialog_lines.append(f"\\characterLine{{{actor_raw}}}{{{remove_ms(start_time)}}}{{{text}}}")
 
     return dialog_lines, characters_used
 
@@ -121,7 +130,12 @@ def compile_latex(tex_path, output_path, work_dir):
         )
 
         subprocess.run(
-            ["pythontex", str(work_dir / main_tex_name)],
+            [
+                "pythontex",
+                "--interpreter",
+                "python:" + sys.executable,
+                str(work_dir / main_tex_name)
+            ],
             check=True,
             cwd=work_dir,
             stdout=subprocess.PIPE,
