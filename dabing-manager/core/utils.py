@@ -33,6 +33,8 @@ def custom_render(request, template_name, context={}, status=200):
         'instance_name': settings.INSTANCE_NAME,
         'community_name': settings.COMMUNITY_NAME,
         'languages': settings.LANGUAGES,
+        'LOGO_IMG_URL': settings.LOGO_IMG_URL,
+        'LOGO_ICON_URL': settings.LOGO_ICON_URL,
         'username': username
     }
 
