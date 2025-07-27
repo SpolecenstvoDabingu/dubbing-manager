@@ -214,8 +214,10 @@ def modify_episode(request, id):
         save = True
 
     if "script" in request.FILES:
-        episode_old.script = handle_uploaded_script(request.FILES["script"], dubbing_id=episode_old.dubbing.id, dubbing_title=f"{episode_old.dubbing}", serie_number=f"{int(episode_old.season):02d}", episode_number=f"{int(episode_old.episode):02d}", title=f"{episode_old.name}")
-        save = True
+        handled_file = handle_uploaded_script(request.FILES["script"], dubbing_id=episode_old.dubbing.id, dubbing_title=f"{episode_old.dubbing}", serie_number=f"{int(episode_old.season):02d}", episode_number=f"{int(episode_old.episode):02d}", title=f"{episode_old.name}")
+        if handled_file is not None:
+            episode_old.script = handled_file
+            save = True
 
     if save:
         episode_old.save(ia=is_admin_f(request.user))
@@ -327,8 +329,10 @@ def modify_scene(request, id):
         save = True
 
     if "script" in request.FILES:
-        scene_old.script = handle_uploaded_script(request.FILES["script"], dubbing_id=scene_old.dubbing.id, dubbing_title=f"{scene_old.dubbing}", title=f"{scene_old.name}")
-        save = True
+        handled_file = handle_uploaded_script(request.FILES["script"], dubbing_id=scene_old.dubbing.id, dubbing_title=f"{scene_old.dubbing}", title=f"{scene_old.name}")
+        if handled_file is not None:
+            scene_old.script = handled_file
+            save = True
 
     if save:
         scene_old.save(ia=is_admin_f(request.user))
