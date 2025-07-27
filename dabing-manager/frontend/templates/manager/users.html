@@ -18,7 +18,7 @@
     <tbody>
       {% for user in users %}
       <tr>
-        <td class="text-center align-middle">{{ user.username }}</td>
+        <td class="text-center align-middle">{{ user.discord_display_name }}</td>
         <td class="text-center align-middle">{{ user.email }}</td>
         <td class="text-center align-middle">
           {% for perm, label in role_choices %}

@@ -37,15 +37,17 @@ def sync_users(request):
 
     for entry in data:
         discord_id = str(entry.get("id"))
-        display_name = entry.get("name")
+        name = entry.get("name")
+        display_name = entry.get("display_name")
         avatar = entry.get("avatar")
 
-        if not (discord_id and display_name and avatar):
+        if not (discord_id and name and display_name and avatar):
             continue
 
         if discord_id in existing_users:
             user = existing_users[discord_id]
-            if user.display_name != display_name or user.avatar != avatar:
+            if user.name != name or user.display_name != display_name or user.avatar != avatar:
+                user.name = name
                 user.display_name = display_name
                 user.avatar = avatar
                 to_update.append(user)
@@ -60,7 +62,7 @@ def sync_users(request):
         DiscordUser.objects.bulk_create(to_create, batch_size=500)
 
     if to_update:
-        DiscordUser.objects.bulk_update(to_update, ["display_name", "avatar"], batch_size=500)
+        DiscordUser.objects.bulk_update(to_update, ["name", "display_name", "avatar"], batch_size=500)
 
     # Delete users not in incoming_ids
     to_delete = [user for user_id, user in existing_users.items() if user_id not in incoming_ids]
@@ -97,24 +99,27 @@ def add_users(request):
     to_create = []
     to_update = []
 
-
     for entry in data:
         discord_id = str(entry.get("id"))
-        display_name = entry.get("name")
+        name = entry.get("name")
+        display_name = entry.get("display_name")
         avatar = entry.get("avatar")
 
-        if not (discord_id and display_name and avatar):
+        if not (discord_id and name and display_name and avatar):
             continue
 
+        print(discord_id, name, display_name, avatar)
         if discord_id in existing_users:
             user = existing_users[discord_id]
-            if user.display_name != display_name or user.avatar != avatar:
+            if user.name != name or user.display_name != display_name or user.avatar != avatar:
+                user.name = name
                 user.display_name = display_name
                 user.avatar = avatar
                 to_update.append(user)
         else:
             to_create.append(DiscordUser(
                 discord_id=discord_id,
+                name=name,
                 display_name=display_name,
                 avatar=avatar
             ))
@@ -123,7 +128,7 @@ def add_users(request):
         DiscordUser.objects.bulk_create(to_create, batch_size=500)
 
     if to_update:
-        DiscordUser.objects.bulk_update(to_update, ["display_name", "avatar"], batch_size=500)
+        DiscordUser.objects.bulk_update(to_update, ["name", "display_name", "avatar"], batch_size=500)
 
     return JsonResponse({
         "created": len(to_create),
