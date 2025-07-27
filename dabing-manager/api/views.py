@@ -143,7 +143,7 @@ def add_episode(request):
         deadline=dt,
         season=int(season),
         episode=int(episode_number),
-        script=handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", serie_number=f"{int(season):02d}", episode_number=f"{int(episode):02d}", title=f"{name}"),
+        script=handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", serie_number=f"{int(season):02d}", episode_number=f"{int(episode_number):02d}", title=f"{name}"),
         urls=str(urls),
     )
 
