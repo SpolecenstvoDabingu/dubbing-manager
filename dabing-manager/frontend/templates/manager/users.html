@@ -42,14 +42,14 @@
                       "label": "{% trans "frontend.users.username" context "Username title" %}",
                       "type": "text",
                       "name": "username",
-                      "value": "{{ user.username }}",
+                      "value": "{{ user.username|escape }}",
                       "required": true
                     },
                     {
                       "label": "{% trans "frontend.users.email" context "Email title" %}",
                       "type": "email",
                       "name": "email",
-                      "value": "{{ user.email }}"
+                      "value": "{{ user.email|escape }}"
                     },
                     {
                       "label": "{% trans "frontend.users.roles" context "Roles title" %}",
@@ -60,14 +60,14 @@
                         {% for perm, _ in role_choices %}
                           {% with "database."|add:perm as full_perm %}
                             {% if user|has_permition:full_perm %}
-                              "{{ perm }}"{% if not forloop.last %},{% endif %}
+                              "{{ perm|escape }}"{% if not forloop.last %},{% endif %}
                             {% endif %}
                           {% endwith %}
                         {% endfor %}
                       ],
                       "options": [
                         {% for perm, label in role_choices %}
-                          { "value": "{{ perm }}", "label": "{{ label }}" }{% if not forloop.last %},{% endif %}
+                          { "value": "{{ perm|escape }}", "label": "{{ label|escape }}" }{% if not forloop.last %},{% endif %}
                         {% endfor %}
                       ]
                     }

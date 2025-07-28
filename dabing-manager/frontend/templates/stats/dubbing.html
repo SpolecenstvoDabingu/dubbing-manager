@@ -35,7 +35,7 @@
         data-modal-title="{% trans 'frontend.dubbing.add_episode' context 'Modal title for adding episode dubbing' %}"
         data-action-url="{% url 'api_add_episode' %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-        data-fields='{{ add_episode_data|safe }}'>
+        data-fields='{{ add_episode_data|safe|escape }}'>
         {% trans "frontend.dubbing.add_episode_button" context "Add episode button" %}
     </button>
 
@@ -46,7 +46,7 @@
         data-modal-title="{% trans 'frontend.dubbing.add_scene' context 'Modal title for adding scene dubbing' %}"
         data-action-url="{% url 'api_add_scene' %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-        data-fields='{{ add_scene_data|safe }}'>
+        data-fields='{{ add_scene_data|safe|escape }}'>
         {% trans "frontend.dubbing.add_scene_button" context "Add scene button" %}
     </button>
 
@@ -57,7 +57,7 @@
         data-modal-title="{% trans 'frontend.dubbing.add_character' context 'Modal title for adding character dubbing' %}"
         data-action-url="{% url 'api_add_character' %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-        data-fields='{{ add_character_data|safe }}'>
+        data-fields='{{ add_character_data|safe|escape }}'>
         {% trans "frontend.dubbing.add_character_button" context "Add character button" %}
     </button>
     
@@ -68,7 +68,7 @@
         data-modal-title="{% trans 'frontend.dubbing.edit_title' context 'Modal title for editing dubbing' %}"
         data-action-url="{% url 'api_modify_dubbing' dubbing.id %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-        data-fields='{{ modify_dubbing_data|safe }}'>
+        data-fields='{{ modify_dubbing_data|safe|escape }}'>
         {% trans "frontend.dubbing.edit_button" context "Edit dubbing button" %}
     </button>
 
@@ -124,7 +124,7 @@
                         data-modal-title="{% trans 'frontend.dubbing.edit_title' context 'Modal title for editing' %}"
                         data-action-url="{% url 'api_modify_episode' item.id %}?token={{ user.profile.token }}"
                         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-                        data-fields='{{ item.modify_episode_data|safe }}'>
+                        data-fields='{{ item.modify_episode_data|safe|escape }}'>
                         {% trans "frontend.dubbing.edit_button" context "Edit button title" %}
                     </button>
                     {% if request.user|is_admin %}
@@ -165,7 +165,7 @@
                         data-modal-title="{% trans 'frontend.dubbing.edit_title' context 'Modal title for editing' %}"
                         data-action-url="{% url 'api_modify_scene' item.id %}?token={{ user.profile.token }}"
                         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-                        data-fields='{{ item.modify_scene_data|safe }}'>
+                        data-fields='{{ item.modify_scene_data|safe|escape }}'>
                         {% trans "frontend.dubbing.edit_button" context "Edit button title" %}
                     </button>
                     {% if request.user|is_admin %}
@@ -223,7 +223,7 @@
                             data-modal-title="{% trans 'frontend.dubbing.edit_title' context 'Modal title for editing character' %}"
                             data-action-url="{% url 'api_modify_character' character.id %}?token={{ user.profile.token }}"
                             data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-                            data-fields='{{ character.modify_character_data|safe }}'>
+                            data-fields='{{ character.modify_character_data|safe|escape }}'>
                             {% trans "frontend.dubbing.edit_button" context "Edit character button" %}
                         </button>
 

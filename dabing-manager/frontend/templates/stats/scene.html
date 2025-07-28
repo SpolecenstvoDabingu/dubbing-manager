@@ -49,7 +49,7 @@
         data-modal-title="{% trans 'frontend.dubbing.add_character_static' context 'Modal title for adding static character' %}"
         data-action-url="{% url 'api_add_character_user' 'static' %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_scene' scene.id %}"
-        data-fields='{{ add_character_stable_data|safe }}'>
+        data-fields='{{ add_character_stable_data|safe|escape }}'>
         {% trans "frontend.dubbing.add_character_static_button" context "Add static character button" %}
     </button>
 
@@ -61,7 +61,7 @@
         data-modal-title="{% trans 'frontend.dubbing.add_character_temp' context 'Modal title for adding temporary character' %}"
         data-action-url="{% url 'api_add_character_user' 'temporary' %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_scene' scene.id %}"
-        data-fields='{{ add_character_temp_data|safe }}'>
+        data-fields='{{ add_character_temp_data|safe|escape }}'>
         {% trans "frontend.dubbing.add_character_temp_button" context "Add temporary character button" %}
     </button>
 
@@ -75,7 +75,7 @@
         data-modal-title="{% trans 'frontend.scene.edit_title' context 'Modal title for editing scene' %}"
         data-action-url="{% url 'api_modify_scene' scene.id %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_scene' scene.id %}"
-        data-fields='{{ scene.modify_scene_data|safe }}'>
+        data-fields='{{ scene.modify_scene_data|safe|escape }}'>
         {% trans "frontend.scene.edit_button" context "Edit scene button" %}
     </button>
 
@@ -146,7 +146,7 @@
                             data-modal-title="{% trans 'frontend.scene.edit_title' context 'Modal title for editing character' %}"
                             data-action-url="{% url 'api_modify_character_user' 'stable' uc.id %}?token={{ user.profile.token }}"
                             data-redirect-url="{% url 'stats_scene' scene.id %}"
-                            data-fields='{{ uc.modify_character_data|safe }}'>
+                            data-fields='{{ uc.modify_character_data|safe|escape }}'>
                             {% trans "frontend.scene.edit_button" context "Edit scene button" %}
                         </button>
 
@@ -203,7 +203,7 @@
                             data-modal-title="{% trans 'frontend.scene.edit_title' context 'Modal title for editing character' %}"
                             data-action-url="{% url 'api_modify_character_user' 'temporary' uc.id %}?token={{ user.profile.token }}"
                             data-redirect-url="{% url 'stats_scene' scene.id %}"
-                            data-fields='{{ uc.modify_character_data|safe }}'>
+                            data-fields='{{ uc.modify_character_data|safe|escape }}'>
                             {% trans "frontend.scene.edit_button" context "Edit scene button" %}
                         </button>
 
