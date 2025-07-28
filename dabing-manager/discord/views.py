@@ -180,13 +180,13 @@ def get_announce_data(request, type, id):
             for e_dubbers in episode.usercharacterstable.all():
                 dubbers.append({
                     "character_name": f"{e_dubbers.character}",
-                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}",
+                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}" if e_dubbers.user else None,
                 })
 
             for e_dubbers in episode.usercharactertemporary.all():
                 dubbers.append({
                     "character_name": f"{e_dubbers.name}",
-                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}",
+                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}" if e_dubbers.user else None,
                 })
 
             return JsonResponse({
@@ -213,13 +213,13 @@ def get_announce_data(request, type, id):
             for s_dubbers in scene.usercharacterstable.all():
                 dubbers.append({
                     "character_name": f"{s_dubbers.character}",
-                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}",
+                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}" if s_dubbers.user else None,
                 })
 
             for s_dubbers in scene.usercharactertemporary.all():
                 dubbers.append({
                     "character_name": f"{s_dubbers.name}",
-                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}",
+                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}" if s_dubbers.user else None,
                 })
 
             return JsonResponse({
@@ -287,7 +287,7 @@ def get_dubbings_characters(request):
                 "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'episode', 'obj_id': stable_character.episode.id})}",
                 "full_info": f"{EXTERNAL_URL}{reverse('stats_episode', kwargs={'episode_id': stable_character.episode.id})}",
                 "character_name": f"{stable_character.character.name}",
-                "user_id": stable_character.user.social_auth.filter(provider='discord').first().uid,
+                "user_id": stable_character.user.social_auth.filter(provider='discord').first().uid if stable_character.user else None,
             })
             continue
 
@@ -299,7 +299,7 @@ def get_dubbings_characters(request):
             "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'scene', 'obj_id': stable_character.scene.id})}",
             "full_info": f"{EXTERNAL_URL}{reverse('stats_scene', kwargs={'scene_id': stable_character.scene.id})}",
             "character_name": f"{stable_character.character.name}",
-            "user_id": stable_character.user.social_auth.filter(provider='discord').first().uid,
+            "user_id": stable_character.user.social_auth.filter(provider='discord').first().uid if stable_character.user else None,
         })
 
     for temporary_character in temporary_characters:
@@ -315,7 +315,7 @@ def get_dubbings_characters(request):
                 "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'episode', 'obj_id': temporary_character.episode.id})}",
                 "full_info": f"{EXTERNAL_URL}{reverse('stats_episode', kwargs={'episode_id': temporary_character.episode.id})}",
                 "character_name": f"{temporary_character.name}",
-                "user_id": temporary_character.user.social_auth.filter(provider='discord').first().uid,
+                "user_id": temporary_character.user.social_auth.filter(provider='discord').first().uid if temporary_character.user else None,
             })
             continue
 
@@ -327,7 +327,7 @@ def get_dubbings_characters(request):
             "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'scene', 'obj_id': temporary_character.scene.id})}",
             "full_info": f"{EXTERNAL_URL}{reverse('stats_scene', kwargs={'scene_id': temporary_character.scene.id})}",
             "character_name": f"{temporary_character.name}",
-            "user_id": temporary_character.user.social_auth.filter(provider='discord').first().uid,
+            "user_id": temporary_character.user.social_auth.filter(provider='discord').first().uid if temporary_character.user else None,
         })
 
     return JsonResponse({"data": data}, status=200)
