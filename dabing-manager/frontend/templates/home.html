@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% load i18n %}
+{% load one_key_dict %}
+{% load object_filter %}
+
 
 {% block content %}
-  <h2 class="text-white">{% trans "frontend.home.not_done_title" context "Title not done for table" %}</h2>
+<h2 class="text-white">{% trans "frontend.home.not_done_title" context "Title not done for table" %}</h2>
 <div class="table-responsive mb-2">
   <table class="table table-striped table-hover text-white">
     <thead>
@@ -28,29 +31,31 @@
           {% endif %}
         </td>
         <td class="text-center align-middle">
-          {% if item.type == "episode" %}
-            {% for uc in item.object.usercharacterstable.all %}
-              {% if uc.user == request.user %}
-                {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
-              {% endif %}
-            {% endfor %}
-            {% for uc in item.object.usercharactertemporary.all %}
-              {% if uc.user == request.user %}
-                {{ uc.name }}{% if not forloop.last %}, {% endif %}
-              {% endif %}
-            {% endfor %}
-          {% elif item.type == "scene" %}
-            {% for uc in item.object.usercharacterstable.all %}
-              {% if uc.user == request.user %}
-                {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
-              {% endif %}
-            {% endfor %}
-            {% for uc in item.object.usercharactertemporary.all %}
-              {% if uc.user == request.user %}
-                {{ uc.name }}{% if not forloop.last %}, {% endif %}
-              {% endif %}
-            {% endfor %}
-          {% endif %}
+          {% with request.user|one_key_dict:"user" as user_object_filter %}
+            {% if item.type == "episode" %}
+              {% for uc in item.object.usercharacterstable|object_filter:user_object_filter %}
+                {% if uc.user == request.user %}
+                  {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
+                {% endif %}
+              {% endfor %}
+              {% for uc in item.object.usercharactertemporary|object_filter:user_object_filter %}
+                {% if uc.user == request.user %}
+                  {{ uc.name }}{% if not forloop.last %}, {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% elif item.type == "scene" %}
+              {% for uc in item.object.usercharacterstable|object_filter:user_object_filter %}
+                {% if uc.user == request.user %}
+                  {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
+                {% endif %}
+              {% endfor %}
+              {% for uc in item.object.usercharactertemporary|object_filter:user_object_filter %}
+                {% if uc.user == request.user %}
+                  {{ uc.name }}{% if not forloop.last %}, {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
         </td>
         <td class="text-center align-middle">
             {% if item.type == "episode" %}
@@ -99,29 +104,31 @@
           {% endif %}
         </td>
         <td class="text-center align-middle">
-          {% if item.type == "episode" %}
-            {% for uc in item.object.usercharacterstable.all %}
-              {% if uc.user == request.user %}
-                {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
-              {% endif %}
-            {% endfor %}
-            {% for uc in item.object.usercharactertemporary.all %}
-              {% if uc.user == request.user %}
-                {{ uc.name }}{% if not forloop.last %}, {% endif %}
-              {% endif %}
-            {% endfor %}
-          {% elif item.type == "scene" %}
-            {% for uc in item.object.usercharacterstable.all %}
-              {% if uc.user == request.user %}
-                {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
-              {% endif %}
-            {% endfor %}
-            {% for uc in item.object.usercharactertemporary.all %}
-              {% if uc.user == request.user %}
-                {{ uc.name }}{% if not forloop.last %}, {% endif %}
-              {% endif %}
-            {% endfor %}
-          {% endif %}
+          {% with request.user|one_key_dict:"user" as user_object_filter %}
+            {% if item.type == "episode" %}
+              {% for uc in item.object.usercharacterstable|object_filter:user_object_filter %}
+                {% if uc.user == request.user %}
+                  {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
+                {% endif %}
+              {% endfor %}
+              {% for uc in item.object.usercharactertemporary|object_filter:user_object_filter %}
+                {% if uc.user == request.user %}
+                  {{ uc.name }}{% if not forloop.last %}, {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% elif item.type == "scene" %}
+              {% for uc in item.object.usercharacterstable|object_filter:user_object_filter %}
+                {% if uc.user == request.user %}
+                  {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
+                {% endif %}
+              {% endfor %}
+              {% for uc in item.object.usercharactertemporary|object_filter:user_object_filter %}
+                {% if uc.user == request.user %}
+                  {{ uc.name }}{% if not forloop.last %}, {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
         </td>
         <td class="text-center align-middle">
             {% if item.type == "episode" %}
