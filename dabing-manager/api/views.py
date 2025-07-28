@@ -605,21 +605,7 @@ def modify_character_user(request, type, id):
 
     save = False
 
-    if type == "static":
-        character_id = request.POST.get("character")
-
-        if character_id is None:
-            return JsonResponse({"character": "Character needs to be specified."}, status=400)
-        
-        character = Character.objects.filter(id=character_id)
-        if not character.exists():
-            return JsonResponse({"character": "Character does not exists."}, status=404)
-        character = character.first()
-        
-        if user_character.character != character:
-            user_character.character = character
-            save = True
-        
+    if type == "stable":
         if user_character.episode != episode:
             user_character.episode = episode
             save = True
