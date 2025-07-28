@@ -138,8 +138,6 @@ def stats(request):
                 "script": scene.id,
             })
 
-        print("dubbing id", dubbing.id)
-
         result_dubs[dubbing.name] = {
             "id": dubbing.id,
             "episodes": episodes,
