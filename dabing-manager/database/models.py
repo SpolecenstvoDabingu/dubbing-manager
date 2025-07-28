@@ -4,6 +4,7 @@ import os, json
 from django.contrib.auth.models import User
 from django.forms import ValidationError
 from core.settings import NO_THUMBNAIL_URL
+from operator import attrgetter
 from .utils import HashedFilePath, one_week_from_now, get_user_discord_username, sanitize_markdown_links
 from django.http import FileResponse, Http404
 from django.utils.translation import pgettext
@@ -53,7 +54,7 @@ class Dubbing(models.Model):
     
     @staticmethod
     def get_add_modal_fields_json():
-        discord_users = User.objects.filter(social_auth__provider="discord").distinct()
+        discord_users = sorted(User.objects.filter(social_auth__provider="discord").distinct(), key=lambda u: (u.discord_display_name.lower(), u.discord_display_name))
 
         manager_options = [
             {"label": get_user_discord_username(user), "value": user.id}
@@ -76,7 +77,7 @@ class Dubbing(models.Model):
     
     
     def get_modify_modal_fields_json(self):
-        discord_users = User.objects.filter(social_auth__provider="discord").distinct()
+        discord_users = sorted(User.objects.filter(social_auth__provider="discord").distinct(), key=lambda u: (u.discord_display_name.lower(), u.discord_display_name))
 
         manager_options = [
             {"label": get_user_discord_username(user), "value": user.id}
@@ -473,6 +474,9 @@ class UserCharacterStable(UserCharacterBase):
     @property
     def dubbing(self):
         return self.character.dubbing
+
+    def __str__(self):
+        return f"{self.character} ({self.episode.dubbing if self.episode else self.scene.dubbing}) - {self.user.discord_display_name if self.user else None}"
     
     @staticmethod
     def get_add_modal_fields_json(episode:Episode=None, scene:Scene=None):
@@ -498,7 +502,7 @@ class UserCharacterStable(UserCharacterBase):
                 for i in Scene.objects.all()
                 if scene == i
             ]
-        discord_users = User.objects.filter(social_auth__provider="discord").distinct()
+        discord_users = sorted(User.objects.filter(social_auth__provider="discord").distinct(), key=lambda u: (u.discord_display_name.lower(), u.discord_display_name))
         user_options = [
             {"label": get_user_discord_username(user), "value": user.id}
             for user in discord_users
@@ -557,7 +561,7 @@ class UserCharacterStable(UserCharacterBase):
                 for i in Scene.objects.all()
                 if scene == i
             ]
-        discord_users = User.objects.filter(social_auth__provider="discord").distinct()
+        discord_users = sorted(User.objects.filter(social_auth__provider="discord").distinct(), key=lambda u: (u.discord_display_name.lower(), u.discord_display_name))
         user_options = [
             {"label": get_user_discord_username(user), "value": user.id}
             for user in discord_users
@@ -601,6 +605,9 @@ class UserCharacterTemporary(UserCharacterBase):
             self.description = sanitize_markdown_links(self.description)
         
         super().save()
+
+    def __str__(self):
+        return f"{self.name} ({self.episode.dubbing if self.episode else self.scene.dubbing}) - {self.user.discord_display_name if self.user else None}"
     
     @staticmethod
     def get_add_modal_fields_json(episode:Episode=None, scene:Scene=None):
@@ -616,7 +623,7 @@ class UserCharacterTemporary(UserCharacterBase):
                 for i in Scene.objects.all()
                 if scene == i
             ]
-        discord_users = User.objects.filter(social_auth__provider="discord").distinct()
+        discord_users = sorted(User.objects.filter(social_auth__provider="discord").distinct(), key=lambda u: (u.discord_display_name.lower(), u.discord_display_name))
         user_options = [
             {"label": get_user_discord_username(user), "value": user.id}
             for user in discord_users
@@ -681,7 +688,7 @@ class UserCharacterTemporary(UserCharacterBase):
                 for i in Scene.objects.all()
                 if scene == i
             ]
-        discord_users = User.objects.filter(social_auth__provider="discord").distinct()
+        discord_users = sorted(User.objects.filter(social_auth__provider="discord").distinct(), key=lambda u: (u.discord_display_name.lower(), u.discord_display_name))
         user_options = [
             {"label": get_user_discord_username(user), "value": user.id}
             for user in discord_users
