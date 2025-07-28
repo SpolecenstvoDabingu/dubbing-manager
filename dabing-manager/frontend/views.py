@@ -210,7 +210,8 @@ def stats_dubbing(request, dubbing_id):
 
 
     latest_user_subquery = UserCharacterStable.objects.filter(
-        character=OuterRef('pk')
+        character=OuterRef('pk'),
+        user__isnull=False
     ).annotate(
         effective_deadline=Coalesce('episode__deadline', 'scene__deadline')
     ).order_by('-effective_deadline').values('user_id')[:1]

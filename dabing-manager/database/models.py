@@ -445,7 +445,7 @@ class UserCharacterBase(models.Model):
     episode = models.ForeignKey(Episode, on_delete=models.SET_NULL, related_name='%(class)s', null=True, blank=True)
     scene = models.ForeignKey(Scene, on_delete=models.SET_NULL, related_name='%(class)s', null=True, blank=True)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s', blank=True, null=True)
     done = models.BooleanField(default=False)
 
     def clean(self):
@@ -593,7 +593,7 @@ class UserCharacterStable(UserCharacterBase):
 
 class UserCharacterTemporary(UserCharacterBase):
     name = models.CharField(max_length=128, default="Character Name")
-    image = models.ImageField(max_length=512, upload_to=HashedFilePath("image", "images"))
+    image = models.ImageField(max_length=512, upload_to=HashedFilePath("image", "images"), default=NO_THUMBNAIL_URL, blank=True, null=True)
     description = models.TextField(max_length=1024, default="", blank=True)
     
     def save(self, ia=False):

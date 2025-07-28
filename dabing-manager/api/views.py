@@ -13,6 +13,7 @@ from database.utils import get_character_user_type
 from datetime import datetime
 from django.utils import timezone
 from script.utils import handle_uploaded_script
+from .utils import add_characters_to_episode_or_scene
 
 from database.models import Dubbing, Episode, Scene, Character, UserCharacterStable, UserCharacterTemporary
 
@@ -137,18 +138,21 @@ def add_episode(request):
     except (ValueError, TypeError):
         dt = None
 
+
+    handled_file, characters_list = handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", serie_number=f"{int(season):02d}", episode_number=f"{int(episode_number):02d}", title=f"{name}")
     episode = Episode(
         name=str(name),
         dubbing=dubbing,
         deadline=dt,
         season=int(season),
         episode=int(episode_number),
-        script=handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", serie_number=f"{int(season):02d}", episode_number=f"{int(episode_number):02d}", title=f"{name}"),
+        script=handled_file,
         urls=str(urls),
     )
 
     try:
         episode.save(ia=is_admin_f(request.user))
+        add_characters_to_episode_or_scene(characters_list, episode=episode)
         return JsonResponse({"sucess": True}, status=200)
     except Exception as e:
         return JsonResponse({"episode": f"Can't save episode because of: {e}"}, status=400)
@@ -214,7 +218,8 @@ def modify_episode(request, id):
         save = True
 
     if "script" in request.FILES:
-        handled_file = handle_uploaded_script(request.FILES["script"], dubbing_id=episode_old.dubbing.id, dubbing_title=f"{episode_old.dubbing}", serie_number=f"{int(episode_old.season):02d}", episode_number=f"{int(episode_old.episode):02d}", title=f"{episode_old.name}")
+        handled_file, characters_list = handle_uploaded_script(request.FILES["script"], dubbing_id=episode_old.dubbing.id, dubbing_title=f"{episode_old.dubbing}", serie_number=f"{int(episode_old.season):02d}", episode_number=f"{int(episode_old.episode):02d}", title=f"{episode_old.name}")
+        add_characters_to_episode_or_scene(characters_list, episode=episode_old)
         if handled_file is not None:
             episode_old.script = handled_file
             save = True
@@ -263,17 +268,20 @@ def add_scene(request):
             dt = timezone.make_aware(dt)
     except (ValueError, TypeError):
         dt = None
-
+    
+    
+    handled_file, characters_list = handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", title=f"{name}")
     scene = Scene(
         name=str(name),
         dubbing=dubbing,
         deadline=dt,
-        script=handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", title=f"{name}"),
+        script=handled_file,
         urls=str(urls),
     )
 
     try:
         scene.save(ia=is_admin_f(request.user))
+        add_characters_to_episode_or_scene(characters_list, scene=scene)
         return JsonResponse({"sucess": True}, status=200)
     except Exception as e:
         return JsonResponse({"scene": f"Can't save scene because of: {e}"}, status=400)
@@ -329,7 +337,8 @@ def modify_scene(request, id):
         save = True
 
     if "script" in request.FILES:
-        handled_file = handle_uploaded_script(request.FILES["script"], dubbing_id=scene_old.dubbing.id, dubbing_title=f"{scene_old.dubbing}", title=f"{scene_old.name}")
+        handled_file, characters_list = handle_uploaded_script(request.FILES["script"], dubbing_id=scene_old.dubbing.id, dubbing_title=f"{scene_old.dubbing}", title=f"{scene_old.name}")
+        add_characters_to_episode_or_scene(characters_list, scene=scene_old)
         if handled_file is not None:
             scene_old.script = handled_file
             save = True

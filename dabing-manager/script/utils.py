@@ -13,12 +13,12 @@ import re
 
 def handle_uploaded_script(file: UploadedFile, dubbing_id=None, dubbing_title=None, serie_number=None, episode_number=None, title=None):
     if not file:
-        return None
+        return None, []
 
     ext = os.path.splitext(file.name)[-1].lower()
 
     if ext == ".pdf":
-        return file
+        return file, []
     
     if ext == ".ass":
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -35,11 +35,14 @@ def handle_uploaded_script(file: UploadedFile, dubbing_id=None, dubbing_title=No
 
             # Write postavy.tex WITHOUT user info
             postavy_tex_path = temp_path / "postavy.tex"
+            character_list = []
             with open(postavy_tex_path, "w", encoding="utf-8") as f:
                 f.write(r"\begin{pycode}" + "\n")
                 f.write("characters = {\n")
                 for char_raw, char, skip in characters_used:
                     constant = is_character_constant(dubbing_id, char)
+                    if not skip:
+                        character_list.append(char)
                     f.write(f'    "{char_raw}": {{\n')
                     f.write(f'        "name": "{char}",\n')
                     f.write(f'        "constant": {str(constant)},\n')
@@ -68,9 +71,9 @@ def handle_uploaded_script(file: UploadedFile, dubbing_id=None, dubbing_title=No
             success = compile_latex(temp_path / "main.tex", output_path=pdf_path, work_dir=temp_path)
 
             if success and pdf_path.exists():
-                return ContentFile(pdf_path.read_bytes(), name="compiled_script.pdf")
+                return ContentFile(pdf_path.read_bytes(), name="compiled_script.pdf"), character_list
 
-    return None
+    return None, []
 
 def remove_ms(t: str) -> str:
     out = t
