@@ -209,6 +209,16 @@
 
                         {% if request.user|is_admin %}
                         <button 
+                            class="btn btn-primary mt-2 w-100"
+                            data-toggle="modal" 
+                            data-target="#ConfirmModal"
+                            data-action-url="{% url 'api_character_make_stable' uc.id %}?token={{ user.profile.token }}"
+                            data-modal-title="{% trans 'frontend.scene.character_make_stable' context 'Modal title for making character stable' %}"
+                            data-redirect-url="{% url 'stats_scene' scene.id %}"
+                            data-confirm-text="{% blocktrans with name=uc.name context 'Confirming making stable character from NAME' %}frontend.scene.confirm_make_stable_text {{ name }}{% endblocktrans %}">
+                            {% trans "frontend.scene.confirm_button" context "Confirm character button" %}
+                        </button>
+                        <button 
                             class="btn btn-danger mt-2 w-100"
                             data-toggle="modal" 
                             data-target="#DeleteModal"
@@ -228,6 +238,7 @@
 </div>
 {% include "components/add_modal.html" %}
 {% include "components/modify_modal.html" %}
+{% include "components/confirm_modal.html" %}
 {% include "components/delete_modal.html" %}
 
 {% endblock %}

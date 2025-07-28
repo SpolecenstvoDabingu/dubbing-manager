@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<div class="modal fade" id="ConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-black background-light text-white">
+      <form method="post" id="ConfirmModalForm" action="">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="ConfirmModalLabel">{% trans "frontend.confirm_modal.title" context "Modal title for confirming" %}</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body" id="ConfirmModalBody">
+        </div>
+
+        <div class="modal-error alert alert-danger d-none mx-3" role="alert" id="ConfirmModalErrorBox"></div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'frontend.confirm_modal.cancel' context 'Modal cancel button' %}</button>
+          <button type="submit" class="btn btn-success" id="ConfirmModalSubmit">{% trans 'frontend.confirm_modal.confirm' context 'Modal confirm button' %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

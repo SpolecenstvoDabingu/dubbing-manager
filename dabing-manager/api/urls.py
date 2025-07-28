@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('character/add', views.add_character, name="api_add_character"),
     path('character/modify/<int:id>', views.modify_character, name="api_modify_character"),
+    path('character/make_stable/<int:id>', views.character_make_stable, name="api_character_make_stable"),
     path('character/delete/<int:id>', views.delete_character, name="api_delete_character"),
 
     path('character/user/<str:type>/add', views.add_character_user, name="api_add_character_user"),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-28 15:08+0200\n"
+"POT-Creation-Date: 2025-07-28 16:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,6 +192,21 @@ msgstr "Cancel"
 msgctxt "Modal submit button"
 msgid "frontend.add_modal.submit"
 msgstr "Submit"
+
+#: .\frontend\templates\components\confirm_modal.html:9
+msgctxt "Modal title for confirming"
+msgid "frontend.confirm_modal.title"
+msgstr "Confirm"
+
+#: .\frontend\templates\components\confirm_modal.html:19
+msgctxt "Modal cancel button"
+msgid "frontend.confirm_modal.cancel"
+msgstr "Cancel"
+
+#: .\frontend\templates\components\confirm_modal.html:20
+msgctxt "Modal confirm button"
+msgid "frontend.confirm_modal.confirm"
+msgstr "Confirm"
 
 #: .\frontend\templates\components\delete_modal.html:9
 msgctxt "Modal title for deleting"
@@ -515,7 +530,7 @@ msgstr "Edit"
 #: .\frontend\templates\stats\dubbing.html:238
 #: .\frontend\templates\stats\episode.html:87
 #: .\frontend\templates\stats\episode.html:158
-#: .\frontend\templates\stats\episode.html:215
+#: .\frontend\templates\stats\episode.html:225
 #, python-format
 msgctxt "Confirming deletion of NAME"
 msgid "frontend.episode.confirm_delete_text %(name)s"
@@ -683,7 +698,7 @@ msgstr "Edit"
 
 #: .\frontend\templates\stats\episode.html:88
 #: .\frontend\templates\stats\episode.html:159
-#: .\frontend\templates\stats\episode.html:216
+#: .\frontend\templates\stats\episode.html:226
 msgctxt "Delete episode button"
 msgid "frontend.episode.delete_button"
 msgstr "Delete"
@@ -758,7 +773,7 @@ msgstr "Hand over"
 #: .\frontend\templates\stats\episode.html:143
 #: .\frontend\templates\stats\episode.html:156
 #: .\frontend\templates\stats\episode.html:200
-#: .\frontend\templates\stats\episode.html:213
+#: .\frontend\templates\stats\episode.html:223
 msgctxt "Modal title for editing character"
 msgid "frontend.episode.edit_title"
 msgstr "Edit"
@@ -767,6 +782,22 @@ msgstr "Edit"
 msgctxt "Text temporary"
 msgid "frontend.episode.temporary"
 msgstr "Temporary"
+
+#: .\frontend\templates\stats\episode.html:213
+msgctxt "Modal title for making character stable"
+msgid "frontend.episode.character_make_stable"
+msgstr "Make stable"
+
+#: .\frontend\templates\stats\episode.html:215
+#, python-format
+msgctxt "Confirming making stable character from NAME"
+msgid "frontend.episode.confirm_make_stable_text %(name)s"
+msgstr "Are you sure you want to make %(name)s stable?"
+
+#: .\frontend\templates\stats\episode.html:216
+msgctxt "Confirm character button"
+msgid "frontend.episode.confirm_button"
+msgstr "Make stable"
 
 #: .\frontend\templates\stats\scene.html:16
 msgctxt "Text dubbing"
@@ -813,7 +844,7 @@ msgstr "Edit"
 
 #: .\frontend\templates\stats\scene.html:90
 #: .\frontend\templates\stats\scene.html:161
-#: .\frontend\templates\stats\scene.html:218
+#: .\frontend\templates\stats\scene.html:228
 #, python-format
 msgctxt "Confirming deletion of NAME"
 msgid "frontend.scene.confirm_delete_text %(name)s"
@@ -821,7 +852,7 @@ msgstr "Are you sure you want to delete %(name)s?"
 
 #: .\frontend\templates\stats\scene.html:91
 #: .\frontend\templates\stats\scene.html:162
-#: .\frontend\templates\stats\scene.html:219
+#: .\frontend\templates\stats\scene.html:229
 msgctxt "Delete scene button"
 msgid "frontend.scene.delete_button"
 msgstr "Delete"
@@ -896,7 +927,7 @@ msgstr "Hand over"
 #: .\frontend\templates\stats\scene.html:146
 #: .\frontend\templates\stats\scene.html:159
 #: .\frontend\templates\stats\scene.html:203
-#: .\frontend\templates\stats\scene.html:216
+#: .\frontend\templates\stats\scene.html:226
 msgctxt "Modal title for editing character"
 msgid "frontend.scene.edit_title"
 msgstr "Edit"
@@ -905,6 +936,22 @@ msgstr "Edit"
 msgctxt "Text temporary"
 msgid "frontend.scene.temporary"
 msgstr "Temporary"
+
+#: .\frontend\templates\stats\scene.html:216
+msgctxt "Modal title for making character stable"
+msgid "frontend.scene.character_make_stable"
+msgstr "Make stable"
+
+#: .\frontend\templates\stats\scene.html:218
+#, python-format
+msgctxt "Confirming making stable character from NAME"
+msgid "frontend.scene.confirm_make_stable_text %(name)s"
+msgstr "Are you sure you want to make %(name)s stable?"
+
+#: .\frontend\templates\stats\scene.html:219
+msgctxt "Confirm character button"
+msgid "frontend.scene.confirm_button"
+msgstr "Make stable"
 
 #~ msgctxt "Text no stable characters"
 #~ msgid "frontend.scene.no_stable_characters"

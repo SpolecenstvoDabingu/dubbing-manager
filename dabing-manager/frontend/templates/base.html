@@ -437,6 +437,88 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+  const confirmModal = $('#ConfirmModal');
+
+  confirmModal.on('show.bs.modal', function (event) {
+    $('#ConfirmModalErrorBox').addClass('d-none').empty();
+    const button = $(event.relatedTarget);
+    const modal = $(this);
+
+    const actionUrl = button.data('action-url') || '';
+    const confirmText = button.data('confirm-text') || 'Are you sure?';
+    const modalTitle = button.data('modal-title') || 'Confirm';
+
+    modal.find('form').attr('action', actionUrl);
+    modal.find('.modal-title').text(modalTitle);
+    modal.find('form').attr('data-redirect-url', button.data('redirect-url') || '#');
+    modal.find('#ConfirmModalBody').html($('<p>').text(confirmText));
+  });
+
+  $('#ConfirmModalForm').on('submit', function (e) {
+    e.preventDefault();
+
+    const form = $(this);
+    const redirectUrl = form.attr('data-redirect-url');
+    const url = form.attr('action');
+    const formData = new FormData(this);
+
+    const submitButton = form.find('button[type="submit"]');
+    const originalButtonHtml = submitButton.html();
+
+    // Disable button and add spinner icon
+    submitButton.prop('disabled', true);
+    submitButton.html('<i class="fas fa-spinner fa-spin"></i> ' + (submitButton.text() || 'Loading'));
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': '{% csrf_token %}'
+      },
+      body: formData
+    })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => { throw data; });
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (redirectUrl) {
+          console.info("redirecting")
+          window.location.href = redirectUrl;
+        } else {
+          console.info("hiding")
+          confirmModal.modal('hide');
+        }
+      })
+      .catch(errorData => {
+        console.info("error")
+        const errorBox = $('#ConfirmModalErrorBox');
+        errorBox.empty().removeClass('d-none');
+
+        if (errorData && typeof errorData === 'object') {
+          for (const key in errorData) {
+            if (Array.isArray(errorData[key])) {
+              errorData[key].forEach(err => {
+                errorBox.append($('<div>').text(`${key}: ${err}`));
+              });
+            } else {
+              errorBox.append($('<div>').text(`${key}: ${errorData[key]}`));
+            }
+          }
+        } else if (typeof errorData === 'string') {
+          errorBox.text(errorData);
+        } else {
+          errorBox.text('An unknown error occurred.');
+        }
+      })
+      .finally(() => {
+        // Re-enable button and restore original text
+        submitButton.prop('disabled', false);
+        submitButton.html(originalButtonHtml);
+      });
+  });
+
   const deleteModal = $('#DeleteModal');
 
   deleteModal.on('show.bs.modal', function (event) {

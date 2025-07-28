@@ -6,7 +6,7 @@ from core.utils import require_DELETE
 from discord.utils import validate_token, is_manager, is_admin
 from frontend.utils import is_admin as is_admin_f, get_character_user
 from django.contrib.auth.models import User
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.contrib.auth.decorators import login_required
 from core.settingz.urls import NO_THUMBNAIL_URL
 from database.utils import get_character_user_type
@@ -427,6 +427,43 @@ def modify_character(request, id):
         character_old.save()
 
     return JsonResponse({"success": True}, status=200)
+
+@require_POST
+@validate_token
+@is_admin
+def character_make_stable(request, id):
+    temporary_character = UserCharacterTemporary.objects.get(id=id)
+    if temporary_character is None:
+        return JsonResponse({"temporary_character": "Temporary character you tried to make stable does not exist."}, status=400)
+    
+    character = Character.objects.filter(name=temporary_character.name)
+    if character.exists():
+        return JsonResponse({"character": "Character you tried to make stable already exist."}, status=400)
+
+    character = Character(
+        dubbing=temporary_character.episode.dubbing if temporary_character.episode else temporary_character.scene.dubbing,
+        name=temporary_character.name,
+        image=temporary_character.image,
+        description=temporary_character.description
+    )
+
+    user_character = UserCharacterStable(
+        character=character,
+        episode=temporary_character.episode,
+        scene=temporary_character.scene,
+        user=temporary_character.user,
+        done=temporary_character.done
+    )
+
+    try:
+        with transaction.atomic():
+            character.save(ia=True)
+            user_character.save()
+            temporary_character.delete()
+    except Exception as e:
+        return JsonResponse({"character": f"Error occured while making character stable character: {e}"}, status=400)
+
+    return JsonResponse({"sucess": True}, status=200)
 
 @require_POST
 @validate_token
