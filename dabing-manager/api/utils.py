@@ -43,7 +43,7 @@ def add_characters_to_episode_or_scene(names:list, episode:Episode=None, scene:S
 
     for name in names:
         if name in already_created:
-            continue  # skip if already exists
+            continue
 
         kwargs = base_filter.copy()
         if episode:
@@ -59,7 +59,8 @@ def add_characters_to_episode_or_scene(names:list, episode:Episode=None, scene:S
             ).annotate(
                 effective_deadline=Coalesce('episode__deadline', 'scene__deadline')
             ).order_by('-effective_deadline').first()
-            kwargs["user"] = last_user_character.user
+            if last_user_character is not None:
+                kwargs["user"] = last_user_character.user
             stable_bulk.append(UserCharacterStable(**kwargs))
         else:
             kwargs["name"] = name
