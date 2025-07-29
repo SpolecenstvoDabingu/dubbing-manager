@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.views.decorators.http import require_POST
-from .utils import manages_something, is_admin, get_character_user, is_superuser, have_permissions_changed
+from .utils import manages_something, is_admin, get_character_user, is_superuser, have_permissions_changed, sanitize
 from database.utils import is_default_value, timezone
 import json
 from core.settingz.discord_commands import EPISODE_ANNOUNCEMENT, SCENE_ANNOUNCEMENT
@@ -317,7 +317,7 @@ def manage_users(request):
 
         return redirect("manage_users")
 
-    users = User.objects.select_related("profile").all()
+    users = sorted(User.objects.select_related("profile").filter(social_auth__provider='discord'), key=lambda u: (sanitize(u.discord_display_name, "").lower(), sanitize(u.discord_display_name, "")))
     role_choices = UserProfile._meta.permissions
     return custom_render(request, "manager/users.html", {
         "users": users,
