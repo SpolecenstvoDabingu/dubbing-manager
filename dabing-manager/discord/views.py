@@ -180,13 +180,13 @@ def get_announce_data(request, type, id):
             for e_dubbers in episode.usercharacterstable.all():
                 dubbers.append({
                     "character_name": f"{e_dubbers.character}",
-                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}" if e_dubbers.user else None,
+                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}" if e_dubbers.user is not None and e_dubbers.user.social_auth.filter(provider="discord").exists() else None,
                 })
 
             for e_dubbers in episode.usercharactertemporary.all():
                 dubbers.append({
                     "character_name": f"{e_dubbers.name}",
-                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}" if e_dubbers.user else None,
+                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}" if e_dubbers.user is not None and e_dubbers.user.social_auth.filter(provider="discord").exists() else None,
                 })
 
             return JsonResponse({
@@ -213,13 +213,13 @@ def get_announce_data(request, type, id):
             for s_dubbers in scene.usercharacterstable.all():
                 dubbers.append({
                     "character_name": f"{s_dubbers.character}",
-                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}" if s_dubbers.user else None,
+                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}" if s_dubbers.user is not None and s_dubbers.user.social_auth.filter(provider="discord").exists() else None,
                 })
 
             for s_dubbers in scene.usercharactertemporary.all():
                 dubbers.append({
                     "character_name": f"{s_dubbers.name}",
-                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}" if s_dubbers.user else None,
+                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}" if s_dubbers.user is not None and s_dubbers.user.social_auth.filter(provider="discord").exists() else None,
                 })
 
             return JsonResponse({
@@ -234,7 +234,7 @@ def get_announce_data(request, type, id):
             })
     
     except Exception as e:
-        return JsonResponse({"error": f"There was an error while trying to het {type}: {e}"}, status=500)
+        return JsonResponse({"error": f"There was an error while trying to get {type}: {e}"}, status=500)
     
 
 
