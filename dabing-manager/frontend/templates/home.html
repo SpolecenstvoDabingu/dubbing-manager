@@ -85,7 +85,7 @@
     <thead>
       <tr>
         <th class="col-3 text-center">{% trans "frontend.home.name" context "Title name for done/not done" %}</th>
-        <th class="col-3 text-center">{% trans "frontend.home.created" context "Title created for done" %}</th>
+        <th class="col-3 text-center">{% trans "frontend.home.started" context "Title started for done" %}</th>
         <th class="col-3 text-center">{% trans "frontend.home.type" context "Title type for done/not done" %}</th>
         <th class="col-3 text-center">{% trans "frontend.home.character_s" context "Title charater's for done/not done" %}</th>
         <th class="col-3 text-center">{% trans "frontend.home.script" context "Title script for done/not done" %}</th>
@@ -95,7 +95,7 @@
       {% for item in group.list %}
       <tr>
         <td class="text-center align-middle"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.pk %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.pk %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
-        <td class="text-center align-middle">{{ item.object.created }}</td>
+        <td class="text-center align-middle">{{ item.object.started }}</td>
         <td class="text-center align-middle">
           {% if item.type == "episode" %}
               {% trans "frontend.home.episode_title" context "Episode title for type" %}

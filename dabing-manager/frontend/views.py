@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from core.utils import custom_render
 from django.shortcuts import redirect
-from django.db.models import Count, OuterRef, Subquery, Prefetch
+from django.db.models import Count, OuterRef, Subquery, Prefetch, Case, When, IntegerField, Value
 from django.db.models.functions import Coalesce
 from database.models import Dubbing, Episode, Scene, UserCharacterStable, UserCharacterTemporary, UserCharacterBase, Character, UserProfile
 from django.contrib.auth.models import User, Permission
@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.views.decorators.http import require_POST
 from .utils import manages_something, is_admin, get_character_user, is_superuser, have_permissions_changed
-from database.utils import is_default_value
+from database.utils import is_default_value, timezone
 import json
 from core.settingz.discord_commands import EPISODE_ANNOUNCEMENT, SCENE_ANNOUNCEMENT
 
@@ -26,12 +26,12 @@ def home(request):
     scenes = Scene.objects.prefetch_related(
         Prefetch('usercharacterstable', queryset=stable_qs, to_attr='user_stable'),
         Prefetch('usercharactertemporary', queryset=temporary_qs, to_attr='user_temp')
-    ).select_related('dubbing')
+    ).select_related('dubbing').filter(started__lte=timezone.now())
 
     episodes = Episode.objects.prefetch_related(
         Prefetch('usercharacterstable', queryset=stable_qs, to_attr='user_stable'),
         Prefetch('usercharactertemporary', queryset=temporary_qs, to_attr='user_temp')
-    ).select_related('dubbing')
+    ).select_related('dubbing').filter(started__lte=timezone.now())
 
     not_done = []
     done = []
@@ -119,6 +119,7 @@ def stats(request):
                 "id": ep.pk,
                 "name": ep.name,
                 "created": ep.created,
+                "started": ep.started,
                 "deadline": ep.deadline,
                 "progress": f"{done}/{total}",
                 "script": ep.id,
@@ -133,6 +134,7 @@ def stats(request):
                 "id": scene.pk,
                 "name": scene.name,
                 "created": scene.created,
+                "started": scene.started,
                 "deadline": scene.deadline,
                 "progress": f"{done}/{total}",
                 "script": scene.id,
@@ -178,13 +180,14 @@ def stats_dubbing(request, dubbing_id):
         return json.dumps(new_obj)
     
     episodes = []
-    for ep in dubbing.episode.order_by("season", "episode", "name").all():
+    for ep in dubbing.episode.order_by("season", "episode", "name") if is_admin(request.user) or dubbing.manager == request.user else dubbing.episode.order_by("season", "episode", "name").filter(started__lte=timezone.now()):
         total = ep.usercharacterstable.count() + ep.usercharactertemporary.count()
         done = ep.usercharacterstable.filter(done=True).count() + ep.usercharactertemporary.filter(done=True).count()
         episodes.append({
             "id": ep.pk,
             "name": ep.name,
             "created": ep.created,
+            "started": ep.started,
             "deadline": ep.deadline,
             "progress": f"{done}/{total}",
             "script": ep.id,
@@ -193,13 +196,14 @@ def stats_dubbing(request, dubbing_id):
 
         
     scenes = []
-    for scene in dubbing.scene.order_by("name").all():
+    for scene in dubbing.scene.order_by("name") if is_admin(request.user) or dubbing.manager == request.user else dubbing.scene.order_by("name").filter(started__lte=timezone.now()):
         total = scene.usercharacterstable.count() + scene.usercharactertemporary.count()
         done = scene.usercharacterstable.filter(done=True).count() + scene.usercharactertemporary.filter(done=True).count()
         scenes.append({
             "id": scene.pk,
             "name": scene.name,
             "created": scene.created,
+            "started": scene.started,
             "deadline": scene.deadline,
             "progress": f"{done}/{total}",
             "script": scene.id,
@@ -211,8 +215,9 @@ def stats_dubbing(request, dubbing_id):
         character=OuterRef('pk'),
         user__isnull=False
     ).annotate(
-        effective_deadline=Coalesce('episode__deadline', 'scene__deadline')
-    ).order_by('-effective_deadline').values('user_id')[:1]
+        effective_deadline=Coalesce('episode__deadline', 'scene__deadline'),
+        effective_started=Coalesce('episode__started', 'scene__started')
+    ).filter(effective_started__lte=timezone.now()).order_by('-effective_deadline').values('user_id')[:1]
         
     characters = Character.objects.filter(dubbing=dubbing).annotate(
         usage_count=Count('user'),
@@ -246,7 +251,13 @@ def stats_episode(request, episode_id):
 
     episode = episode.first()
 
-    stable_chars = UserCharacterStable.objects.filter(episode=episode).order_by("character__name").select_related('character', 'user')
+    stable_chars = UserCharacterStable.objects.filter(episode=episode).annotate(
+        priority=Case(
+            When(user=request.user, then=Value(0)),
+            default=Value(1),
+            output_field=IntegerField()
+        )
+    ).order_by("priority", "character__name").select_related('character', 'user')
     temporary_chars = UserCharacterTemporary.objects.filter(episode=episode).order_by("name").select_related('user')
 
     return custom_render(request, "stats/episode.html", {
@@ -267,7 +278,13 @@ def stats_scene(request, scene_id):
     
     scene = scene.first()
 
-    stable_chars = UserCharacterStable.objects.filter(scene=scene).order_by("character__name").select_related('character', 'user')
+    stable_chars = UserCharacterStable.objects.filter(scene=scene).annotate(
+        priority=Case(
+            When(user=request.user, then=Value(0)),
+            default=Value(1),
+            output_field=IntegerField()
+        )
+    ).order_by("priority", "character__name").select_related('character', 'user')
     temporary_chars = UserCharacterTemporary.objects.filter(scene=scene).order_by("name").select_related('user')
 
     return custom_render(request, "stats/scene.html", {

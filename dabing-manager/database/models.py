@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.forms import ValidationError
 from core.settings import NO_THUMBNAIL_URL
 from operator import attrgetter
-from .utils import HashedFilePath, one_week_from_now, get_user_discord_username, sanitize_markdown_links
+from .utils import HashedFilePath, today, one_week_from_now, one_week_since, get_user_discord_username, sanitize_markdown_links
 from django.http import FileResponse, Http404
 from django.utils.translation import pgettext
 from django.utils import timezone
@@ -205,17 +205,29 @@ class Character(models.Model):
 
         return json.dumps(fields)
 
-class Episode(models.Model):
-    name = models.CharField(max_length=128, default="Episode Name")
-    dubbing = models.ForeignKey(Dubbing, on_delete=models.CASCADE, related_name="episode")
-    created = models.DateTimeField(auto_now_add=True)
-    deadline = models.DateTimeField(default=one_week_from_now)
 
-    season = models.PositiveSmallIntegerField(default=1)
-    episode = models.PositiveSmallIntegerField(default=1)
+class SceneEpisodeBase(models.Model):
+    class Meta:
+        abstract = True
+
+    name = models.CharField(max_length=128, default=f"{'%(class)s'.capitalize()} Name")
+    dubbing = models.ForeignKey(Dubbing, on_delete=models.CASCADE, related_name="%(class)s")
+    created = models.DateTimeField(auto_now_add=True)
+    started = models.DateTimeField(default=today)
+    deadline = models.DateTimeField(default=one_week_from_now)
 
     script = models.FileField(max_length=512, upload_to=HashedFilePath("script", "scripts"))
     urls = models.TextField(max_length=1024, default="", blank=True)
+    
+    def save(self, ia=False):
+        if self.started > self.deadline:
+            self.started = one_week_since(self.deadline)
+        
+        super().save()
+
+class Episode(SceneEpisodeBase):
+    season = models.PositiveSmallIntegerField(default=1)
+    episode = models.PositiveSmallIntegerField(default=1)
 
     def get_se(self) -> str:
         return f"S{self.season:02d}E{self.episode:02d}"
@@ -266,6 +278,7 @@ class Episode(models.Model):
                 "name": "dubbing",
                 "options": dubbing_options
             },
+            {"type": "datetime", "label": pgettext('Episode started field label', 'frontend.database.models.episode.started'), "name": "started", "value": today().strftime("%Y-%m-%dT%H:%M")},
             {"type": "datetime", "label": pgettext('Episode deadline field label', 'frontend.database.models.episode.deadline'), "name": "deadline", "value": one_week_from_now().strftime("%Y-%m-%dT%H:%M")},
             {"type": "number", "label": pgettext('Episode season field label', 'frontend.database.models.episode.season'), "name": "season", "value": 1},
             {"type": "number", "label": pgettext('Episode episode field label', 'frontend.database.models.episode.episode'), "name": "episode", "value": 1},
@@ -296,6 +309,12 @@ class Episode(models.Model):
                 "name": "dubbing",
                 "options": dubbing_options,
                 "value": self.dubbing.id
+            },
+            {
+                "type": "datetime",
+                "label": pgettext('Episode started field label', 'frontend.database.models.episode.started'),
+                "name": "started",
+                "value": self.started.strftime("%Y-%m-%dT%H:%M") if self.started else ""
             },
             {
                 "type": "datetime",
@@ -331,15 +350,7 @@ class Episode(models.Model):
 
         return json.dumps(fields)
 
-class Scene(models.Model):
-    name = models.CharField(max_length=128, default="Scene Name")
-    dubbing = models.ForeignKey(Dubbing, on_delete=models.CASCADE, related_name="scene")
-    created = models.DateTimeField(auto_now_add=True)
-    deadline = models.DateTimeField(default=one_week_from_now)
-
-    script = models.FileField(max_length=512, upload_to=HashedFilePath("script", "scripts"))
-    urls = models.TextField(max_length=1024, default="", blank=True)
-
+class Scene(SceneEpisodeBase):
     def __str__(self):
         return f"{self.dubbing} - {self.name}"
     
@@ -386,6 +397,7 @@ class Scene(models.Model):
                 "name": "dubbing",
                 "options": dubbing_options
             },
+            {"type": "datetime", "label": pgettext('Scene started field label', 'frontend.database.models.scene.started'), "name": "started", "value": today().strftime("%Y-%m-%dT%H:%M")},
             {"type": "datetime", "label": pgettext('Scene deadline field label', 'frontend.database.models.scene.deadline'), "name": "deadline", "value": one_week_from_now().strftime("%Y-%m-%dT%H:%M")},
             {"type": "file", "label": pgettext('Scene script field label', 'frontend.database.models.scene.script'), "name": "script", "accept": ".pdf,.ass", "required": True},
             {"type": "textarea", "label": pgettext('Scene urls field label', 'frontend.database.models.scene.urls'), "name": "urls"},
@@ -414,6 +426,12 @@ class Scene(models.Model):
                 "name": "dubbing",
                 "options": dubbing_options,
                 "value": self.dubbing.id
+            },
+            {
+                "type": "datetime",
+                "label": pgettext('Scene started field label', 'frontend.database.models.scene.started'),
+                "name": "started",
+                "value": self.started.strftime("%Y-%m-%dT%H:%M") if self.started else ""
             },
             {
                 "type": "datetime",

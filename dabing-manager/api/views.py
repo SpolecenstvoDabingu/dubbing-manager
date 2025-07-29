@@ -116,6 +116,7 @@ def delete_dubbing(request, id):
 def add_episode(request):
     name = request.POST.get("name")
     dubbing_id = request.POST.get("dubbing")
+    started = request.POST.get("started")
     deadline = request.POST.get("deadline")
     season = request.POST.get("season")
     episode_number = request.POST.get("episode")
@@ -132,18 +133,26 @@ def add_episode(request):
     
     
     try:
-        dt = datetime.fromisoformat(deadline)
-        if timezone.is_naive(dt):
-            dt = timezone.make_aware(dt)
+        dt_started = datetime.fromisoformat(started)
+        if timezone.is_naive(dt_started):
+            dt_started = timezone.make_aware(dt_started)
     except (ValueError, TypeError):
-        dt = None
+        dt_started = None
+
+    try:
+        dt_deadline = datetime.fromisoformat(deadline)
+        if timezone.is_naive(dt_deadline):
+            dt_deadline = timezone.make_aware(dt_deadline)
+    except (ValueError, TypeError):
+        dt_deadline = None
 
 
     handled_file, characters_list = handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", serie_number=f"{int(season):02d}", episode_number=f"{int(episode_number):02d}", title=f"{name}")
     episode = Episode(
         name=str(name),
         dubbing=dubbing,
-        deadline=dt,
+        started=dt_started,
+        deadline=dt_deadline,
         season=int(season),
         episode=int(episode_number),
         script=handled_file,
@@ -171,6 +180,7 @@ def modify_episode(request, id):
 
     name = request.POST.get("name")
     dubbing_id = request.POST.get("dubbing")
+    started = request.POST.get("started")
     deadline = request.POST.get("deadline")
     season = request.POST.get("season")
     episode_number = request.POST.get("episode")
@@ -195,14 +205,24 @@ def modify_episode(request, id):
         episode_old.dubbing = dubbing
         save = True
 
+    if started != episode_old.started.isoformat() if episode_old.started else None:
+        try:
+            dt_started = datetime.fromisoformat(started)
+            if timezone.is_naive(dt_started):
+                dt_started = timezone.make_aware(dt_started)
+        except (ValueError, TypeError):
+            dt_started = None
+        episode_old.started = dt_started
+        save = True
+
     if deadline != episode_old.deadline.isoformat() if episode_old.deadline else None:
         try:
-            dt = datetime.fromisoformat(deadline)
-            if timezone.is_naive(dt):
-                dt = timezone.make_aware(dt)
+            dt_deadline = datetime.fromisoformat(deadline)
+            if timezone.is_naive(dt_deadline):
+                dt_deadline = timezone.make_aware(dt_deadline)
         except (ValueError, TypeError):
-            dt = None
-        episode_old.deadline = datetime.fromisoformat(deadline) or None
+            dt_deadline = None
+        episode_old.deadline = dt_deadline
         save = True
 
     if str(episode_old.season) != str(season):
@@ -250,6 +270,7 @@ def delete_episode(request, id):
 def add_scene(request):
     name = request.POST.get("name")
     dubbing_id = request.POST.get("dubbing")
+    started = request.POST.get("started")
     deadline = request.POST.get("deadline")
     urls = request.POST.get("urls")
 
@@ -263,18 +284,26 @@ def add_scene(request):
         return JsonResponse({"access": "You don't have neccessary access"}, status=403)
     
     try:
-        dt = datetime.fromisoformat(deadline)
-        if timezone.is_naive(dt):
-            dt = timezone.make_aware(dt)
+        dt_started = datetime.fromisoformat(started)
+        if timezone.is_naive(dt_started):
+            dt_started = timezone.make_aware(dt_started)
     except (ValueError, TypeError):
-        dt = None
+        dt_started = None
+    
+    try:
+        dt_deadline = datetime.fromisoformat(deadline)
+        if timezone.is_naive(dt_deadline):
+            dt_deadline = timezone.make_aware(dt_deadline)
+    except (ValueError, TypeError):
+        dt_deadline = None
     
     
     handled_file, characters_list = handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", title=f"{name}")
     scene = Scene(
         name=str(name),
         dubbing=dubbing,
-        deadline=dt,
+        started=dt_started,
+        deadline=dt_deadline,
         script=handled_file,
         urls=str(urls),
     )
@@ -300,6 +329,7 @@ def modify_scene(request, id):
 
     name = request.POST.get("name")
     dubbing_id = request.POST.get("dubbing")
+    started = request.POST.get("started")
     deadline = request.POST.get("deadline")
     urls = request.POST.get("urls")
 
@@ -322,14 +352,24 @@ def modify_scene(request, id):
         scene_old.dubbing = dubbing
         save = True
 
+    if started != scene_old.started.isoformat() if scene_old.started else None:
+        try:
+            dt_started = datetime.fromisoformat(started)
+            if timezone.is_naive(dt_started):
+                dt_started = timezone.make_aware(dt_started)
+        except (ValueError, TypeError):
+            dt_started = None
+        scene_old.started = dt_started
+        save = True
+
     if deadline != scene_old.deadline.isoformat() if scene_old.deadline else None:
         try:
-            dt = datetime.fromisoformat(deadline)
-            if timezone.is_naive(dt):
-                dt = timezone.make_aware(dt)
+            dt_deadline = datetime.fromisoformat(deadline)
+            if timezone.is_naive(dt_deadline):
+                dt_deadline = timezone.make_aware(dt_deadline)
         except (ValueError, TypeError):
-            dt = None
-        scene_old.deadline = datetime.fromisoformat(deadline) or None
+            dt_deadline = None
+        scene_old.deadline = dt_deadline
         save = True
 
     if scene_old.urls != urls:

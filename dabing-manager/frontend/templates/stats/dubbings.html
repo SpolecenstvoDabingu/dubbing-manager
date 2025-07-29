@@ -55,7 +55,7 @@
         <thead>
         <tr>
             <th class="col-3 text-center">{% trans "frontend.dubbings.name" context "Title name" %}</th>
-            <th class="col-3 text-center">{% trans "frontend.dubbings.created" context "Title created" %}</th>
+            <th class="col-3 text-center">{% trans "frontend.dubbings.started" context "Title started" %}</th>
             <th class="col-3 text-center">{% trans "frontend.dubbings.deadline" context "Title deadline" %}</th>
             <th class="col-1 text-center">{% trans "frontend.dubbings.progress" context "Title progress" %}</th>
             <th class="col-2 text-center">{% trans "frontend.dubbings.script" context "Title script" %}</th>
@@ -67,7 +67,7 @@
             {% for item in items.episodes %}
             <tr>
                 <td class="text-center align-middle"><a href="{% url 'stats_episode' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
-                <td class="text-center align-middle">{{ item.created }}</td>
+                <td class="text-center align-middle">{{ item.started }}</td>
                 <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>
                 <td class="text-center align-middle"><a href="{% url 'download_script' 'episode' item.script %}" class="btn btn-primary">
@@ -84,7 +84,7 @@
             {% for item in items.scenes %}
             <tr>
                 <td class="text-center align-middle"><a href="{% url 'stats_scene' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
-                <td class="text-center align-middle">{{ item.created }}</td>
+                <td class="text-center align-middle">{{ item.started }}</td>
                 <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>
                 <td class="text-center align-middle"><a href="{% url 'download_script' 'scene' item.script %}" class="btn btn-primary">

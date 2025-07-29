@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-28 16:35+0200\n"
+"POT-Creation-Date: 2025-07-29 11:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,128 +29,138 @@ msgctxt "Server localization name Czech"
 msgid "langs.czech"
 msgstr "Čeština"
 
-#: .\database\models.py:64 .\database\models.py:89
+#: .\database\models.py:65 .\database\models.py:90
 msgctxt "Dubbing name field label"
 msgid "frontend.database.models.dubbing.name"
 msgstr "Název"
 
-#: .\database\models.py:65 .\database\models.py:96
+#: .\database\models.py:66 .\database\models.py:97
 msgctxt "Dubbing description field label"
 msgid "frontend.database.models.dubbing.description"
 msgstr "Popis"
 
-#: .\database\models.py:66 .\database\models.py:102
+#: .\database\models.py:67 .\database\models.py:103
 msgctxt "Dubbing urls field label"
 msgid "frontend.database.models.dubbing.urls"
 msgstr "URLs"
 
-#: .\database\models.py:69 .\database\models.py:108
+#: .\database\models.py:70 .\database\models.py:109
 msgctxt "Dubbing manager field label"
 msgid "frontend.database.models.dubbing.manager"
 msgstr "Manažer"
 
-#: .\database\models.py:145 .\database\models.py:179
+#: .\database\models.py:146 .\database\models.py:180
 msgctxt "Episode field label"
 msgid "frontend.database.models.character.dubbing"
 msgstr "Dabing"
 
-#: .\database\models.py:151 .\database\models.py:186 .\database\models.py:628
-#: .\database\models.py:693
+#: .\database\models.py:152 .\database\models.py:187 .\database\models.py:653
+#: .\database\models.py:718
 msgctxt "Character name field label"
 msgid "frontend.database.models.character.name"
 msgstr "Jméno"
 
-#: .\database\models.py:157 .\database\models.py:193 .\database\models.py:634
-#: .\database\models.py:700
+#: .\database\models.py:158 .\database\models.py:194 .\database\models.py:659
+#: .\database\models.py:725
 msgctxt "Character image field label"
 msgid "frontend.database.models.character.image"
 msgstr "Fotka"
 
-#: .\database\models.py:163 .\database\models.py:199 .\database\models.py:640
-#: .\database\models.py:706
+#: .\database\models.py:164 .\database\models.py:200 .\database\models.py:665
+#: .\database\models.py:731
 msgctxt "Character description field label"
 msgid "frontend.database.models.character.description"
 msgstr "Popis"
 
-#: .\database\models.py:261 .\database\models.py:287
+#: .\database\models.py:274 .\database\models.py:301
 msgctxt "Episode name field label"
 msgid "frontend.database.models.episode.name"
 msgstr "Název"
 
-#: .\database\models.py:264 .\database\models.py:294
+#: .\database\models.py:277 .\database\models.py:308
 msgctxt "Dubbing field label"
 msgid "frontend.database.models.episode.dubbing"
 msgstr "Dabing"
 
-#: .\database\models.py:268 .\database\models.py:301
+#: .\database\models.py:281 .\database\models.py:315
+msgctxt "Episode started field label"
+msgid "frontend.database.models.episode.started"
+msgstr "Započato"
+
+#: .\database\models.py:282 .\database\models.py:321
 msgctxt "Episode deadline field label"
 msgid "frontend.database.models.episode.deadline"
 msgstr "Deadline"
 
-#: .\database\models.py:269 .\database\models.py:307
+#: .\database\models.py:283 .\database\models.py:327
 msgctxt "Episode season field label"
 msgid "frontend.database.models.episode.season"
 msgstr "Sezóna"
 
-#: .\database\models.py:270 .\database\models.py:313
+#: .\database\models.py:284 .\database\models.py:333
 msgctxt "Episode episode field label"
 msgid "frontend.database.models.episode.episode"
 msgstr "Epizoda"
 
-#: .\database\models.py:271 .\database\models.py:319
+#: .\database\models.py:285 .\database\models.py:339
 msgctxt "Episode script field label"
 msgid "frontend.database.models.episode.script"
 msgstr "Skript"
 
-#: .\database\models.py:272 .\database\models.py:325
+#: .\database\models.py:286 .\database\models.py:345
 msgctxt "Episode urls field label"
 msgid "frontend.database.models.episode.urls"
 msgstr "URLs"
 
-#: .\database\models.py:381 .\database\models.py:405
+#: .\database\models.py:393 .\database\models.py:418
 msgctxt "Scene name field label"
 msgid "frontend.database.models.scene.name"
 msgstr "Název"
 
-#: .\database\models.py:384 .\database\models.py:412
+#: .\database\models.py:396 .\database\models.py:425
 msgctxt "Dubbing field label"
 msgid "frontend.database.models.scene.dubbing"
 msgstr "Dabing"
 
-#: .\database\models.py:388 .\database\models.py:419
+#: .\database\models.py:400 .\database\models.py:432
+msgctxt "Scene started field label"
+msgid "frontend.database.models.scene.started"
+msgstr "Započato"
+
+#: .\database\models.py:401 .\database\models.py:438
 msgctxt "Scene deadline field label"
 msgid "frontend.database.models.scene.deadline"
 msgstr "Deadline"
 
-#: .\database\models.py:389 .\database\models.py:425
+#: .\database\models.py:402 .\database\models.py:444
 msgctxt "Scene script field label"
 msgid "frontend.database.models.scene.script"
 msgstr "Skript"
 
-#: .\database\models.py:390 .\database\models.py:431
+#: .\database\models.py:403 .\database\models.py:450
 msgctxt "Scene urls field label"
 msgid "frontend.database.models.scene.urls"
 msgstr "URLs"
 
-#: .\database\models.py:512 .\database\models.py:526
+#: .\database\models.py:534 .\database\models.py:548
 msgctxt "Character field label"
 msgid "frontend.database.models.user_character.character"
 msgstr "Postava"
 
-#: .\database\models.py:518 .\database\models.py:571 .\database\models.py:648
-#: .\database\models.py:715
+#: .\database\models.py:540 .\database\models.py:593 .\database\models.py:673
+#: .\database\models.py:740
 msgctxt "Episode field label"
 msgid "frontend.database.models.user_character.episode"
 msgstr "Epizoda"
 
-#: .\database\models.py:532 .\database\models.py:579 .\database\models.py:656
-#: .\database\models.py:723
+#: .\database\models.py:554 .\database\models.py:601 .\database\models.py:681
+#: .\database\models.py:748
 msgctxt "Scene field label"
 msgid "frontend.database.models.user_character.scene"
 msgstr "Scéna"
 
-#: .\database\models.py:539 .\database\models.py:586 .\database\models.py:663
-#: .\database\models.py:730
+#: .\database\models.py:561 .\database\models.py:608 .\database\models.py:688
+#: .\database\models.py:755
 msgctxt "User field label"
 msgid "frontend.database.models.user_character.user"
 msgstr "Dabér"
@@ -234,74 +244,74 @@ msgctxt "Modal submit button"
 msgid "frontend.modify_modal.submit"
 msgstr "Odeslat"
 
-#: .\frontend\templates\home.html:6
+#: .\frontend\templates\home.html:9
 msgctxt "Title not done for table"
 msgid "frontend.home.not_done_title"
 msgstr "Neodevzdáno"
 
-#: .\frontend\templates\home.html:11 .\frontend\templates\home.html:82
+#: .\frontend\templates\home.html:14 .\frontend\templates\home.html:87
 #: .\frontend\templates\stats.html:12
 msgctxt "Title name for done/not done"
 msgid "frontend.home.name"
 msgstr "Název"
 
-#: .\frontend\templates\home.html:12
+#: .\frontend\templates\home.html:15
 msgctxt "Title deadline for not done"
 msgid "frontend.home.deadline"
 msgstr "Deadline"
 
-#: .\frontend\templates\home.html:13 .\frontend\templates\home.html:84
+#: .\frontend\templates\home.html:16 .\frontend\templates\home.html:89
 #: .\frontend\templates\stats.html:14
 msgctxt "Title type for done/not done"
 msgid "frontend.home.type"
 msgstr "Typ"
 
-#: .\frontend\templates\home.html:14 .\frontend\templates\home.html:85
+#: .\frontend\templates\home.html:17 .\frontend\templates\home.html:90
 #: .\frontend\templates\stats.html:15
 msgctxt "Title charater's for done/not done"
 msgid "frontend.home.character_s"
 msgstr "Charakter(ři)"
 
-#: .\frontend\templates\home.html:15 .\frontend\templates\home.html:86
+#: .\frontend\templates\home.html:18 .\frontend\templates\home.html:91
 #: .\frontend\templates\stats.html:16
 msgctxt "Title script for done/not done"
 msgid "frontend.home.script"
 msgstr "Skript"
 
-#: .\frontend\templates\home.html:25 .\frontend\templates\home.html:96
+#: .\frontend\templates\home.html:28 .\frontend\templates\home.html:101
 #: .\frontend\templates\stats.html:26
 msgctxt "Episode title for type"
 msgid "frontend.home.episode_title"
 msgstr "Episoda"
 
-#: .\frontend\templates\home.html:27 .\frontend\templates\home.html:98
+#: .\frontend\templates\home.html:30 .\frontend\templates\home.html:103
 #: .\frontend\templates\stats.html:28
 msgctxt "Scene title for type"
 msgid "frontend.home.scene_title"
 msgstr "Scéna"
 
-#: .\frontend\templates\home.html:58 .\frontend\templates\home.html:62
-#: .\frontend\templates\home.html:129 .\frontend\templates\home.html:133
+#: .\frontend\templates\home.html:63 .\frontend\templates\home.html:67
+#: .\frontend\templates\home.html:136 .\frontend\templates\home.html:140
 #: .\frontend\templates\stats.html:59 .\frontend\templates\stats.html:63
 msgctxt "Download script button title"
 msgid "frontend.home.download_script"
 msgstr "Stáhnout"
 
-#: .\frontend\templates\home.html:68 .\frontend\templates\home.html:139
+#: .\frontend\templates\home.html:73 .\frontend\templates\home.html:146
 #: .\frontend\templates\stats.html:69
 msgctxt "No items found for done/not done"
 msgid "frontend.home.no_items_found"
 msgstr "Žádné epizody/scény"
 
-#: .\frontend\templates\home.html:74
+#: .\frontend\templates\home.html:79
 msgctxt "Title done for table"
 msgid "frontend.home.done_title"
 msgstr "Odevzdáno"
 
-#: .\frontend\templates\home.html:83 .\frontend\templates\stats.html:13
-msgctxt "Title created for done"
-msgid "frontend.home.created"
-msgstr "Vytvořeno"
+#: .\frontend\templates\home.html:88
+msgctxt "Title started for done"
+msgid "frontend.home.started"
+msgstr "Započato"
 
 #: .\frontend\templates\manager\users.html:11
 #: .\frontend\templates\manager\users.html:42
@@ -341,194 +351,199 @@ msgctxt "Edit button title"
 msgid "frontend.users.edit"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\dubbing.html:15
+#: .\frontend\templates\stats.html:13
+msgctxt "Title created for done"
+msgid "frontend.home.created"
+msgstr "Vytvořeno"
+
+#: .\frontend\templates\stats\dubbing.html:18
 msgctxt "Dubbing manager label"
 msgid "frontend.dubbing.manager"
 msgstr "Manažer"
 
-#: .\frontend\templates\stats\dubbing.html:19
+#: .\frontend\templates\stats\dubbing.html:22
 msgctxt "Dubbing description label"
 msgid "frontend.dubbing.description"
 msgstr "Description"
 
-#: .\frontend\templates\stats\dubbing.html:24
+#: .\frontend\templates\stats\dubbing.html:27
 msgctxt "Dubbing URLs label"
 msgid "frontend.dubbing.urls"
 msgstr "URLs"
 
-#: .\frontend\templates\stats\dubbing.html:35
+#: .\frontend\templates\stats\dubbing.html:38
 msgctxt "Modal title for adding episode dubbing"
 msgid "frontend.dubbing.add_episode"
 msgstr "Přidat epizodu"
 
-#: .\frontend\templates\stats\dubbing.html:39
+#: .\frontend\templates\stats\dubbing.html:42
 msgctxt "Add episode button"
 msgid "frontend.dubbing.add_episode_button"
 msgstr "Přidat epizodu"
 
-#: .\frontend\templates\stats\dubbing.html:46
+#: .\frontend\templates\stats\dubbing.html:49
 msgctxt "Modal title for adding scene dubbing"
 msgid "frontend.dubbing.add_scene"
 msgstr "Přidat scénu"
 
-#: .\frontend\templates\stats\dubbing.html:50
+#: .\frontend\templates\stats\dubbing.html:53
 msgctxt "Add scene button"
 msgid "frontend.dubbing.add_scene_button"
 msgstr "Přidat scénu"
 
-#: .\frontend\templates\stats\dubbing.html:57
+#: .\frontend\templates\stats\dubbing.html:60
 msgctxt "Modal title for adding character dubbing"
 msgid "frontend.dubbing.add_character"
 msgstr "Přidat postavu"
 
-#: .\frontend\templates\stats\dubbing.html:61
+#: .\frontend\templates\stats\dubbing.html:64
 msgctxt "Add character button"
 msgid "frontend.dubbing.add_character_button"
 msgstr "Přidat postavu"
 
-#: .\frontend\templates\stats\dubbing.html:68
-#: .\frontend\templates\stats\dubbing.html:81
-#: .\frontend\templates\stats\dubbing.html:133
-#: .\frontend\templates\stats\dubbing.html:174
+#: .\frontend\templates\stats\dubbing.html:71
+#: .\frontend\templates\stats\dubbing.html:84
+#: .\frontend\templates\stats\dubbing.html:136
+#: .\frontend\templates\stats\dubbing.html:177
 msgctxt "Modal title for editing dubbing"
 msgid "frontend.dubbing.edit_title"
 msgstr "Upravit dabing"
 
-#: .\frontend\templates\stats\dubbing.html:72
+#: .\frontend\templates\stats\dubbing.html:75
 msgctxt "Edit dubbing button"
 msgid "frontend.dubbing.edit_button"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\dubbing.html:83
-#: .\frontend\templates\stats\dubbing.html:135
-#: .\frontend\templates\stats\dubbing.html:176
+#: .\frontend\templates\stats\dubbing.html:86
+#: .\frontend\templates\stats\dubbing.html:138
+#: .\frontend\templates\stats\dubbing.html:179
 #, python-format
 msgctxt "Confirming deletion of NAME"
 msgid "frontend.dubbing.confirm_delete_text %(name)s"
 msgstr "Opravdu chcete smazat %(name)s?"
 
-#: .\frontend\templates\stats\dubbing.html:84
-#: .\frontend\templates\stats\dubbing.html:137
-#: .\frontend\templates\stats\dubbing.html:178
+#: .\frontend\templates\stats\dubbing.html:87
+#: .\frontend\templates\stats\dubbing.html:140
+#: .\frontend\templates\stats\dubbing.html:181
 msgctxt "Delete dubbing button"
 msgid "frontend.dubbing.delete_button"
 msgstr "Smazat"
 
-#: .\frontend\templates\stats\dubbing.html:96
+#: .\frontend\templates\stats\dubbing.html:99
 msgctxt "Title name"
 msgid "frontend.dubbing.name"
 msgstr "Název"
 
-#: .\frontend\templates\stats\dubbing.html:97
-msgctxt "Title created"
-msgid "frontend.dubbing.created"
-msgstr "Vytvořeno"
+#: .\frontend\templates\stats\dubbing.html:100
+msgctxt "Title started"
+msgid "frontend.dubbing.started"
+msgstr "Započato"
 
-#: .\frontend\templates\stats\dubbing.html:98
+#: .\frontend\templates\stats\dubbing.html:101
 msgctxt "Title deadline"
 msgid "frontend.dubbing.deadline"
 msgstr "Deadline"
 
-#: .\frontend\templates\stats\dubbing.html:99
+#: .\frontend\templates\stats\dubbing.html:102
 msgctxt "Title progress"
 msgid "frontend.dubbing.progress"
 msgstr "Progres"
 
-#: .\frontend\templates\stats\dubbing.html:100
+#: .\frontend\templates\stats\dubbing.html:103
 msgctxt "Title script"
 msgid "frontend.dubbing.script"
 msgstr "Skript"
 
-#: .\frontend\templates\stats\dubbing.html:102
+#: .\frontend\templates\stats\dubbing.html:105
 msgctxt "Title actions"
 msgid "frontend.dubbing.actions"
 msgstr "Akce"
 
-#: .\frontend\templates\stats\dubbing.html:108
+#: .\frontend\templates\stats\dubbing.html:111
 msgctxt "Title episodes"
 msgid "frontend.dubbing.episodes"
 msgstr "Epizody"
 
-#: .\frontend\templates\stats\dubbing.html:116
-#: .\frontend\templates\stats\dubbing.html:157
+#: .\frontend\templates\stats\dubbing.html:119
+#: .\frontend\templates\stats\dubbing.html:160
 msgctxt "Download script button title"
 msgid "frontend.dubbing.download_script"
 msgstr "Stáhnout"
 
-#: .\frontend\templates\stats\dubbing.html:124
-#: .\frontend\templates\stats\dubbing.html:165
+#: .\frontend\templates\stats\dubbing.html:127
+#: .\frontend\templates\stats\dubbing.html:168
 msgctxt "Modal title for editing"
 msgid "frontend.dubbing.edit_title"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\dubbing.html:128
-#: .\frontend\templates\stats\dubbing.html:169
+#: .\frontend\templates\stats\dubbing.html:131
+#: .\frontend\templates\stats\dubbing.html:172
 msgctxt "Edit button title"
 msgid "frontend.dubbing.edit_button"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\dubbing.html:144
+#: .\frontend\templates\stats\dubbing.html:147
 msgctxt "No episodes found"
 msgid "frontend.dubbing.no_episodes_found"
 msgstr "Žádné epizody"
 
-#: .\frontend\templates\stats\dubbing.html:149
+#: .\frontend\templates\stats\dubbing.html:152
 msgctxt "Title scenes"
 msgid "frontend.dubbing.scenes"
 msgstr "Snénky"
 
-#: .\frontend\templates\stats\dubbing.html:185
+#: .\frontend\templates\stats\dubbing.html:188
 msgctxt "No scenes found"
 msgid "frontend.dubbing.no_scenes_found"
 msgstr "Žádné scénky"
 
-#: .\frontend\templates\stats\dubbing.html:200
+#: .\frontend\templates\stats\dubbing.html:203
 msgctxt "Title image"
 msgid "frontend.dubbing.characters.image"
 msgstr "Fotka"
 
-#: .\frontend\templates\stats\dubbing.html:201
+#: .\frontend\templates\stats\dubbing.html:204
 msgctxt "Title character name"
 msgid "frontend.dubbing.characters.character_name"
 msgstr "Jméno"
 
-#: .\frontend\templates\stats\dubbing.html:202
+#: .\frontend\templates\stats\dubbing.html:205
 msgctxt "Title character name"
 msgid "frontend.dubbing.characters.descrtiption"
 msgstr "Popis"
 
-#: .\frontend\templates\stats\dubbing.html:203
+#: .\frontend\templates\stats\dubbing.html:206
 msgctxt "Last dubber name"
 msgid "frontend.dubbing.characters.last_dubber"
 msgstr "Dabér"
 
-#: .\frontend\templates\stats\dubbing.html:205
+#: .\frontend\templates\stats\dubbing.html:208
 msgctxt "Title actions"
 msgid "frontend.dubbing.characters.actions"
 msgstr "Akce"
 
-#: .\frontend\templates\stats\dubbing.html:210
+#: .\frontend\templates\stats\dubbing.html:213
 msgctxt "Title characters"
 msgid "frontend.dubbing.characters.characters"
 msgstr "Postavy"
 
-#: .\frontend\templates\stats\dubbing.html:216
+#: .\frontend\templates\stats\dubbing.html:219
 msgctxt "No last character yet text"
 msgid "frontend.dubbing.characters.none_yet"
 msgstr "Zatím nikdo"
 
-#: .\frontend\templates\stats\dubbing.html:223
-#: .\frontend\templates\stats\dubbing.html:236
+#: .\frontend\templates\stats\dubbing.html:226
+#: .\frontend\templates\stats\dubbing.html:239
 msgctxt "Modal title for editing character"
 msgid "frontend.dubbing.edit_title"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\dubbing.html:227
+#: .\frontend\templates\stats\dubbing.html:230
 msgctxt "Edit character button"
 msgid "frontend.dubbing.edit_button"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\dubbing.html:238
+#: .\frontend\templates\stats\dubbing.html:241
 #: .\frontend\templates\stats\episode.html:87
 #: .\frontend\templates\stats\episode.html:158
 #: .\frontend\templates\stats\episode.html:225
@@ -537,12 +552,12 @@ msgctxt "Confirming deletion of NAME"
 msgid "frontend.episode.confirm_delete_text %(name)s"
 msgstr "Jste si jist že chcete smazat %(name)s?"
 
-#: .\frontend\templates\stats\dubbing.html:239
+#: .\frontend\templates\stats\dubbing.html:242
 msgctxt "Delete character button"
 msgid "frontend.dubbing.delete_button"
 msgstr "Smazat"
 
-#: .\frontend\templates\stats\dubbing.html:246
+#: .\frontend\templates\stats\dubbing.html:249
 msgctxt "No characters found"
 msgid "frontend.dubbing.no_characters_found"
 msgstr "Smazat"
@@ -585,9 +600,9 @@ msgid "frontend.dubbings.name"
 msgstr "Název"
 
 #: .\frontend\templates\stats\dubbings.html:58
-msgctxt "Title created"
-msgid "frontend.dubbings.created"
-msgstr "Vytvořeno"
+msgctxt "Title started"
+msgid "frontend.dubbings.started"
+msgstr "Započato"
 
 #: .\frontend\templates\stats\dubbings.html:59
 msgctxt "Title deadline"
@@ -636,14 +651,14 @@ msgid "frontend.episode.dubbing"
 msgstr "Dubbing"
 
 #: .\frontend\templates\stats\episode.html:17
+msgctxt "Text started"
+msgid "frontend.episode.started"
+msgstr "Započato"
+
+#: .\frontend\templates\stats\episode.html:18
 msgctxt "Text deadline"
 msgid "frontend.episode.deadline"
 msgstr "Deadline"
-
-#: .\frontend\templates\stats\episode.html:18
-msgctxt "Text created"
-msgid "frontend.episode.created"
-msgstr "Vytvořeno"
 
 #: .\frontend\templates\stats\episode.html:20
 msgctxt "Episode URLs label"
@@ -806,14 +821,14 @@ msgid "frontend.scene.dubbing"
 msgstr "Dabing"
 
 #: .\frontend\templates\stats\scene.html:17
+msgctxt "Text started"
+msgid "frontend.scene.started"
+msgstr "Započato"
+
+#: .\frontend\templates\stats\scene.html:18
 msgctxt "Text deadline"
 msgid "frontend.scene.deadline"
 msgstr "Deadline"
-
-#: .\frontend\templates\stats\scene.html:18
-msgctxt "Text created"
-msgid "frontend.scene.created"
-msgstr "Vytvořeno"
 
 #: .\frontend\templates\stats\scene.html:20
 msgctxt "Scene URLs label"
@@ -953,6 +968,22 @@ msgstr "Opravdu chcete udělat %(name)s stabilní?"
 msgctxt "Confirm character button"
 msgid "frontend.scene.confirm_button"
 msgstr "Udělat stabilní"
+
+#~ msgctxt "Title created"
+#~ msgid "frontend.dubbing.created"
+#~ msgstr "Vytvořeno"
+
+#~ msgctxt "Title created"
+#~ msgid "frontend.dubbings.created"
+#~ msgstr "Vytvořeno"
+
+#~ msgctxt "Text created"
+#~ msgid "frontend.episode.created"
+#~ msgstr "Vytvořeno"
+
+#~ msgctxt "Text created"
+#~ msgid "frontend.scene.created"
+#~ msgstr "Vytvořeno"
 
 #~ msgctxt "Text no stable characters"
 #~ msgid "frontend.scene.no_stable_characters"

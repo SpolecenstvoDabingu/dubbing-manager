@@ -49,9 +49,15 @@ class HashedFilePath:
     def __init__(self, field_name, path_name="files"):
         self.field_name = field_name
         self.path_name = path_name
+
+def today():
+    return timezone.now()
     
 def one_week_from_now():
-    return timezone.now() + timedelta(weeks=1)
+    return today() + timedelta(weeks=1)
+    
+def one_week_since(time:timezone):
+    return time - timedelta(weeks=1)
 
 def is_default_value(field: Field, value) -> bool:
     if not hasattr(field, 'default'):

@@ -4,12 +4,15 @@
 {% load discord_username %}
 {% load is_admin %}
 {% load markdown_links %}
+{% load manages_something %}
 
 {% block content %}
 <!-- Dubbing Info Section -->
 <div class="card mb-4 shadow background-light text-white">
   <div class="card-body">
-    <a href="{% url 'stats' %}" class="text-white"><i class="fa fa-chevron-left"></i></a>
+    {% if request.user|manages_something %}
+        <a href="{% url 'stats' %}" class="text-white"><i class="fa fa-chevron-left"></i></a>
+    {% endif %}
     <h2 class="card-title">{{ dubbing.name }}</h2>
     <p class="card-text">
         <strong>{% trans "frontend.dubbing.manager" context "Dubbing manager label" %}:</strong>
@@ -94,7 +97,7 @@
         <thead>
         <tr>
             <th class="col-3 text-center">{% trans "frontend.dubbing.name" context "Title name" %}</th>
-            <th class="col-3 text-center">{% trans "frontend.dubbing.created" context "Title created" %}</th>
+            <th class="col-3 text-center">{% trans "frontend.dubbing.started" context "Title started" %}</th>
             <th class="col-3 text-center">{% trans "frontend.dubbing.deadline" context "Title deadline" %}</th>
             <th class="col-1 text-center">{% trans "frontend.dubbing.progress" context "Title progress" %}</th>
             <th class="col-1 text-center">{% trans "frontend.dubbing.script" context "Title script" %}</th>
@@ -109,7 +112,7 @@
             {% for item in episodes %}
             <tr>
                 <td class="text-center align-middle"><a href="{% url 'stats_episode' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
-                <td class="text-center align-middle">{{ item.created }}</td>
+                <td class="text-center align-middle">{{ item.started }}</td>
                 <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>
                 <td class="text-center align-middle"><a href="{% url 'download_script' 'episode' item.script %}" class="btn btn-primary">
@@ -150,7 +153,7 @@
             {% for item in scenes %}
             <tr>
                 <td class="text-center align-middle"><a href="{% url 'stats_scene' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
-                <td class="text-center align-middle">{{ item.created }}</td>
+                <td class="text-center align-middle">{{ item.started }}</td>
                 <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>
                 <td class="text-center align-middle"><a href="{% url 'download_script' 'scene' item.script %}" class="btn btn-primary">
