@@ -1,4 +1,4 @@
-name: Release Dubbing Manager
+name: Release Dubbing Manager on Docker Hub
 
 env:
   IMAGE_NAME: dubbing-manager

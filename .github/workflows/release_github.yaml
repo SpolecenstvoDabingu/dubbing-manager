@@ -1,4 +1,4 @@
-name: Release Dubbing Manager
+name: Release Dubbing Manager of GitHub
 
 env:
   IMAGE_NAME: dubbing-manager
