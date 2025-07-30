@@ -602,6 +602,18 @@ $(document).ready(function () {
   });
 });
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  $('#imageModal').on('show.bs.modal', function (event) {
+    var img = $(event.relatedTarget);
+    var url = img.data('img-url');
+    var alt = img.data('img-alt');
+    var modal = $(this);
+    modal.find('#modalImage').attr('src', url).attr('alt', alt);
+    modal.find('.modal-title').text(alt);
+  });
+});
+</script>
 {% block scripts %}
 {% endblock %}
 {% endblock %}

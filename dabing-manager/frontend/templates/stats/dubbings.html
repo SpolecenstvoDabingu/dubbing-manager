@@ -14,7 +14,7 @@
         data-modal-title="{% trans 'frontend.dubbings.add_title' context 'Modal title for adding dubbing' %}"
         data-action-url="{% url 'api_add_dubbing' %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats' %}"
-        data-fields='{{ add_dubbing_data|safe|escape }}'
+        data-fields='{{ add_dubbing_data|escape }}'
         >
         {% trans "frontend.dubbings.add_button" context "Add dubbing button" %}
     </button>
@@ -34,7 +34,7 @@
             data-modal-title="{% trans 'frontend.dubbings.edit_title' context 'Modal title for editing dubbing' %}"
             data-action-url="{% url 'api_modify_dubbing' items.id %}?token={{ user.profile.token }}"
             data-redirect-url="{% url 'stats' %}"
-            data-fields='{{ items.modify_dubbing_data|safe|escape }}'>
+            data-fields='{{ items.modify_dubbing_data|escape }}'>
             {% trans "frontend.dubbings.edit_button" context "Edit dubbing button" %}
         </button>
         {% if request.user|is_admin %}

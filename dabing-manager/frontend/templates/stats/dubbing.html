@@ -38,7 +38,7 @@
         data-modal-title="{% trans 'frontend.dubbing.add_episode' context 'Modal title for adding episode dubbing' %}"
         data-action-url="{% url 'api_add_episode' %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-        data-fields='{{ add_episode_data|safe|escape }}'>
+        data-fields='{{ add_episode_data|escape }}'>
         {% trans "frontend.dubbing.add_episode_button" context "Add episode button" %}
     </button>
 
@@ -49,7 +49,7 @@
         data-modal-title="{% trans 'frontend.dubbing.add_scene' context 'Modal title for adding scene dubbing' %}"
         data-action-url="{% url 'api_add_scene' %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-        data-fields='{{ add_scene_data|safe|escape }}'>
+        data-fields='{{ add_scene_data|escape }}'>
         {% trans "frontend.dubbing.add_scene_button" context "Add scene button" %}
     </button>
 
@@ -60,7 +60,7 @@
         data-modal-title="{% trans 'frontend.dubbing.add_character' context 'Modal title for adding character dubbing' %}"
         data-action-url="{% url 'api_add_character' %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-        data-fields='{{ add_character_data|safe|escape }}'>
+        data-fields='{{ add_character_data|escape }}'>
         {% trans "frontend.dubbing.add_character_button" context "Add character button" %}
     </button>
     
@@ -71,7 +71,7 @@
         data-modal-title="{% trans 'frontend.dubbing.edit_title' context 'Modal title for editing dubbing' %}"
         data-action-url="{% url 'api_modify_dubbing' dubbing.id %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-        data-fields='{{ modify_dubbing_data|safe|escape }}'>
+        data-fields='{{ modify_dubbing_data|escape }}'>
         {% trans "frontend.dubbing.edit_button" context "Edit dubbing button" %}
     </button>
 
@@ -127,7 +127,7 @@
                         data-modal-title="{% trans 'frontend.dubbing.edit_title' context 'Modal title for editing' %}"
                         data-action-url="{% url 'api_modify_episode' item.id %}?token={{ user.profile.token }}"
                         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-                        data-fields='{{ item.modify_episode_data|safe|escape }}'>
+                        data-fields='{{ item.modify_episode_data|escape }}'>
                         {% trans "frontend.dubbing.edit_button" context "Edit button title" %}
                     </button>
                     {% if request.user|is_admin %}
@@ -168,7 +168,7 @@
                         data-modal-title="{% trans 'frontend.dubbing.edit_title' context 'Modal title for editing' %}"
                         data-action-url="{% url 'api_modify_scene' item.id %}?token={{ user.profile.token }}"
                         data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-                        data-fields='{{ item.modify_scene_data|safe|escape }}'>
+                        data-fields='{{ item.modify_scene_data|escape }}'>
                         {% trans "frontend.dubbing.edit_button" context "Edit button title" %}
                     </button>
                     {% if request.user|is_admin %}
@@ -201,8 +201,7 @@
         <thead>
             <tr>
                 <th class="col-2 text-center">{% trans "frontend.dubbing.characters.image" context "Title image" %}</th>
-                <th class="col-2 text-center">{% trans "frontend.dubbing.characters.character_name" context "Title character name" %}</th>
-                <th class="col-5 text-center">{% trans "frontend.dubbing.characters.descrtiption" context "Title character name" %}</th>
+                <th class="col-7 text-center">{% trans "frontend.dubbing.characters.descrtiption" context "Title character name" %}</th>
                 <th class="col-2 text-center">{% trans "frontend.dubbing.characters.last_dubber" context "Last dubber name" %}</th>
                 {% if request.user|is_admin or dubbing.manager == request.user %}
                 <th class="col-1 text-center">{% trans "frontend.dubbing.characters.actions" context "Title actions" %}</th>
@@ -213,10 +212,82 @@
             <tr><td colspan="{% if request.user|is_admin or dubbing.manager == request.user %}13{% else %}12{% endif %}"><h5>{% trans "frontend.dubbing.characters.characters" context "Title characters" %}</h5></td></tr>
             {% for character in characters %}
             <tr>
-                <td class="text-center align-middle"><img src="{{ character.image.url }}" alt="{{ character.name }}" class="img-thumbnail" style="width: 60px;"></td>
-                <td class="text-center align-middle">{{ character.name }}</td>
+                <td class="text-center align-middle">
+                    <div style="position: relative; width: 120px; height: 120px; overflow: hidden; display: inline-block; border-radius: 0.25rem; box-shadow: 0 0 4px rgba(0,0,0,0.3);">
+                        <img 
+                            src="{{ character.image.url }}" 
+                            alt="{{ character.name }}" 
+                            style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;"
+                            data-toggle="modal" 
+                            data-target="#imageModal" 
+                            data-img-url="{{ character.image.url }}"
+                            data-img-alt="{{ character.name }}"
+                        >
+                        <span
+                            style="
+                                position: absolute;
+                                right: 4px;
+                                bottom: 4px;
+                                background: rgba(0,0,0,0.7);
+                                color: #fff;
+                                font-size: 1rem;
+                                padding: 2px 8px;
+                                border-radius: 0.2rem;
+                                max-width: 95%;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            "
+                            title="{{ character.name }}"
+                        >
+                            {{ character.name }}
+                        </span>
+                    </div>
+                </td>
                 <td class="text-center align-middle"><div class="truncate-multiline">{{ character.description }}</div></td>
-                <td class="text-center align-middle">{% if character.last_user %}{{ character.last_user }}{% else %}{% trans "frontend.dubbing.characters.none_yet" context "No last character yet text" %}{% endif %}</td>
+                <td class="text-center align-middle">
+                    {% if character.last_user %}
+                        <div style="position: relative; width: 120px; height: 120px; display: inline-block;">
+                            <div 
+                                style="
+                                    background-image: url('{{ character.last_user.discord_get_avatar }}');
+                                    background-size: cover;
+                                    background-position: center;
+                                    width: 120px;
+                                    height: 120px;
+                                    border-radius: 0.25rem;
+                                    box-shadow: 0 0 4px rgba(0,0,0,0.3);
+                                    cursor: pointer;
+                                "
+                                data-toggle="modal" 
+                                data-target="#imageModal" 
+                                data-img-url="{{ character.last_user.discord_get_avatar }}"
+                                data-img-alt="{{ character.last_user|discord_username }}"
+                            ></div>
+                            <span 
+                                style="
+                                    position: absolute;
+                                    right: 4px;
+                                    bottom: 4px;
+                                    background: rgba(0,0,0,0.7);
+                                    color: #fff;
+                                    font-size: 1rem;
+                                    padding: 2px 8px;
+                                    border-radius: 0.2rem;
+                                    max-width: 95%;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                "
+                                title="{{ character.last_user|discord_username }}"
+                            >
+                                {{ character.last_user|discord_username }}
+                            </span>
+                        </div>
+                    {% else %}
+                        {% trans "frontend.episode.characters.none_yet" context "No use asigned yet" %}
+                    {% endif %}
+                </td>
                 {% if request.user|is_admin or dubbing.manager == request.user %}
                     <td class="text-center align-middle">
                         <button 
@@ -226,7 +297,7 @@
                             data-modal-title="{% trans 'frontend.dubbing.edit_title' context 'Modal title for editing character' %}"
                             data-action-url="{% url 'api_modify_character' character.id %}?token={{ user.profile.token }}"
                             data-redirect-url="{% url 'stats_dubbing' dubbing.id %}"
-                            data-fields='{{ character.modify_character_data|safe|escape }}'>
+                            data-fields='{{ character.modify_character_data|escape }}'>
                             {% trans "frontend.dubbing.edit_button" context "Edit character button" %}
                         </button>
 
@@ -251,6 +322,7 @@
         </tbody>
     </table>
 </div>
+{% include "components/image_modal.html" %}
 {% include "components/add_modal.html" %}
 {% include "components/modify_modal.html" %}
 {% include "components/delete_modal.html" %}

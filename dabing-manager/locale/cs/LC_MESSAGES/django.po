@@ -886,7 +886,7 @@ msgstr "Jméno postavy"
 #: .\frontend\templates\stats\scene.html:106
 msgctxt "Title user"
 msgid "frontend.scene.user"
-msgstr "Jméno postavy"
+msgstr "Uživatel"
 
 #: .\frontend\templates\stats\scene.html:107
 msgctxt "Title type"

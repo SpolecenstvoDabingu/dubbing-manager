@@ -229,7 +229,7 @@ def stats_dubbing(request, dubbing_id):
     }
 
     for c in characters:
-        c.last_user = user_map[c.last_user_id].discord_display_name if user_map.get(c.last_user_id) else None
+        c.last_user = user_map.get(c.last_user_id)
 
     return custom_render(request, "stats/dubbing.html", {
         "dubbing": dubbing,
