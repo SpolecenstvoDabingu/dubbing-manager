@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-29 11:53+0200\n"
+"POT-Creation-Date: 2025-08-01 23:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -165,31 +165,36 @@ msgctxt "User field label"
 msgid "frontend.database.models.user_character.user"
 msgstr "Dabér"
 
-#: .\frontend\templates\base.html:56
+#: .\frontend\templates\base.html:83
 msgctxt "Title for manage users"
 msgid "frontend.base.manage_users"
 msgstr "Spravovat uživatele"
 
-#: .\frontend\templates\base.html:62
+#: .\frontend\templates\base.html:89
 msgctxt "Title for logout"
 msgid "frontend.base.logout"
 msgstr "Odhlásit se"
 
-#: .\frontend\templates\base.html:75
+#: .\frontend\templates\base.html:102
 msgctxt "Title for home"
 msgid "frontend.base.home"
 msgstr "Domů"
 
-#: .\frontend\templates\base.html:80
+#: .\frontend\templates\base.html:107
 msgctxt "Title for stats"
 msgid "frontend.base.stats"
 msgstr "Statistiky"
 
-#: .\frontend\templates\base.html:217
-#: .\frontend\templates\stats\episode.html:129
-#: .\frontend\templates\stats\episode.html:186
-#: .\frontend\templates\stats\scene.html:132
-#: .\frontend\templates\stats\scene.html:189
+#: .\frontend\templates\base.html:243
+msgctxt "Title for not started"
+msgid "frontend.base.not_started"
+msgstr "Nezačalo"
+
+#: .\frontend\templates\base.html:250
+#: .\frontend\templates\stats\episode.html:200
+#: .\frontend\templates\stats\episode.html:329
+#: .\frontend\templates\stats\scene.html:203
+#: .\frontend\templates\stats\scene.html:332
 msgctxt "Title for expired"
 msgid "frontend.base.expired"
 msgstr "Vypršelo"
@@ -249,7 +254,7 @@ msgctxt "Title not done for table"
 msgid "frontend.home.not_done_title"
 msgstr "Neodevzdáno"
 
-#: .\frontend\templates\home.html:14 .\frontend\templates\home.html:87
+#: .\frontend\templates\home.html:14 .\frontend\templates\home.html:77
 #: .\frontend\templates\stats.html:12
 msgctxt "Title name for done/not done"
 msgid "frontend.home.name"
@@ -260,73 +265,73 @@ msgctxt "Title deadline for not done"
 msgid "frontend.home.deadline"
 msgstr "Deadline"
 
-#: .\frontend\templates\home.html:16 .\frontend\templates\home.html:89
+#: .\frontend\templates\home.html:16 .\frontend\templates\home.html:79
 #: .\frontend\templates\stats.html:14
 msgctxt "Title type for done/not done"
 msgid "frontend.home.type"
 msgstr "Typ"
 
-#: .\frontend\templates\home.html:17 .\frontend\templates\home.html:90
+#: .\frontend\templates\home.html:17 .\frontend\templates\home.html:80
 #: .\frontend\templates\stats.html:15
 msgctxt "Title charater's for done/not done"
 msgid "frontend.home.character_s"
 msgstr "Charakter(ři)"
 
-#: .\frontend\templates\home.html:18 .\frontend\templates\home.html:91
+#: .\frontend\templates\home.html:18 .\frontend\templates\home.html:81
 #: .\frontend\templates\stats.html:16
 msgctxt "Title script for done/not done"
 msgid "frontend.home.script"
 msgstr "Skript"
 
-#: .\frontend\templates\home.html:28 .\frontend\templates\home.html:101
+#: .\frontend\templates\home.html:28 .\frontend\templates\home.html:91
 #: .\frontend\templates\stats.html:26
 msgctxt "Episode title for type"
 msgid "frontend.home.episode_title"
 msgstr "Episoda"
 
-#: .\frontend\templates\home.html:30 .\frontend\templates\home.html:103
+#: .\frontend\templates\home.html:30 .\frontend\templates\home.html:93
 #: .\frontend\templates\stats.html:28
 msgctxt "Scene title for type"
 msgid "frontend.home.scene_title"
 msgstr "Scéna"
 
-#: .\frontend\templates\home.html:63 .\frontend\templates\home.html:67
-#: .\frontend\templates\home.html:136 .\frontend\templates\home.html:140
+#: .\frontend\templates\home.html:53 .\frontend\templates\home.html:57
+#: .\frontend\templates\home.html:116 .\frontend\templates\home.html:120
 #: .\frontend\templates\stats.html:59 .\frontend\templates\stats.html:63
 msgctxt "Download script button title"
 msgid "frontend.home.download_script"
 msgstr "Stáhnout"
 
-#: .\frontend\templates\home.html:73 .\frontend\templates\home.html:146
+#: .\frontend\templates\home.html:63 .\frontend\templates\home.html:126
 #: .\frontend\templates\stats.html:69
 msgctxt "No items found for done/not done"
 msgid "frontend.home.no_items_found"
 msgstr "Žádné epizody/scény"
 
-#: .\frontend\templates\home.html:79
+#: .\frontend\templates\home.html:69
 msgctxt "Title done for table"
 msgid "frontend.home.done_title"
 msgstr "Odevzdáno"
 
-#: .\frontend\templates\home.html:88
+#: .\frontend\templates\home.html:78
 msgctxt "Title started for done"
 msgid "frontend.home.started"
 msgstr "Započato"
 
 #: .\frontend\templates\manager\users.html:11
-#: .\frontend\templates\manager\users.html:42
+#: .\frontend\templates\manager\users.html:74
 msgctxt "Username title"
 msgid "frontend.users.username"
 msgstr "Uživatelské jméno"
 
 #: .\frontend\templates\manager\users.html:12
-#: .\frontend\templates\manager\users.html:49
+#: .\frontend\templates\manager\users.html:81
 msgctxt "Email title"
 msgid "frontend.users.email"
 msgstr "Email"
 
 #: .\frontend\templates\manager\users.html:13
-#: .\frontend\templates\manager\users.html:55
+#: .\frontend\templates\manager\users.html:87
 msgctxt "Roles title"
 msgid "frontend.users.roles"
 msgstr "Role"
@@ -341,12 +346,12 @@ msgctxt "Actions title"
 msgid "frontend.users.actions"
 msgstr "Akce"
 
-#: .\frontend\templates\manager\users.html:37
+#: .\frontend\templates\manager\users.html:69
 msgctxt "Modal title for editing"
 msgid "frontend.users.edit_title"
 msgstr "Upravit"
 
-#: .\frontend\templates\manager\users.html:75
+#: .\frontend\templates\manager\users.html:107
 msgctxt "Edit button title"
 msgid "frontend.users.edit"
 msgstr "Upravit"
@@ -504,60 +509,59 @@ msgstr "Fotka"
 
 #: .\frontend\templates\stats\dubbing.html:204
 msgctxt "Title character name"
-msgid "frontend.dubbing.characters.character_name"
-msgstr "Jméno"
-
-#: .\frontend\templates\stats\dubbing.html:205
-msgctxt "Title character name"
 msgid "frontend.dubbing.characters.descrtiption"
 msgstr "Popis"
 
-#: .\frontend\templates\stats\dubbing.html:206
+#: .\frontend\templates\stats\dubbing.html:205
 msgctxt "Last dubber name"
 msgid "frontend.dubbing.characters.last_dubber"
 msgstr "Dabér"
 
-#: .\frontend\templates\stats\dubbing.html:208
+#: .\frontend\templates\stats\dubbing.html:207
 msgctxt "Title actions"
 msgid "frontend.dubbing.characters.actions"
 msgstr "Akce"
 
-#: .\frontend\templates\stats\dubbing.html:213
+#: .\frontend\templates\stats\dubbing.html:212
 msgctxt "Title characters"
 msgid "frontend.dubbing.characters.characters"
 msgstr "Postavy"
 
-#: .\frontend\templates\stats\dubbing.html:219
-msgctxt "No last character yet text"
-msgid "frontend.dubbing.characters.none_yet"
+#: .\frontend\templates\stats\dubbing.html:288
+#: .\frontend\templates\stats\episode.html:183
+#: .\frontend\templates\stats\episode.html:312
+#: .\frontend\templates\stats\scene.html:186
+#: .\frontend\templates\stats\scene.html:315
+msgctxt "No use asigned yet"
+msgid "frontend.episode.characters.none_yet"
 msgstr "Zatím nikdo"
 
-#: .\frontend\templates\stats\dubbing.html:226
-#: .\frontend\templates\stats\dubbing.html:239
+#: .\frontend\templates\stats\dubbing.html:297
+#: .\frontend\templates\stats\dubbing.html:310
 msgctxt "Modal title for editing character"
 msgid "frontend.dubbing.edit_title"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\dubbing.html:230
+#: .\frontend\templates\stats\dubbing.html:301
 msgctxt "Edit character button"
 msgid "frontend.dubbing.edit_button"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\dubbing.html:241
+#: .\frontend\templates\stats\dubbing.html:312
 #: .\frontend\templates\stats\episode.html:87
-#: .\frontend\templates\stats\episode.html:158
-#: .\frontend\templates\stats\episode.html:225
+#: .\frontend\templates\stats\episode.html:229
+#: .\frontend\templates\stats\episode.html:368
 #, python-format
 msgctxt "Confirming deletion of NAME"
 msgid "frontend.episode.confirm_delete_text %(name)s"
 msgstr "Jste si jist že chcete smazat %(name)s?"
 
-#: .\frontend\templates\stats\dubbing.html:242
+#: .\frontend\templates\stats\dubbing.html:313
 msgctxt "Delete character button"
 msgid "frontend.dubbing.delete_button"
 msgstr "Smazat"
 
-#: .\frontend\templates\stats\dubbing.html:249
+#: .\frontend\templates\stats\dubbing.html:320
 msgctxt "No characters found"
 msgid "frontend.dubbing.no_characters_found"
 msgstr "Smazat"
@@ -706,15 +710,15 @@ msgid "frontend.episode.edit_title"
 msgstr "Upravit"
 
 #: .\frontend\templates\stats\episode.html:76
-#: .\frontend\templates\stats\episode.html:147
-#: .\frontend\templates\stats\episode.html:204
+#: .\frontend\templates\stats\episode.html:218
+#: .\frontend\templates\stats\episode.html:347
 msgctxt "Edit episode button"
 msgid "frontend.episode.edit_button"
 msgstr "Upravit"
 
 #: .\frontend\templates\stats\episode.html:88
-#: .\frontend\templates\stats\episode.html:159
-#: .\frontend\templates\stats\episode.html:226
+#: .\frontend\templates\stats\episode.html:230
+#: .\frontend\templates\stats\episode.html:369
 msgctxt "Delete episode button"
 msgid "frontend.episode.delete_button"
 msgstr "Smazat"
@@ -725,92 +729,81 @@ msgid "frontend.episode.image"
 msgstr "Fotka"
 
 #: .\frontend\templates\stats\episode.html:102
-msgctxt "Title character name"
-msgid "frontend.episode.character_name"
-msgstr "Jméno postavy"
-
-#: .\frontend\templates\stats\episode.html:103
 msgctxt "Title user"
 msgid "frontend.episode.user"
 msgstr "Uživatel"
 
-#: .\frontend\templates\stats\episode.html:104
+#: .\frontend\templates\stats\episode.html:103
 msgctxt "Title type"
 msgid "frontend.episode.type"
 msgstr "Typ"
 
-#: .\frontend\templates\stats\episode.html:105
+#: .\frontend\templates\stats\episode.html:104
 msgctxt "Title status"
 msgid "frontend.episode.status"
 msgstr "Status"
 
-#: .\frontend\templates\stats\episode.html:106
+#: .\frontend\templates\stats\episode.html:105
 msgctxt "Title actions"
 msgid "frontend.episode.actions"
 msgstr "Akce"
 
-#: .\frontend\templates\stats\episode.html:114
-#: .\frontend\templates\stats\episode.html:171
-msgctxt "No use asigned yet"
-msgid "frontend.episode.characters.none_yet"
-msgstr "Zatím nikdo"
-
-#: .\frontend\templates\stats\episode.html:115
+#: .\frontend\templates\stats\episode.html:186
 msgctxt "Text stable"
 msgid "frontend.episode.stable"
 msgstr "Stabilní"
 
-#: .\frontend\templates\stats\episode.html:118
-#: .\frontend\templates\stats\episode.html:175
+#: .\frontend\templates\stats\episode.html:189
+#: .\frontend\templates\stats\episode.html:318
 msgctxt "Text done"
 msgid "frontend.episode.done"
 msgstr "Hotovo"
 
-#: .\frontend\templates\stats\episode.html:120
-#: .\frontend\templates\stats\episode.html:177
+#: .\frontend\templates\stats\episode.html:191
+#: .\frontend\templates\stats\episode.html:320
 msgctxt "Text pending"
 msgid "frontend.episode.pending"
 msgstr "Čeká se"
 
-#: .\frontend\templates\stats\episode.html:126
-#: .\frontend\templates\stats\episode.html:183
+#: .\frontend\templates\stats\episode.html:197
+#: .\frontend\templates\stats\episode.html:326
 msgctxt "Text unhand over"
 msgid "frontend.episode.unhand_over"
 msgstr "Ododevzdat"
 
-#: .\frontend\templates\stats\episode.html:131
-#: .\frontend\templates\stats\episode.html:134
-#: .\frontend\templates\stats\episode.html:188
-#: .\frontend\templates\stats\episode.html:191
+#: .\frontend\templates\stats\episode.html:202
+#: .\frontend\templates\stats\episode.html:205
+#: .\frontend\templates\stats\episode.html:331
+#: .\frontend\templates\stats\episode.html:334
 msgctxt "Text hand over"
 msgid "frontend.episode.hand_over"
 msgstr "Odevzdat"
 
-#: .\frontend\templates\stats\episode.html:143
-#: .\frontend\templates\stats\episode.html:156
-#: .\frontend\templates\stats\episode.html:200
-#: .\frontend\templates\stats\episode.html:223
+#: .\frontend\templates\stats\episode.html:214
+#: .\frontend\templates\stats\episode.html:227
+#: .\frontend\templates\stats\episode.html:343
+#: .\frontend\templates\stats\episode.html:366
 msgctxt "Modal title for editing character"
 msgid "frontend.episode.edit_title"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\episode.html:172
+#: .\frontend\templates\stats\episode.html:315
 msgctxt "Text temporary"
 msgid "frontend.episode.temporary"
 msgstr "Dočasný"
 
-#: .\frontend\templates\stats\episode.html:213
+#: .\frontend\templates\stats\episode.html:356
 msgctxt "Modal title for making character stable"
 msgid "frontend.episode.character_make_stable"
 msgstr "Udělat stabilní"
 
-#: .\frontend\templates\stats\episode.html:215
+#: .\frontend\templates\stats\episode.html:358
 #, python-format
 msgctxt "Confirming making stable character from NAME"
 msgid "frontend.episode.confirm_make_stable_text %(name)s"
 msgstr "Opravdu chcete %(name)s udělat stabilní?"
 
-#: .\frontend\templates\stats\episode.html:216
+#: .\frontend\templates\stats\episode.html:359
 msgctxt "Confirm character button"
 msgid "frontend.episode.confirm_button"
 msgstr "Udělat stabilní"
@@ -852,23 +845,23 @@ msgid "frontend.scene.edit_title"
 msgstr "Upravit"
 
 #: .\frontend\templates\stats\scene.html:79
-#: .\frontend\templates\stats\scene.html:150
-#: .\frontend\templates\stats\scene.html:207
+#: .\frontend\templates\stats\scene.html:221
+#: .\frontend\templates\stats\scene.html:350
 msgctxt "Edit scene button"
 msgid "frontend.scene.edit_button"
 msgstr "Upravit"
 
 #: .\frontend\templates\stats\scene.html:90
-#: .\frontend\templates\stats\scene.html:161
-#: .\frontend\templates\stats\scene.html:228
+#: .\frontend\templates\stats\scene.html:232
+#: .\frontend\templates\stats\scene.html:371
 #, python-format
 msgctxt "Confirming deletion of NAME"
 msgid "frontend.scene.confirm_delete_text %(name)s"
 msgstr "Jste si jist že chcete smazat %(name)s?"
 
 #: .\frontend\templates\stats\scene.html:91
-#: .\frontend\templates\stats\scene.html:162
-#: .\frontend\templates\stats\scene.html:229
+#: .\frontend\templates\stats\scene.html:233
+#: .\frontend\templates\stats\scene.html:372
 msgctxt "Delete scene button"
 msgid "frontend.scene.delete_button"
 msgstr "Smazat"
@@ -879,95 +872,104 @@ msgid "frontend.scene.image"
 msgstr "Fotka"
 
 #: .\frontend\templates\stats\scene.html:105
-msgctxt "Title character name"
-msgid "frontend.scene.character_name"
-msgstr "Jméno postavy"
-
-#: .\frontend\templates\stats\scene.html:106
 msgctxt "Title user"
 msgid "frontend.scene.user"
 msgstr "Uživatel"
 
-#: .\frontend\templates\stats\scene.html:107
+#: .\frontend\templates\stats\scene.html:106
 msgctxt "Title type"
 msgid "frontend.scene.type"
 msgstr "Typ"
 
-#: .\frontend\templates\stats\scene.html:108
+#: .\frontend\templates\stats\scene.html:107
 msgctxt "Title status"
 msgid "frontend.scene.status"
 msgstr "Stav"
 
-#: .\frontend\templates\stats\scene.html:109
+#: .\frontend\templates\stats\scene.html:108
 msgctxt "Title actions"
 msgid "frontend.scene.actions"
 msgstr "Akce"
 
-#: .\frontend\templates\stats\scene.html:117
-#: .\frontend\templates\stats\scene.html:174
-msgctxt "No use asigned yet"
-msgid "frontend.scene.characters.none_yet"
-msgstr "Zatím nikdo"
-
-#: .\frontend\templates\stats\scene.html:118
+#: .\frontend\templates\stats\scene.html:189
 msgctxt "Text stable"
 msgid "frontend.scene.stable"
 msgstr "Stabilní"
 
-#: .\frontend\templates\stats\scene.html:121
-#: .\frontend\templates\stats\scene.html:178
+#: .\frontend\templates\stats\scene.html:192
+#: .\frontend\templates\stats\scene.html:321
 msgctxt "Text done"
 msgid "frontend.scene.done"
 msgstr "Hotovo"
 
-#: .\frontend\templates\stats\scene.html:123
-#: .\frontend\templates\stats\scene.html:180
+#: .\frontend\templates\stats\scene.html:194
+#: .\frontend\templates\stats\scene.html:323
 msgctxt "Text pending"
 msgid "frontend.scene.pending"
 msgstr "Čeká se"
 
-#: .\frontend\templates\stats\scene.html:129
-#: .\frontend\templates\stats\scene.html:186
+#: .\frontend\templates\stats\scene.html:200
+#: .\frontend\templates\stats\scene.html:329
 msgctxt "Text unhand over"
 msgid "frontend.scene.unhand_over"
 msgstr "Ododevzdat"
 
-#: .\frontend\templates\stats\scene.html:134
-#: .\frontend\templates\stats\scene.html:137
-#: .\frontend\templates\stats\scene.html:191
-#: .\frontend\templates\stats\scene.html:194
+#: .\frontend\templates\stats\scene.html:205
+#: .\frontend\templates\stats\scene.html:208
+#: .\frontend\templates\stats\scene.html:334
+#: .\frontend\templates\stats\scene.html:337
 msgctxt "Text hand over"
 msgid "frontend.scene.hand_over"
 msgstr "Odevzdat"
 
-#: .\frontend\templates\stats\scene.html:146
-#: .\frontend\templates\stats\scene.html:159
-#: .\frontend\templates\stats\scene.html:203
-#: .\frontend\templates\stats\scene.html:226
+#: .\frontend\templates\stats\scene.html:217
+#: .\frontend\templates\stats\scene.html:230
+#: .\frontend\templates\stats\scene.html:346
+#: .\frontend\templates\stats\scene.html:369
 msgctxt "Modal title for editing character"
 msgid "frontend.scene.edit_title"
 msgstr "Upravit"
 
-#: .\frontend\templates\stats\scene.html:175
+#: .\frontend\templates\stats\scene.html:318
 msgctxt "Text temporary"
 msgid "frontend.scene.temporary"
 msgstr "Dočasný"
 
-#: .\frontend\templates\stats\scene.html:216
+#: .\frontend\templates\stats\scene.html:359
 msgctxt "Modal title for making character stable"
 msgid "frontend.scene.character_make_stable"
 msgstr "Udělat stabilní"
 
-#: .\frontend\templates\stats\scene.html:218
+#: .\frontend\templates\stats\scene.html:361
 #, python-format
 msgctxt "Confirming making stable character from NAME"
 msgid "frontend.scene.confirm_make_stable_text %(name)s"
 msgstr "Opravdu chcete udělat %(name)s stabilní?"
 
-#: .\frontend\templates\stats\scene.html:219
+#: .\frontend\templates\stats\scene.html:362
 msgctxt "Confirm character button"
 msgid "frontend.scene.confirm_button"
 msgstr "Udělat stabilní"
+
+#~ msgctxt "Title character name"
+#~ msgid "frontend.dubbing.characters.character_name"
+#~ msgstr "Jméno"
+
+#~ msgctxt "No last character yet text"
+#~ msgid "frontend.dubbing.characters.none_yet"
+#~ msgstr "Zatím nikdo"
+
+#~ msgctxt "Title character name"
+#~ msgid "frontend.episode.character_name"
+#~ msgstr "Jméno postavy"
+
+#~ msgctxt "Title character name"
+#~ msgid "frontend.scene.character_name"
+#~ msgstr "Jméno postavy"
+
+#~ msgctxt "No use asigned yet"
+#~ msgid "frontend.scene.characters.none_yet"
+#~ msgstr "Zatím nikdo"
 
 #~ msgctxt "Title created"
 #~ msgid "frontend.dubbing.created"

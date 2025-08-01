@@ -234,9 +234,15 @@
     const countdownElements = document.querySelectorAll('.countdown');
 
     countdownElements.forEach(el => {
-        const deadline = new Date(el.dataset.deadline);
+        const started = new Date(el.dataset.started);
         const now = new Date();
-        const diff = deadline - now;
+        var diff = started - now;
+        if (diff > 0) {
+            el.textContent = "{% trans 'frontend.base.not_started' context 'Title for not started' %}";
+            return;
+        }
+        const deadline = new Date(el.dataset.deadline);
+        diff = deadline - now;
 
         if (diff <= 0) {
             el.textContent = "{% trans 'frontend.base.expired' context 'Title for expired' %}";

@@ -22,7 +22,7 @@
       {% for item in not_done %}
       <tr>
         <td class="text-center align-middle"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.id %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.id %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
-        <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.object.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
+        <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.object.deadline|date:"Y-m-d\\TH:i:s\\Z" }}" data-started="{{ item.object.started|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
         <td class="text-center align-middle">
           {% if item.type == "episode" %}
               {% trans "frontend.home.episode_title" context "Episode title for type" %}

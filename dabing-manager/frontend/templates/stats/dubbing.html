@@ -113,7 +113,7 @@
             <tr>
                 <td class="text-center align-middle"><a href="{% url 'stats_episode' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
                 <td class="text-center align-middle">{{ item.started }}</td>
-                <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
+                <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|date:"Y-m-d\\TH:i:s\\Z" }}" data-started="{{ item.started|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>
                 <td class="text-center align-middle"><a href="{% url 'download_script' 'episode' item.script %}" class="btn btn-primary">
                     {% trans "frontend.dubbing.download_script" context "Download script button title" %}
@@ -154,7 +154,7 @@
             <tr>
                 <td class="text-center align-middle"><a href="{% url 'stats_scene' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
                 <td class="text-center align-middle">{{ item.started }}</td>
-                <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
+                <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|date:"Y-m-d\\TH:i:s\\Z" }}" data-started="{{ item.started|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>
                 <td class="text-center align-middle"><a href="{% url 'download_script' 'scene' item.script %}" class="btn btn-primary">
                     {% trans "frontend.dubbing.download_script" context "Download script button title" %}
