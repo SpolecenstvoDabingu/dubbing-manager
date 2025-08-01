@@ -105,9 +105,9 @@ def home(request):
     def done_sort_key(entry):
         obj = entry['object']
         if entry['type'] == 'episode':
-            return (obj.get("season"), obj.get("episode"), obj.get("created"))
+            return (int(obj.get("season", 1)), int(obj.get("episode", 1)), obj.get("created"))
         else:
-            return obj.get("created")
+            return (1, 1, obj.get("created"))
 
     done.sort(key=done_sort_key)
 
