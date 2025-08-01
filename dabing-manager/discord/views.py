@@ -170,6 +170,7 @@ def get_announce_data(request, type, id):
     if type not in ("episode", "scene"):
         return JsonResponse({"error": "Type needs to be 'episode' or 'scene'"}, status=400)
     try:
+        manager = None
         if type == "episode":
             episode = Episode.objects.filter(id=id).first()
             if episode is None:
@@ -189,8 +190,14 @@ def get_announce_data(request, type, id):
                     "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}" if e_dubbers.user is not None and e_dubbers.user.social_auth.filter(provider="discord").exists() else None,
                 })
 
+            if episode.dubbing.manager is not None:
+                discord_auth = episode.dubbing.manager.social_auth.filter(provider='discord').first()
+                if discord_auth:
+                    manager = discord_auth.uid
+
             return JsonResponse({
                 "dubbing": f"{episode.dubbing}",
+                "manager": f"{manager}" if manager else None,
                 "name": episode.name,
                 "name_full": f"{episode}",
                 "sxex": episode.get_se(),
@@ -222,8 +229,13 @@ def get_announce_data(request, type, id):
                     "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}" if s_dubbers.user is not None and s_dubbers.user.social_auth.filter(provider="discord").exists() else None,
                 })
 
+            if scene.dubbing.manager is not None:
+                discord_auth = scene.dubbing.manager.social_auth.filter(provider='discord').first()
+                if discord_auth:
+                    manager = discord_auth.uid
             return JsonResponse({
                 "dubbing": f"{scene.dubbing}",
+                "manager": f"{manager}" if manager else None,
                 "name": scene.name,
                 "name_full": f"{scene}",
                 "deadline": scene.deadline.timestamp(),
