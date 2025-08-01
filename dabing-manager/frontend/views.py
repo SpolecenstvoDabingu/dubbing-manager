@@ -65,7 +65,7 @@ def home(request):
                         "user": request.user,
                         "done": uc.done,
                         "type": "stable" if isinstance(uc, UserCharacterStable) else "temporary",
-                        "image": uc.character.url.image if isinstance(uc, UserCharacterStable) else uc.image.url
+                        "image": uc.character.image.url if isinstance(uc, UserCharacterStable) else uc.image.url
                     } for uc in list(scene.usercharacterstable.filter(user=request.user)) + list(scene.usercharactertemporary.filter(user=request.user))
                 ]
             },
