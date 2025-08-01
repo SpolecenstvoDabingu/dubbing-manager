@@ -21,7 +21,7 @@
     <tbody>
       {% for item in not_done %}
       <tr>
-        <td class="text-center align-middle"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.pk %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.pk %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
+        <td class="text-center align-middle"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.id %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.id %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
         <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.object.deadline|date:"Y-m-d\\TH:i:s\\Z" }}"></span></td>
         <td class="text-center align-middle">
           {% if item.type == "episode" %}
@@ -31,31 +31,21 @@
           {% endif %}
         </td>
         <td class="text-center align-middle">
-          {% with request.user|one_key_dict:"user" as user_object_filter %}
-            {% if item.type == "episode" %}
-              {% for uc in item.object.usercharacterstable|object_filter:user_object_filter %}
-                {% if uc.user == request.user %}
-                  {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
-                {% endif %}
-              {% endfor %}
-              {% for uc in item.object.usercharactertemporary|object_filter:user_object_filter %}
-                {% if uc.user == request.user %}
-                  {{ uc.name }}{% if not forloop.last %}, {% endif %}
-                {% endif %}
-              {% endfor %}
-            {% elif item.type == "scene" %}
-              {% for uc in item.object.usercharacterstable|object_filter:user_object_filter %}
-                {% if uc.user == request.user %}
-                  {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
-                {% endif %}
-              {% endfor %}
-              {% for uc in item.object.usercharactertemporary|object_filter:user_object_filter %}
-                {% if uc.user == request.user %}
-                  {{ uc.name }}{% if not forloop.last %}, {% endif %}
-                {% endif %}
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
+            {% for uc in item.object.user_characters %}
+                <span
+                    style="
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        cursor: pointer;
+                    "
+                    data-toggle="modal" 
+                    data-target="#imageModal" 
+                    data-img-alt="{{ uc.name }}"
+                    data-img-url="{{ uc.image }}"
+                    title="{{ uc.name }}"
+                >{{ uc.name }}</span>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
         </td>
         <td class="text-center align-middle">
             {% if item.type == "episode" %}
@@ -94,7 +84,7 @@
     <tbody>
       {% for item in group.list %}
       <tr>
-        <td class="text-center align-middle"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.pk %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.pk %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
+        <td class="text-center align-middle"><a href="{% if item.type == 'episode' %}{% url 'stats_episode' item.object.id %}{% elif item.type == 'scene' %}{% url 'stats_scene' item.object.id %}{% endif %}"><b class="text-white">{{ item.object.name }}</b></a></td>
         <td class="text-center align-middle">{{ item.object.started }}</td>
         <td class="text-center align-middle">
           {% if item.type == "episode" %}
@@ -104,31 +94,21 @@
           {% endif %}
         </td>
         <td class="text-center align-middle">
-          {% with request.user|one_key_dict:"user" as user_object_filter %}
-            {% if item.type == "episode" %}
-              {% for uc in item.object.usercharacterstable|object_filter:user_object_filter %}
-                {% if uc.user == request.user %}
-                  {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
-                {% endif %}
-              {% endfor %}
-              {% for uc in item.object.usercharactertemporary|object_filter:user_object_filter %}
-                {% if uc.user == request.user %}
-                  {{ uc.name }}{% if not forloop.last %}, {% endif %}
-                {% endif %}
-              {% endfor %}
-            {% elif item.type == "scene" %}
-              {% for uc in item.object.usercharacterstable|object_filter:user_object_filter %}
-                {% if uc.user == request.user %}
-                  {{ uc.character.name }}{% if not forloop.last %}, {% endif %}
-                {% endif %}
-              {% endfor %}
-              {% for uc in item.object.usercharactertemporary|object_filter:user_object_filter %}
-                {% if uc.user == request.user %}
-                  {{ uc.name }}{% if not forloop.last %}, {% endif %}
-                {% endif %}
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
+            {% for uc in item.object.user_characters %}
+                <span
+                    style="
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        cursor: pointer;
+                    "
+                    data-toggle="modal" 
+                    data-target="#imageModal" 
+                    data-img-alt="{{ uc.name }}"
+                    data-img-url="{{ uc.image }}"
+                    title="{{ uc.name }}"
+                >{{ uc.name }}</span>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
         </td>
         <td class="text-center align-middle">
             {% if item.type == "episode" %}
@@ -149,5 +129,6 @@
   </table>
 </div>
 {% endfor %}
+{% include "components/image_modal.html" %}
 
 {% endblock %}

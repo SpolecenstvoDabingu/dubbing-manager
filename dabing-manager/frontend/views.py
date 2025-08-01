@@ -18,11 +18,9 @@ from core.settingz.discord_commands import EPISODE_ANNOUNCEMENT, SCENE_ANNOUNCEM
 def home(request):
     user = request.user
 
-    # Fetch both stable and temporary assignments for this user
     stable_qs = UserCharacterStable.objects.filter(user=user)
     temporary_qs = UserCharacterTemporary.objects.filter(user=user)
 
-    # Prefetch related scene/episode objects for stable and temporary characters
     scenes = Scene.objects.prefetch_related(
         Prefetch('usercharacterstable', queryset=stable_qs, to_attr='user_stable'),
         Prefetch('usercharactertemporary', queryset=temporary_qs, to_attr='user_temp')
@@ -44,7 +42,7 @@ def home(request):
         has_temp = bool(getattr(obj, 'user_temp', []))
 
         if not has_stable and not has_temp:
-            return None  # Not assigned to user
+            return None
 
         return stable_done and temp_done
 
@@ -54,7 +52,23 @@ def home(request):
             continue
         entry = {
             'type': 'scene',
-            'object': scene,
+            'object': {
+                "id": scene.id,
+                "name": scene.name,
+                "started": scene.started,
+                "deadline": scene.deadline,
+                "created": scene.created,
+                "dubbing": scene.dubbing,
+                "user_characters": [
+                    {
+                        "name": uc.character.name if isinstance(uc, UserCharacterStable) else uc.name,
+                        "user": request.user,
+                        "done": uc.done,
+                        "type": "stable" if isinstance(uc, UserCharacterStable) else "temporary",
+                        "image": uc.character.url.image if isinstance(uc, UserCharacterStable) else uc.image.url
+                    } for uc in list(scene.usercharacterstable.filter(user=request.user)) + list(scene.usercharactertemporary.filter(user=request.user))
+                ]
+            },
             'dubbing': scene.dubbing,
         }
         (done if status else not_done).append(entry)
@@ -65,21 +79,35 @@ def home(request):
             continue
         entry = {
             'type': 'episode',
-            'object': ep,
+            'object': {
+                "id": ep.id,
+                "name": ep.name,
+                "started": ep.started,
+                "deadline": ep.deadline,
+                "created": ep.created,
+                "dubbing": ep.dubbing,
+                "user_characters": [
+                    {
+                        "name": uc.character.name if isinstance(uc, UserCharacterStable) else uc.name,
+                        "user": request.user,
+                        "done": uc.done,
+                        "type": "stable" if isinstance(uc, UserCharacterStable) else "temporary",
+                        "image": uc.character.image.url if isinstance(uc, UserCharacterStable) else uc.image.url
+                    } for uc in list(ep.usercharacterstable.filter(user=request.user)) + list(ep.usercharactertemporary.filter(user=request.user))
+                ]
+            },
             'dubbing': ep.dubbing,
         }
         (done if status else not_done).append(entry)
 
-    # Sort "not done" by earliest deadline
-    not_done.sort(key=lambda x: x['object'].deadline)
+    not_done.sort(key=lambda x: x['object'].get("deadline"))
 
-    # Sort "done" by logic depending on type
     def done_sort_key(entry):
         obj = entry['object']
         if entry['type'] == 'episode':
-            return (obj.season, obj.episode, obj.created)
+            return (obj.get("season"), obj.get("episode"), obj.get("created"))
         else:
-            return obj.created
+            return obj.get("created")
 
     done.sort(key=done_sort_key)
 
