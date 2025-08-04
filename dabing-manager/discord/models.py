@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 # Create your models here.
 class DiscordUser(models.Model):
+    user = models.ForeignKey(User, default=None, on_delete=models.SET_NULL, blank=True, null=True)
     discord_id = models.CharField(max_length=64, unique=True)
     name = models.CharField(max_length=255)
     display_name = models.CharField(max_length=255, blank=True, null=True)
@@ -49,3 +52,8 @@ def discord_get_avatar(self):
 
 User.add_to_class("discord_display_name", discord_display_name)
 User.add_to_class("discord_get_avatar", discord_get_avatar)
+
+@receiver(post_delete, sender=DiscordUser)
+def delete_related_user(sender, instance, **kwargs):
+    if instance.user:
+        instance.user.delete()

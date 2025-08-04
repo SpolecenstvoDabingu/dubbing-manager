@@ -18,8 +18,8 @@ def create_user_if_not_exists(strategy, details, backend, uid, user=None, *args,
         return {'user': user}
 
     discord_id = uid
-    discord_user_qs = DiscordUser.objects.filter(discord_id=discord_id)
-    if not discord_user_qs.exists():
+    discord_user_qs = DiscordUser.objects.filter(discord_id=discord_id).first()
+    if discord_user_qs is None:
         return redirect(reverse("not_allowed"))
 
     discord_discriminator = details.get('username') or details.get('discriminator')
@@ -30,5 +30,9 @@ def create_user_if_not_exists(strategy, details, backend, uid, user=None, *args,
         django_username = f"discord_{discord_id}"
 
     user, created = User.objects.get_or_create(username=django_username)
+
+    if created or discord_user_qs.user is None:
+        discord_user_qs.user = user
+        discord_user_qs.save()
 
     return {'user': user}
