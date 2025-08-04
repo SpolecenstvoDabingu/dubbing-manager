@@ -22,23 +22,29 @@ class DiscordUser(models.Model):
 
 @property
 def discord_display_name(self):
-    if hasattr(self, "social_auth"):
-        user_sauth = self.social_auth.filter(provider='discord').first()
-        if user_sauth:
-            d_user = DiscordUser.objects.get(discord_id=self.social_auth.filter(provider='discord').first().uid)
-            if d_user:
-                return d_user.display_name or d_user.name
+    try:
+        if hasattr(self, "social_auth"):
+            user_sauth = self.social_auth.filter(provider='discord').first()
+            if user_sauth:
+                d_user = DiscordUser.objects.get(discord_id=self.social_auth.filter(provider='discord').first().uid)
+                if d_user:
+                    return d_user.display_name or d_user.name
+    except:
+        return None
     return self.username
 
 
 @property
 def discord_get_avatar(self):
-    if hasattr(self, "social_auth"):
-        user_sauth = self.social_auth.filter(provider='discord').first()
-        if user_sauth:
-            d_user = DiscordUser.objects.get(discord_id=self.social_auth.filter(provider='discord').first().uid)
-            if d_user:
-                return d_user.avatar or "https://cdn.discordapp.com/embed/avatars/0.png"
+    try:
+        if hasattr(self, "social_auth"):
+            user_sauth = self.social_auth.filter(provider='discord').first()
+            if user_sauth:
+                d_user = DiscordUser.objects.get(discord_id=self.social_auth.filter(provider='discord').first().uid)
+                if d_user:
+                    return d_user.avatar or "https://cdn.discordapp.com/embed/avatars/0.png"
+    except:
+        return None
     return "https://cdn.discordapp.com/embed/avatars/0.png"
 
 User.add_to_class("discord_display_name", discord_display_name)
