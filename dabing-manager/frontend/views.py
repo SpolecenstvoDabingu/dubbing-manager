@@ -345,7 +345,7 @@ def manage_users(request):
 
         return redirect("manage_users")
 
-    users = sorted(User.objects.select_related("profile").filter(social_auth__provider='discord'), key=lambda u: (sanitize(u.discord_display_name, "").lower(), sanitize(u.discord_display_name, "")))
+    users = sorted([u for u in User.objects.select_related("profile").filter(social_auth__provider='discord') if u.discord_display_name], key=lambda u: (sanitize(u.discord_display_name, "").lower(), sanitize(u.discord_display_name, "")))
     role_choices = UserProfile._meta.permissions
     return custom_render(request, "manager/users.html", {
         "users": users,
