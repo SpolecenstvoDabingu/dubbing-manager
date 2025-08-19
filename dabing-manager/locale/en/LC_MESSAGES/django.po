@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-01 23:00+0200\n"
+"POT-Creation-Date: 2025-08-19 17:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -324,16 +324,15 @@ msgid "frontend.users.username"
 msgstr "Username"
 
 #: .\frontend\templates\manager\users.html:12
-#: .\frontend\templates\manager\users.html:81
-msgctxt "Email title"
-msgid "frontend.users.email"
-msgstr "Email"
-
-#: .\frontend\templates\manager\users.html:13
 #: .\frontend\templates\manager\users.html:87
 msgctxt "Roles title"
 msgid "frontend.users.roles"
 msgstr "Roles"
+
+#: .\frontend\templates\manager\users.html:13
+msgctxt "Is member title"
+msgid "frontend.users.is_member"
+msgstr "Is member"
 
 #: .\frontend\templates\manager\users.html:14
 msgctxt "Super user title"
@@ -349,6 +348,11 @@ msgstr "Actions"
 msgctxt "Modal title for editing"
 msgid "frontend.users.edit_title"
 msgstr "Upravit"
+
+#: .\frontend\templates\manager\users.html:81
+msgctxt "Email title"
+msgid "frontend.users.email"
+msgstr "Email"
 
 #: .\frontend\templates\manager\users.html:107
 msgctxt "Edit button title"

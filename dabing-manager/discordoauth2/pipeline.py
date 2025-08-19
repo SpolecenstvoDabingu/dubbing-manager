@@ -9,7 +9,8 @@ User = get_user_model()
 def check_discord_whitelist(strategy, details, backend, uid, *args, **kwargs):
     if backend.name != 'discord':
         return
-    if not DiscordUser.objects.filter(discord_id=uid).exists():
+    d_user = DiscordUser.objects.filter(discord_id=uid, is_member=True)
+    if not d_user.exists():
         return redirect(reverse("not_allowed"))
 
 
@@ -18,7 +19,7 @@ def create_user_if_not_exists(strategy, details, backend, uid, user=None, *args,
         return {'user': user}
 
     discord_id = uid
-    discord_user_qs = DiscordUser.objects.filter(discord_id=discord_id).first()
+    discord_user_qs = DiscordUser.objects.filter(discord_id=discord_id, is_member=True).first()
     if discord_user_qs is None:
         return redirect(reverse("not_allowed"))
 

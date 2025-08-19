@@ -9,8 +9,8 @@
     <thead>
       <tr>
         <th class="col-2 text-center">{% trans "frontend.users.username" context "Username title" %}</th>
-        <th class="col-2 text-center">{% trans "frontend.users.email" context "Email title" %}</th>
         <th class="col-6 text-center">{% trans "frontend.users.roles" context "Roles title" %}</th>
+        <th class="col-1 text-center">{% trans "frontend.users.is_member" context "Is member title" %}</th>
         <th class="col-1 text-center">{% trans "frontend.users.super_user" context "Super user title" %}</th>
         <th class="col-1 text-center">{% trans "frontend.users.actions" context "Actions title" %}</th>
       </tr>
@@ -51,7 +51,6 @@
             </span>
           </div>
         </td>
-        <td class="text-center align-middle">{{ user.email }}</td>
         <td class="text-center align-middle">
           {% for perm, label in role_choices %}
             {% with "database."|add:perm as full_perm %}
@@ -61,6 +60,7 @@
             {% endwith %}
           {% endfor %}
         </td>
+        <td class="text-center align-middle">{% if user.discord_is_member %}<i class="fa fa-check"></i>{% else %}<i class="fa fa-times"></i>{% endif %}</td>
         <td class="text-center align-middle">{% if user.is_superuser %}<i class="fa fa-check"></i>{% else %}<i class="fa fa-times"></i>{% endif %}</td>
         <td class="text-center align-middle">
           <button class="btn btn-warning w-100"

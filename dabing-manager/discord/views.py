@@ -50,12 +50,14 @@ def sync_users(request):
                 user.name = name
                 user.display_name = display_name
                 user.avatar = avatar
+                user.is_member = True
                 to_update.append(user)
         else:
             to_create.append(DiscordUser(
                 discord_id=discord_id,
                 display_name=display_name,
-                avatar=avatar
+                avatar=avatar,
+                is_member=True,
             ))
 
     if to_create:
@@ -64,17 +66,17 @@ def sync_users(request):
     if to_update:
         DiscordUser.objects.bulk_update(to_update, ["name", "display_name", "avatar"], batch_size=500)
 
-    # Delete users not in incoming_ids
-    to_delete = [user for user_id, user in existing_users.items() if user_id not in incoming_ids]
-    deleted_count = 0
-    if to_delete:
-        deleted_count = len(to_delete)
-        DiscordUser.objects.filter(id__in=[user.id for user in to_delete]).delete()
+    # Unmark users not in incoming_ids
+    to_unmark = [user for user_id, user in existing_users.items() if user_id not in incoming_ids]
+    unmarked_count = 0
+    if to_unmark:
+        unmarked_count = len(to_unmark)
+        DiscordUser.objects.filter(id__in=[user.id for user in to_unmark], is_member=True).update(is_member=False)
 
     return JsonResponse({
         "created": len(to_create),
         "updated": len(to_update),
-        "deleted": deleted_count,
+        "unmarked": unmarked_count,
         "total_processed": len(data)
     }, status=200)
 
@@ -115,13 +117,15 @@ def add_users(request):
                 user.name = name
                 user.display_name = display_name
                 user.avatar = avatar
+                user.is_member = True
                 to_update.append(user)
         else:
             to_create.append(DiscordUser(
                 discord_id=discord_id,
                 name=name,
                 display_name=display_name,
-                avatar=avatar
+                avatar=avatar,
+                is_member=True
             ))
 
     if to_create:
@@ -151,14 +155,14 @@ def remove_users(request):
         return JsonResponse({"error": "Expected a list of users"}, status=400)
     
     # Extract discord IDs from received data
-    discord_ids_to_delete = [str(d.get("id")) for d in data if d.get("id")]
+    discord_ids_to_unmark = [str(d.get("id")) for d in data if d.get("id")]
 
     # Delete users with these discord IDs
-    deleted_count, _ = DiscordUser.objects.filter(discord_id__in=discord_ids_to_delete).delete()
+    unmarked_count = DiscordUser.objects.filter(discord_id__in=discord_ids_to_unmark, is_member=True).update(is_member=False)
 
     return JsonResponse({
-        "deleted": deleted_count,
-        "total_received": len(discord_ids_to_delete)
+        "unmarked": unmarked_count,
+        "total_received": len(discord_ids_to_unmark)
     }, status=200)
 
 
@@ -255,7 +259,7 @@ def get_announce_data(request, type, id):
 @require_GET_or_POST
 @validate_token
 def user_notification(request, id):
-    discord_user = DiscordUser.objects.filter(discord_id=id).first()
+    discord_user = DiscordUser.objects.filter(discord_id=id).filter(is_member=True).first()
     if discord_user is None:
         return JsonResponse({"error": "User was not found"}, status=404)
 
@@ -274,7 +278,7 @@ def user_notification(request, id):
 @require_GET
 @validate_token
 def users_notification(request):
-    return JsonResponse({"data": [discord_user.get_notification_data for discord_user in DiscordUser.objects.all()]}, status=200)
+    return JsonResponse({"data": [discord_user.get_notification_data for discord_user in DiscordUser.objects.filter(is_member=True)]}, status=200)
 
 
 @csrf_exempt
