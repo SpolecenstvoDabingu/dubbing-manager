@@ -70,14 +70,22 @@ jobs:
     needs: containerise-selfhosted
     runs-on: ubuntu-latest
     steps:
-      - name: Re-run workflow on GitHub-hosted runner
-        run: echo "Fallback to hosted runner"
-      - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
-      - uses: docker/setup-buildx-action@v3
-      - uses: dawidd6/action-get-tag@v1
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Get tag
         id: tag
-      - run: |
+        uses: dawidd6/action-get-tag@v1
+
+      - name: Determine tag type (beta or latest)
+        id: tag_type
+        run: |
           if ${{ github.event.release.prerelease }}; then
             echo "tag=${{ steps.tag.outputs.tag }}-beta" >> $GITHUB_ENV
             echo "tag_name=beta" >> $GITHUB_ENV
@@ -85,20 +93,25 @@ jobs:
             echo "tag=${{ steps.tag.outputs.tag }}" >> $GITHUB_ENV
             echo "tag_name=latest" >> $GITHUB_ENV
           fi
-        id: tag_type
-      - uses: docker/login-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: docker/metadata-action@v5
+
+      - name: Docker meta
         id: meta
+        uses: docker/metadata-action@v5
         with:
           images: |
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=${{ env.tag_name }}
             type=raw,value=${{ env.tag }}
-      - uses: docker/build-push-action@v5
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile.dockerhub

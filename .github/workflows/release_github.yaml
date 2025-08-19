@@ -35,7 +35,7 @@ jobs:
             echo "tag=${{ steps.tag.outputs.tag }}" >> $GITHUB_ENV
             echo "tag_name=latest" >> $GITHUB_ENV
           fi
-          
+
       - name: Log into GitHub Container Registry
         run: echo "${{ secrets.REGISTRY_ACCESS_TOKEN }}" | docker login https://ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
@@ -73,36 +73,51 @@ jobs:
     if: failure()
     runs-on: ubuntu-latest
     steps:
-      - name: Fallback to hosted runner
-        run: echo "Self-hosted runner failed, switching to GitHub-hosted runner"
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-      - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
-      - uses: docker/setup-buildx-action@v3
-      - uses: dawidd6/action-get-tag@v1
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Get tag
         id: tag
-      - run: |
+        uses: dawidd6/action-get-tag@v1
+
+      - name: Determine tag type (beta or latest)
+        id: tag_type
+        run: |
           if ${{ github.event.release.prerelease }}; then
             echo "tag=${{ steps.tag.outputs.tag }}-beta" >> $GITHUB_ENV
             echo "tag_name=beta" >> $GITHUB_ENV
           else
             echo "tag=${{ steps.tag.outputs.tag }}" >> $GITHUB_ENV
             echo "tag_name=latest" >> $GITHUB_ENV
-        id: tag_type
-      - run: echo "${{ secrets.REGISTRY_ACCESS_TOKEN }}" | docker login https://ghcr.io -u ${{ github.repository_owner }} --password-stdin
-      - uses: ASzc/change-string-case-action@v1
+          fi
+          
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.REGISTRY_ACCESS_TOKEN }}" | docker login https://ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+      - name: Lowercase GitHub username for GHCR
         id: string
+        uses: ASzc/change-string-case-action@v1
         with:
           string: ${{ github.repository_owner }}
-      - uses: docker/metadata-action@v5
+
+      - name: Docker meta
         id: meta
+        uses: docker/metadata-action@v5
         with:
           images: |
             ghcr.io/${{ steps.string.outputs.lowercase }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=${{ env.tag_name }}
             type=raw,value=${{ env.tag }}
-      - uses: docker/build-push-action@v5
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile.github
