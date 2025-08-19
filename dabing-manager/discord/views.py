@@ -46,7 +46,7 @@ def sync_users(request):
 
         if discord_id in existing_users:
             user = existing_users[discord_id]
-            if user.name != name or user.display_name != display_name or user.avatar != avatar:
+            if user.name != name or user.display_name != display_name or user.avatar != avatar or user.is_member != True:
                 user.name = name
                 user.display_name = display_name
                 user.avatar = avatar
@@ -64,7 +64,7 @@ def sync_users(request):
         DiscordUser.objects.bulk_create(to_create, batch_size=500)
 
     if to_update:
-        DiscordUser.objects.bulk_update(to_update, ["name", "display_name", "avatar"], batch_size=500)
+        DiscordUser.objects.bulk_update(to_update, ["name", "display_name", "avatar", "is_member"], batch_size=500)
 
     # Unmark users not in incoming_ids
     to_unmark = [user for user_id, user in existing_users.items() if user_id not in incoming_ids]
@@ -113,7 +113,7 @@ def add_users(request):
         print(discord_id, name, display_name, avatar)
         if discord_id in existing_users:
             user = existing_users[discord_id]
-            if user.name != name or user.display_name != display_name or user.avatar != avatar:
+            if user.name != name or user.display_name != display_name or user.avatar != avatar or user.is_member != True:
                 user.name = name
                 user.display_name = display_name
                 user.avatar = avatar
@@ -132,7 +132,7 @@ def add_users(request):
         DiscordUser.objects.bulk_create(to_create, batch_size=500)
 
     if to_update:
-        DiscordUser.objects.bulk_update(to_update, ["name", "display_name", "avatar"], batch_size=500)
+        DiscordUser.objects.bulk_update(to_update, ["name", "display_name", "avatar", "is_member"], batch_size=500)
 
     return JsonResponse({
         "created": len(to_create),
