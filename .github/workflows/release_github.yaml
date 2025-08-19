@@ -34,7 +34,8 @@ jobs:
           else
             echo "tag=${{ steps.tag.outputs.tag }}" >> $GITHUB_ENV
             echo "tag_name=latest" >> $GITHUB_ENV
-
+          fi
+          
       - name: Log into GitHub Container Registry
         run: echo "${{ secrets.REGISTRY_ACCESS_TOKEN }}" | docker login https://ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
