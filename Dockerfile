@@ -15,10 +15,8 @@ RUN apt-get update && \
     gettext \
     curl \
     unzip \
-    texlive-latex-base \
     file \
     wget \
-    python3-pygments \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip
@@ -41,7 +39,7 @@ RUN mkdir -p /media/static
 
 COPY ./static /media_static_temp/
 
-COPY entrypoint_github.sh /app/entrypoint.sh
+COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
 COPY maintenance.html /manager_static/maintenance.html

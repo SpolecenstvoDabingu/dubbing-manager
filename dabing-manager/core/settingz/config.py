@@ -19,6 +19,8 @@ ALLOWED_HOSTS = CONFIG.get('Networking', 'allowed_hosts', '*', description='List
 
 LOCAL_ADDRESSES = CONFIG.get('Networking', 'local_addresses', 'localhost,127.0.0.1', description='List of local addresses separated by comma (",")').split(',')
 
+SCRIPT_COMPILER_URL = CONFIG.get('Networking', 'script_compiler_url', '', description='Script compiler URL.')
+
 TIME_ZONE = CONFIG.get('Django', 'tz', 'UTC', description='Django Timezone')
 
 INSTANCE_NAME = CONFIG.get('Other', 'instance_name', 'Manager', description='Name of this instance. Displayed in tab.')

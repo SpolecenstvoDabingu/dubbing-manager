@@ -5,7 +5,9 @@ import shutil
 import subprocess
 from pathlib import Path
 from django.core.files.uploadedfile import UploadedFile
+import requests
 from core.settingz.paths import LATEX_TEMPLATE_PATH
+from core.settingz.config import SCRIPT_COMPILER_URL
 from database.models import Character
 from django.core.files.base import ContentFile
 import re
@@ -112,62 +114,31 @@ def is_character_constant(dubbing_id, character_name):
 
 
 def compile_latex(tex_path, output_path, work_dir):
-    main_tex_name = tex_path.name
+    """
+    Send a LaTeX project archive (tar/zip) to SCRIPT_COMPILER_URL /compile endpoint,
+    save the returned PDF to output_path.
+    """
+    archive_path = work_dir / "upload.tar"
+
+    # --- pack all work_dir into .tar ---
+    import tarfile
+    with tarfile.open(archive_path, "w") as tar:
+        for f in work_dir.iterdir():
+            tar.add(f, arcname=f.name)
 
     try:
-        subprocess.run(
-            [
-                "latexmk",
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "-pdf",
-                "-outdir=" + str(work_dir),
-                "--shell-escape",
-                str(tex_path),
-            ],
-            check=True,
-            cwd=work_dir,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
+        with open(archive_path, "rb") as f:
+            files = {"file": ("upload.tar", f, "application/x-tar")}
+            r = requests.post(f"{SCRIPT_COMPILER_URL}/compile", files=files, stream=True)
 
-        subprocess.run(
-            [
-                "pythontex",
-                "--interpreter",
-                "python:" + sys.executable,
-                str(work_dir / main_tex_name)
-            ],
-            check=True,
-            cwd=work_dir,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
+        if r.status_code == 200:
+            with open(output_path, "wb") as out:
+                shutil.copyfileobj(r.raw, out)
+            return True
+        else:
+            print("Compile service failed:", r.status_code, r.text)
+            return False
 
-        subprocess.run(
-            [
-                "latexmk",
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "-pdf",
-                "-outdir=" + str(work_dir),
-                "--shell-escape",
-                str(tex_path),
-            ],
-            check=True,
-            cwd=work_dir,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-
-        return output_path.exists()
-
-    except subprocess.CalledProcessError as e:
-        print("Latex compilation failed.")
-        print("Command:", e.cmd)
-        print("Exit code:", e.returncode)
-        print("Stdout:\n", e.stdout.decode())
-        print("Stderr:\n", e.stderr.decode())
+    except Exception as e:
+        print("Failed to contact compile service:", e)
         return False
