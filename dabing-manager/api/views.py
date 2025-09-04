@@ -670,6 +670,7 @@ def modify_character_user(request, type, id):
 
         if "image" in request.FILES:
             user_character.image = request.FILES["image"]
+            save = True
         
         if user_character.description != str(description):
             user_character.description = str(description)

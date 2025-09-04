@@ -494,7 +494,7 @@ class UserCharacterStable(UserCharacterBase):
         return self.character.dubbing
 
     def __str__(self):
-        return f"{self.character} ({self.episode.dubbing if self.episode else self.scene.dubbing}) - {self.user.discord_display_name if self.user else None}"
+        return f"{self.character} ({self.episode.dubbing if self.episode else self.scene.dubbing if self.scene else "Unknown"}) - {self.user.discord_display_name if self.user else None}"
     
     @staticmethod
     def get_add_modal_fields_json(episode:Episode=None, scene:Scene=None):
@@ -607,7 +607,8 @@ class UserCharacterStable(UserCharacterBase):
             "type": "select",
             "label": pgettext('User field label', 'frontend.database.models.user_character.user'),
             "name": "user",
-            "options": user_options
+            "options": user_options,
+            "value": self.user.id if self.user else user_options[0]["value"] if user_options and len(user_options) >= 1 else None
         })
 
         return json.dumps(fields)
@@ -625,7 +626,7 @@ class UserCharacterTemporary(UserCharacterBase):
         super().save()
 
     def __str__(self):
-        return f"{self.name} ({self.episode.dubbing if self.episode else self.scene.dubbing}) - {self.user.discord_display_name if self.user else None}"
+        return f"{self.name} ({self.episode.dubbing if self.episode else self.scene.dubbing if self.scene else "Unknown"}) - {self.user.discord_display_name if self.user else None}"
     
     @staticmethod
     def get_add_modal_fields_json(episode:Episode=None, scene:Scene=None):
@@ -754,7 +755,8 @@ class UserCharacterTemporary(UserCharacterBase):
             "type": "select",
             "label": pgettext('User field label', 'frontend.database.models.user_character.user'),
             "name": "user",
-            "options": user_options
+            "options": user_options,
+            "value": self.user.id if self.user else user_options[0]["value"] if user_options and len(user_options) >= 1 else None
         })
 
         return json.dumps(fields)
