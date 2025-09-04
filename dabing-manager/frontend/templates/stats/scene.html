@@ -16,7 +16,7 @@
     <p class="card-text">
         <strong>{% trans "frontend.scene.dubbing" context "Text dubbing" %}:</strong> {{ scene.dubbing.name }}<br>
         <strong>{% trans "frontend.scene.started" context "Text started" %}:</strong> {{ scene.started }}<br>
-        <strong>{% trans "frontend.scene.deadline" context "Text deadline" %}:</strong> <span class="countdown" data-deadline="{{ scene.deadline }}" data-started="{{ scene.started|to_utc_iso:"True" }}"></span><br>
+        <strong>{% trans "frontend.scene.deadline" context "Text deadline" %}:</strong> <span class="countdown" data-deadline="{{ scene.deadline|to_utc_iso:"True" }}" data-started="{{ scene.started|to_utc_iso:"True" }}"></span><br>
         {% if scene.urls %}
         <strong>{% trans "frontend.scene.urls" context "Scene URLs label" %}:</strong><br>
         {{ scene.urls|markdown_links|linebreaksbr }}<br>
