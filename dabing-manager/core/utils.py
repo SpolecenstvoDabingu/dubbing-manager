@@ -4,7 +4,7 @@ from django.db import models
 from datetime import date
 from . import settings
 import re
-from database.utils import get_user_discord_username
+from database.utils import get_user_discord_username, timezone
 from django.views.decorators.http import require_http_methods
 
 def redirect_to_home(request):
@@ -35,7 +35,7 @@ def custom_render(request, template_name, context={}, status=200):
         'languages': settings.LANGUAGES,
         'LOGO_IMG_URL': settings.LOGO_IMG_URL,
         'LOGO_ICON_URL': settings.LOGO_ICON_URL,
-        'username': username
+        'username': username,
     }
 
     context.update(default_context)

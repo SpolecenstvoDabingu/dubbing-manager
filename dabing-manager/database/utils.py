@@ -55,9 +55,15 @@ def today():
     
 def one_week_from_now():
     return today() + timedelta(weeks=1)
+
+def three_days_from_now():
+    return today() + timedelta(days=3)
     
-def one_week_since(time:timezone):
-    return time - timedelta(weeks=1)
+def one_week_from(time:timezone):
+    return time + timedelta(weeks=1)
+
+def three_days_from(time:timezone):
+    return time + timedelta(days=3)
 
 def is_default_value(field: Field, value) -> bool:
     if not hasattr(field, 'default'):

@@ -5,10 +5,11 @@ from django.contrib.auth.models import User
 from django.forms import ValidationError
 from core.settings import NO_THUMBNAIL_URL
 from operator import attrgetter
-from .utils import HashedFilePath, today, one_week_from_now, one_week_since, get_user_discord_username, sanitize_markdown_links
+from .utils import HashedFilePath, today, one_week_from_now, three_days_from_now, one_week_from, three_days_from, get_user_discord_username, sanitize_markdown_links
 from django.http import FileResponse, Http404
 from django.utils.translation import pgettext
 from django.utils import timezone
+from datetime import datetime, time
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -219,9 +220,15 @@ class SceneEpisodeBase(models.Model):
     script = models.FileField(max_length=512, upload_to=HashedFilePath("script", "scripts"))
     urls = models.TextField(max_length=1024, default="", blank=True)
     
-    def save(self, ia=False):
-        if self.started > self.deadline:
-            self.started = one_week_since(self.deadline)
+    def save(self, ia=False, is_scene=False):
+        if self.deadline is None or self.started > self.deadline:
+            self.deadline = three_days_from(self.started) if is_scene else one_week_from(self.started)
+
+        if self.started:
+            self.started = timezone.make_aware(datetime.combine(self.started.date(), time.min), timezone.get_current_timezone())
+
+        if self.deadline:
+            self.deadline = timezone.make_aware(datetime.combine(self.deadline.date(), time.max), timezone.get_current_timezone())
         
         super().save()
 
@@ -239,7 +246,7 @@ class Episode(SceneEpisodeBase):
         if not ia:
             self.urls = sanitize_markdown_links(self.urls)
         
-        super().save()
+        super().save(ia=ia, is_scene=False)
     
     def get_script_download_response(self):
         if not self.script:
@@ -264,7 +271,7 @@ class Episode(SceneEpisodeBase):
         return self.get_modify_modal_fields_json()
     
     @staticmethod
-    def get_add_modal_fields_json():
+    def get_add_modal_fields_json(is_admin=False):
         dubbing_options = [
             {"label": f"{dubbing}", "value": dubbing.id}
             for dubbing in Dubbing.objects.all()
@@ -278,13 +285,17 @@ class Episode(SceneEpisodeBase):
                 "name": "dubbing",
                 "options": dubbing_options
             },
-            {"type": "datetime", "label": pgettext('Episode started field label', 'frontend.database.models.episode.started'), "name": "started", "value": today().strftime("%Y-%m-%dT%H:%M")},
-            {"type": "datetime", "label": pgettext('Episode deadline field label', 'frontend.database.models.episode.deadline'), "name": "deadline", "value": one_week_from_now().strftime("%Y-%m-%dT%H:%M")},
+            {"type": "date", "label": pgettext('Episode started field label', 'frontend.database.models.episode.started'), "name": "started", "value": today().strftime("%Y-%m-%d")},
             {"type": "number", "label": pgettext('Episode season field label', 'frontend.database.models.episode.season'), "name": "season", "value": 1},
             {"type": "number", "label": pgettext('Episode episode field label', 'frontend.database.models.episode.episode'), "name": "episode", "value": 1},
             {"type": "file", "label": pgettext('Episode script field label', 'frontend.database.models.episode.script'), "name": "script", "accept": ".pdf,.ass", "required": True},
             {"type": "textarea", "label": pgettext('Episode urls field label', 'frontend.database.models.episode.urls'), "name": "urls"},
         ]
+        if is_admin:
+            fields.insert(
+                3,
+                {"type": "date", "label": pgettext('Episode deadline field label', 'frontend.database.models.episode.deadline'), "name": "deadline", "value": one_week_from_now().strftime("%Y-%m-%d")}
+            )
 
         return json.dumps(fields)
     
@@ -311,16 +322,16 @@ class Episode(SceneEpisodeBase):
                 "value": self.dubbing.id
             },
             {
-                "type": "datetime",
+                "type": "date",
                 "label": pgettext('Episode started field label', 'frontend.database.models.episode.started'),
                 "name": "started",
-                "value": self.started.strftime("%Y-%m-%dT%H:%M") if self.started else ""
+                "value": self.started.strftime("%Y-%m-%d") if self.started else ""
             },
             {
-                "type": "datetime",
+                "type": "date",
                 "label": pgettext('Episode deadline field label', 'frontend.database.models.episode.deadline'),
                 "name": "deadline",
-                "value": self.deadline.strftime("%Y-%m-%dT%H:%M") if self.deadline else ""
+                "value": self.deadline.strftime("%Y-%m-%d") if self.deadline else ""
             },
             {
                 "type": "number",
@@ -370,7 +381,7 @@ class Scene(SceneEpisodeBase):
         if not ia:
             self.urls = sanitize_markdown_links(self.urls)
         
-        super().save()
+        super().save(ia=ia, is_scene=True)
     
     def get_script_download_response(self):
         if not self.script:
@@ -383,7 +394,7 @@ class Scene(SceneEpisodeBase):
         return FileResponse(open(file_path, 'rb'), as_attachment=True, filename=custom_filename)
     
     @staticmethod
-    def get_add_modal_fields_json():
+    def get_add_modal_fields_json(is_admin=False):
         dubbing_options = [
             {"label": f"{dubbing}", "value": dubbing.id}
             for dubbing in Dubbing.objects.all()
@@ -397,11 +408,16 @@ class Scene(SceneEpisodeBase):
                 "name": "dubbing",
                 "options": dubbing_options
             },
-            {"type": "datetime", "label": pgettext('Scene started field label', 'frontend.database.models.scene.started'), "name": "started", "value": today().strftime("%Y-%m-%dT%H:%M")},
-            {"type": "datetime", "label": pgettext('Scene deadline field label', 'frontend.database.models.scene.deadline'), "name": "deadline", "value": one_week_from_now().strftime("%Y-%m-%dT%H:%M")},
+            {"type": "date", "label": pgettext('Scene started field label', 'frontend.database.models.scene.started'), "name": "started", "value": today().strftime("%Y-%m-%d")},
             {"type": "file", "label": pgettext('Scene script field label', 'frontend.database.models.scene.script'), "name": "script", "accept": ".pdf,.ass", "required": True},
             {"type": "textarea", "label": pgettext('Scene urls field label', 'frontend.database.models.scene.urls'), "name": "urls"},
         ]
+        
+        if is_admin:
+            fields.insert(
+                3,
+                {"type": "date", "label": pgettext('Scene deadline field label', 'frontend.database.models.scene.deadline'), "name": "deadline", "value": three_days_from_now().strftime("%Y-%m-%d")}
+            )
 
         return json.dumps(fields)
     
@@ -428,16 +444,16 @@ class Scene(SceneEpisodeBase):
                 "value": self.dubbing.id
             },
             {
-                "type": "datetime",
+                "type": "date",
                 "label": pgettext('Scene started field label', 'frontend.database.models.scene.started'),
                 "name": "started",
-                "value": self.started.strftime("%Y-%m-%dT%H:%M") if self.started else ""
+                "value": self.started.strftime("%Y-%m-%d") if self.started else ""
             },
             {
-                "type": "datetime",
+                "type": "date",
                 "label": pgettext('Scene deadline field label', 'frontend.database.models.scene.deadline'),
                 "name": "deadline",
-                "value": self.deadline.strftime("%Y-%m-%dT%H:%M") if self.deadline else ""
+                "value": self.deadline.strftime("%Y-%m-%d") if self.deadline else ""
             },
             {
                 "type": "file",

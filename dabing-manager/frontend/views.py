@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.views.decorators.http import require_POST
-from .utils import manages_something, is_admin, get_character_user, is_superuser, have_permissions_changed, sanitize
+from .utils import manages_something, is_admin, get_character_user, is_superuser, have_permissions_changed, sanitize, to_utc_iso
 from database.utils import is_default_value, timezone
 import json
 from core.settingz.discord_commands import EPISODE_ANNOUNCEMENT, SCENE_ANNOUNCEMENT
@@ -55,9 +55,9 @@ def home(request):
             'object': {
                 "id": scene.id,
                 "name": scene.name,
-                "started": scene.started,
-                "deadline": scene.deadline,
-                "created": scene.created,
+                "started": to_utc_iso(scene.started),
+                "deadline": to_utc_iso(scene.deadline),
+                "created": to_utc_iso(scene.created),
                 "dubbing": scene.dubbing,
                 "user_characters": [
                     {
@@ -82,9 +82,9 @@ def home(request):
             'object': {
                 "id": ep.id,
                 "name": ep.name,
-                "started": ep.started,
-                "deadline": ep.deadline,
-                "created": ep.created,
+                "started": to_utc_iso(ep.started),
+                "deadline": to_utc_iso(ep.deadline),
+                "created": to_utc_iso(ep.created),
                 "dubbing": ep.dubbing,
                 "user_characters": [
                     {
@@ -146,9 +146,9 @@ def stats(request):
             episodes.append({
                 "id": ep.pk,
                 "name": ep.name,
-                "created": ep.created,
-                "started": ep.started,
-                "deadline": ep.deadline,
+                "created": to_utc_iso(ep.created),
+                "started": to_utc_iso(ep.started),
+                "deadline": to_utc_iso(ep.deadline),
                 "progress": f"{done}/{total}",
                 "script": ep.id,
             })
@@ -161,9 +161,9 @@ def stats(request):
             scenes.append({
                 "id": scene.pk,
                 "name": scene.name,
-                "created": scene.created,
-                "started": scene.started,
-                "deadline": scene.deadline,
+                "created": to_utc_iso(scene.created),
+                "started": to_utc_iso(scene.started),
+                "deadline": to_utc_iso(scene.deadline),
                 "progress": f"{done}/{total}",
                 "script": scene.id,
             })
@@ -214,9 +214,9 @@ def stats_dubbing(request, dubbing_id):
         episodes.append({
             "id": ep.pk,
             "name": ep.name,
-            "created": ep.created,
-            "started": ep.started,
-            "deadline": ep.deadline,
+            "created": to_utc_iso(ep.created),
+            "started": to_utc_iso(ep.started),
+            "deadline": to_utc_iso(ep.deadline),
             "progress": f"{done}/{total}",
             "script": ep.id,
             "modify_episode_data": filter_options(ep.get_modify_modal_fields_json(), dubbing.id),
@@ -230,9 +230,9 @@ def stats_dubbing(request, dubbing_id):
         scenes.append({
             "id": scene.pk,
             "name": scene.name,
-            "created": scene.created,
-            "started": scene.started,
-            "deadline": scene.deadline,
+            "created": to_utc_iso(scene.created),
+            "started": to_utc_iso(scene.started),
+            "deadline": to_utc_iso(scene.deadline),
             "progress": f"{done}/{total}",
             "script": scene.id,
             "modify_scene_data": filter_options(scene.get_modify_modal_fields_json(), dubbing.id),
@@ -259,11 +259,12 @@ def stats_dubbing(request, dubbing_id):
     for c in characters:
         c.last_user = user_map.get(c.last_user_id)
 
+    user_id_admin = is_admin(request.user)
     return custom_render(request, "stats/dubbing.html", {
         "dubbing": dubbing,
         "modify_dubbing_data": dubbing.get_modify_modal_fields_json(),
-        "add_episode_data": filter_options(Episode.get_add_modal_fields_json(), dubbing.id),
-        "add_scene_data": filter_options(Scene.get_add_modal_fields_json(), dubbing.id),
+        "add_episode_data": filter_options(Episode.get_add_modal_fields_json(user_id_admin), dubbing.id),
+        "add_scene_data": filter_options(Scene.get_add_modal_fields_json(user_id_admin), dubbing.id),
         "add_character_data": Character.get_add_modal_fields_json(dubbing),
         "episodes": episodes,
         "scenes": scenes,

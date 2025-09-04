@@ -1,7 +1,8 @@
 from database.models import Dubbing, UserCharacterStable, UserCharacterTemporary
-from database.utils import get_character_user_type
+from database.utils import get_character_user_type, timezone
 from django.contrib.auth.models import Permission
 import re
+from datetime import datetime, timezone as dt_timezone
 
 def is_admin(user) -> bool:
     return user.has_perm("database.is_admin")
@@ -27,3 +28,13 @@ def sanitize(name: str, replace_with: str='_') -> str:
     if not name:
         return ""
     return re.sub(r'[^a-zA-Z0-9]', replace_with, name)
+
+def to_utc_iso(dt: datetime, as_string: bool = False) -> str | datetime | None:
+    if not dt:
+        return None
+    if timezone.is_naive(dt):
+        dt = timezone.make_aware(dt, timezone.get_current_timezone())
+    dt_utc = dt.astimezone(dt_timezone.utc)
+    if as_string:
+        return dt_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return dt_utc
