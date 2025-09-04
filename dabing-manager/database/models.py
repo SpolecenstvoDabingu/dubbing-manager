@@ -10,6 +10,7 @@ from django.http import FileResponse, Http404
 from django.utils.translation import pgettext
 from django.utils import timezone
 from datetime import datetime, time
+from .utils import to_utc_iso
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -325,13 +326,13 @@ class Episode(SceneEpisodeBase):
                 "type": "date",
                 "label": pgettext('Episode started field label', 'frontend.database.models.episode.started'),
                 "name": "started",
-                "value": self.started.strftime("%Y-%m-%d") if self.started else ""
+                "value": to_utc_iso(self.started, True, True) if self.started else ""
             },
             {
                 "type": "date",
                 "label": pgettext('Episode deadline field label', 'frontend.database.models.episode.deadline'),
                 "name": "deadline",
-                "value": self.deadline.strftime("%Y-%m-%d") if self.deadline else ""
+                "value": to_utc_iso(self.deadline, True) if self.deadline else ""
             },
             {
                 "type": "number",
@@ -447,13 +448,13 @@ class Scene(SceneEpisodeBase):
                 "type": "date",
                 "label": pgettext('Scene started field label', 'frontend.database.models.scene.started'),
                 "name": "started",
-                "value": self.started.strftime("%Y-%m-%d") if self.started else ""
+                "value": to_utc_iso(self.started, True, True) if self.started else ""
             },
             {
                 "type": "date",
                 "label": pgettext('Scene deadline field label', 'frontend.database.models.scene.deadline'),
                 "name": "deadline",
-                "value": self.deadline.strftime("%Y-%m-%d") if self.deadline else ""
+                "value": to_utc_iso(self.deadline, True) if self.deadline else ""
             },
             {
                 "type": "file",

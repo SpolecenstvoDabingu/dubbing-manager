@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.db.models.fields import Field
 from discordoauth2.utils import get_discord_username_from_id
 from django.utils.html import escape
+from datetime import datetime, timezone as dt_timezone
 
 MARKDOWN_LINK_RE = re.compile(r'\[([^\]]+)\]\((https?://[^\)]+)\)', re.IGNORECASE)
 
@@ -109,3 +110,17 @@ def get_character_user_type(type:str):
     elif type == "temporary":
         return UserCharacterTemporary
     return None
+
+
+def to_utc_iso(dt: datetime, as_string: bool = False, is_start: bool = False) -> str | datetime | None:
+    if not dt:
+        return None
+    tz = dt.tzinfo
+    if is_start:
+        dt = dt + timedelta(hours=12)
+    else:
+        dt = dt - timedelta(hours=12)
+    dt_aware = timezone.make_aware(dt, tz, is_dst=None) if timezone.is_naive(dt) else dt
+    if as_string:
+        return dt_aware.strftime("%Y-%m-%d")
+    return dt_aware
