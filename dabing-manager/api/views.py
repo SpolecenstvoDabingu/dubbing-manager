@@ -138,14 +138,14 @@ def add_episode(request):
             dt_started = timezone.make_aware(dt_started)
         dt_started = dt_started.replace(hour=12, minute=0, second=0, microsecond=0)
     except (ValueError, TypeError):
-        dt_started = None
+        now = timezone.now()
+        dt_started = now.replace(hour=12, minute=0, second=0, microsecond=0)
 
     try:
         dt_deadline = datetime.fromisoformat(deadline)
         if timezone.is_naive(dt_deadline):
             dt_deadline = timezone.make_aware(dt_deadline)
         dt_deadline = dt_deadline.replace(hour=12, minute=0, second=0, microsecond=0)
-
     except (ValueError, TypeError):
         dt_deadline = None
 
@@ -214,10 +214,10 @@ def modify_episode(request, id):
             if timezone.is_naive(dt_started):
                 dt_started = timezone.make_aware(dt_started)
             dt_started = dt_started.replace(hour=12, minute=0, second=0, microsecond=0)
+            episode_old.started = dt_started
+            save = True
         except (ValueError, TypeError):
-            dt_started = None
-        episode_old.started = dt_started
-        save = True
+            pass
 
     if (deadline != episode_old.deadline.isoformat() if episode_old.deadline else None) and is_admin_f(request.user):
         try:
@@ -225,10 +225,10 @@ def modify_episode(request, id):
             if timezone.is_naive(dt_deadline):
                 dt_deadline = timezone.make_aware(dt_deadline)
             dt_deadline = dt_deadline.replace(hour=12, minute=0, second=0, microsecond=0)
+            episode_old.deadline = dt_deadline
+            save = True
         except (ValueError, TypeError):
-            dt_deadline = None
-        episode_old.deadline = dt_deadline
-        save = True
+            pass
 
     if str(episode_old.season) != str(season):
         episode_old.season = int(season) if season else None
@@ -294,7 +294,8 @@ def add_scene(request):
             dt_started = timezone.make_aware(dt_started)
         dt_started = dt_started.replace(hour=12, minute=0, second=0, microsecond=0)
     except (ValueError, TypeError):
-        dt_started = None
+        now = timezone.now()
+        dt_started = now.replace(hour=12, minute=0, second=0, microsecond=0)
     
     try:
         dt_deadline = datetime.fromisoformat(deadline)
@@ -365,10 +366,10 @@ def modify_scene(request, id):
             if timezone.is_naive(dt_started):
                 dt_started = timezone.make_aware(dt_started)
             dt_started = dt_started.replace(hour=12, minute=0, second=0, microsecond=0)
+            scene_old.started = dt_started
+            save = True
         except (ValueError, TypeError):
-            dt_started = None
-        scene_old.started = dt_started
-        save = True
+            pass
 
     if (deadline != scene_old.deadline.isoformat() if scene_old.deadline else None) and is_admin_f(request.user):
         try:
@@ -376,10 +377,10 @@ def modify_scene(request, id):
             if timezone.is_naive(dt_deadline):
                 dt_deadline = timezone.make_aware(dt_deadline)
             dt_deadline = dt_deadline.replace(hour=12, minute=0, second=0, microsecond=0)
+            scene_old.deadline = dt_deadline
+            save = True
         except (ValueError, TypeError):
             dt_deadline = None
-        scene_old.deadline = dt_deadline
-        save = True
 
     if scene_old.urls != urls:
         scene_old.urls = urls
