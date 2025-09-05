@@ -208,7 +208,7 @@ def modify_episode(request, id):
         episode_old.dubbing = dubbing
         save = True
 
-    if started != episode_old.started.isoformat() if episode_old.started else None:
+    if (started != episode_old.started.isoformat() if episode_old.started else None) and is_admin_f(request.user):
         try:
             dt_started = datetime.fromisoformat(started)
             if timezone.is_naive(dt_started):
@@ -219,7 +219,7 @@ def modify_episode(request, id):
         episode_old.started = dt_started
         save = True
 
-    if deadline != episode_old.deadline.isoformat() if episode_old.deadline else None:
+    if (deadline != episode_old.deadline.isoformat() if episode_old.deadline else None) and is_admin_f(request.user):
         try:
             dt_deadline = datetime.fromisoformat(deadline)
             if timezone.is_naive(dt_deadline):
@@ -359,7 +359,7 @@ def modify_scene(request, id):
         scene_old.dubbing = dubbing
         save = True
 
-    if started != scene_old.started.isoformat() if scene_old.started else None:
+    if (started != scene_old.started.isoformat() if scene_old.started else None) and is_admin_f(request.user):
         try:
             dt_started = datetime.fromisoformat(started)
             if timezone.is_naive(dt_started):
@@ -370,7 +370,7 @@ def modify_scene(request, id):
         scene_old.started = dt_started
         save = True
 
-    if deadline != scene_old.deadline.isoformat() if scene_old.deadline else None:
+    if (deadline != scene_old.deadline.isoformat() if scene_old.deadline else None) and is_admin_f(request.user):
         try:
             dt_deadline = datetime.fromisoformat(deadline)
             if timezone.is_naive(dt_deadline):

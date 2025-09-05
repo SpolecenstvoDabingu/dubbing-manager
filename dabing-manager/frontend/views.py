@@ -219,7 +219,7 @@ def stats_dubbing(request, dubbing_id):
             "deadline": to_utc_iso(ep.deadline),
             "progress": f"{done}/{total}",
             "script": ep.id,
-            "modify_episode_data": filter_options(ep.get_modify_modal_fields_json(), dubbing.id),
+            "modify_episode_data": filter_options(ep.get_modify_modal_fields_json(is_admin(request.user)), dubbing.id),
         })
 
         
@@ -235,7 +235,7 @@ def stats_dubbing(request, dubbing_id):
             "deadline": to_utc_iso(scene.deadline),
             "progress": f"{done}/{total}",
             "script": scene.id,
-            "modify_scene_data": filter_options(scene.get_modify_modal_fields_json(), dubbing.id),
+            "modify_scene_data": filter_options(scene.get_modify_modal_fields_json(is_admin(request.user)), dubbing.id),
         })
 
 

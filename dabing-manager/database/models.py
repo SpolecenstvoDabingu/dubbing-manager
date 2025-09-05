@@ -301,7 +301,7 @@ class Episode(SceneEpisodeBase):
         return json.dumps(fields)
     
     
-    def get_modify_modal_fields_json(self):
+    def get_modify_modal_fields_json(self, is_admin=False):
         dubbing_options = [
             {"label": f"{dubbing}", "value": dubbing.id}
             for dubbing in Dubbing.objects.all()
@@ -321,18 +321,6 @@ class Episode(SceneEpisodeBase):
                 "name": "dubbing",
                 "options": dubbing_options,
                 "value": self.dubbing.id
-            },
-            {
-                "type": "date",
-                "label": pgettext('Episode started field label', 'frontend.database.models.episode.started'),
-                "name": "started",
-                "value": to_utc_iso(self.started, True, True) if self.started else ""
-            },
-            {
-                "type": "date",
-                "label": pgettext('Episode deadline field label', 'frontend.database.models.episode.deadline'),
-                "name": "deadline",
-                "value": to_utc_iso(self.deadline, True) if self.deadline else ""
             },
             {
                 "type": "number",
@@ -359,6 +347,25 @@ class Episode(SceneEpisodeBase):
                 "value": self.urls or ""
             },
         ]
+        if is_admin:
+            fields.insert(
+                2,
+                {
+                    "type": "date",
+                    "label": pgettext('Episode started field label', 'frontend.database.models.episode.started'),
+                    "name": "started",
+                    "value": to_utc_iso(self.started, True, True) if self.started else ""
+                }
+            )
+            fields.insert(
+                3,
+                {
+                    "type": "date",
+                    "label": pgettext('Episode deadline field label', 'frontend.database.models.episode.deadline'),
+                    "name": "deadline",
+                    "value": to_utc_iso(self.deadline, True) if self.deadline else ""
+                }
+            )
 
         return json.dumps(fields)
 
@@ -423,7 +430,7 @@ class Scene(SceneEpisodeBase):
         return json.dumps(fields)
     
     
-    def get_modify_modal_fields_json(self):
+    def get_modify_modal_fields_json(self, is_admin=False):
         dubbing_options = [
             {"label": f"{dubbing}", "value": dubbing.id}
             for dubbing in Dubbing.objects.all()
@@ -445,18 +452,6 @@ class Scene(SceneEpisodeBase):
                 "value": self.dubbing.id
             },
             {
-                "type": "date",
-                "label": pgettext('Scene started field label', 'frontend.database.models.scene.started'),
-                "name": "started",
-                "value": to_utc_iso(self.started, True, True) if self.started else ""
-            },
-            {
-                "type": "date",
-                "label": pgettext('Scene deadline field label', 'frontend.database.models.scene.deadline'),
-                "name": "deadline",
-                "value": to_utc_iso(self.deadline, True) if self.deadline else ""
-            },
-            {
                 "type": "file",
                 "label": pgettext('Scene script field label', 'frontend.database.models.scene.script'),
                 "name": "script",
@@ -469,6 +464,25 @@ class Scene(SceneEpisodeBase):
                 "value": self.urls or ""
             },
         ]
+        if is_admin:
+            fields.insert(
+                2,
+                {
+                    "type": "date",
+                    "label": pgettext('Episode started field label', 'frontend.database.models.episode.started'),
+                    "name": "started",
+                    "value": to_utc_iso(self.started, True, True) if self.started else ""
+                }
+            )
+            fields.insert(
+                3,
+                {
+                    "type": "date",
+                    "label": pgettext('Episode deadline field label', 'frontend.database.models.episode.deadline'),
+                    "name": "deadline",
+                    "value": to_utc_iso(self.deadline, True) if self.deadline else ""
+                }
+            )
 
         return json.dumps(fields)
 
