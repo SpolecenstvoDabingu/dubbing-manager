@@ -5,6 +5,7 @@
 {% load discord_username %}
 {% load markdown_links %}
 {% load to_utc_iso %}
+{% load call_method %}
 
 
 {% block content %}
@@ -73,7 +74,8 @@
         data-modal-title="{% trans 'frontend.episode.edit_title' context 'Modal title for editing episode' %}"
         data-action-url="{% url 'api_modify_episode' episode.id %}?token={{ user.profile.token }}"
         data-redirect-url="{% url 'stats_episode' episode.id %}"
-        data-fields='{{ episode.modify_episode_data|escape }}'>
+        {% call_method episode "get_modify_modal_fields_json" is_admin=is_admin as modify_data %}
+        data-fields='{{ modify_data|escape }}'>
         {% trans "frontend.episode.edit_button" context "Edit episode button" %}
     </button>
 
