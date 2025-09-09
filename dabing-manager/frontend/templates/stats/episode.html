@@ -30,7 +30,8 @@
         </a>
         {% endif %}
         {% if request.user|is_admin or episode.dubbing.manager == request.user %}
-        <button class="btn btn-primary" onclick="copyToClipboard('{{ announcement_command }}')">{% trans "frontend.episode.copy_announcement_command" context "Episode announcement command" %}</button>
+        <button class="btn btn-primary mb-2" onclick="copyToClipboard('{{ announcement_command }}')">{% trans "frontend.episode.copy_announcement_command" context "Episode announcement command" %}</button>
+        <button class="btn btn-warning" onclick="copyToClipboard('{{ notify_command }}')">{% trans "frontend.episode.copy_notify_command" context "Episode notify command" %}</button>
         {% endif %}
     </div>
 

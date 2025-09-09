@@ -252,6 +252,100 @@ def get_announce_data(request, type, id):
     except Exception as e:
         return JsonResponse({"error": f"There was an error while trying to get {type}: {e}"}, status=500)
     
+@csrf_exempt
+@require_GET
+@validate_token
+@is_admin
+def get_notify_data(request, type, id):
+    if type not in ("episode", "scene"):
+        return JsonResponse({"error": "Type needs to be 'episode' or 'scene'"}, status=400)
+    try:
+        manager = None
+        if type == "episode":
+            episode = Episode.objects.filter(id=id).first()
+            if episode is None:
+                return JsonResponse({"error": "Episode not found"}, status=404)
+            
+            dubbers = []
+
+            for e_dubbers in episode.usercharacterstable.all():
+                if e_dubbers.done:
+                    continue
+                dubbers.append({
+                    "character_name": f"{e_dubbers.character}",
+                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}" if e_dubbers.user is not None and e_dubbers.user.social_auth.filter(provider="discord").exists() else None,
+                })
+
+            for e_dubbers in episode.usercharactertemporary.all():
+                if e_dubbers.done:
+                    continue
+                dubbers.append({
+                    "character_name": f"{e_dubbers.name}",
+                    "user_id": f"{e_dubbers.user.social_auth.filter(provider='discord').first().uid}" if e_dubbers.user is not None and e_dubbers.user.social_auth.filter(provider="discord").exists() else None,
+                })
+
+            if episode.dubbing.manager is not None:
+                discord_auth = episode.dubbing.manager.social_auth.filter(provider='discord').first()
+                if discord_auth:
+                    manager = discord_auth.uid
+
+            return JsonResponse({
+                "dubbing": f"{episode.dubbing}",
+                "manager": f"{manager}" if manager else None,
+                "name": episode.name,
+                "name_full": f"{episode}",
+                "sxex": episode.get_se(),
+                "season": episode.season,
+                "episode": episode.episode,
+                "urls": episode.urls,
+                "deadline": episode.deadline.timestamp(),
+                "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'episode', 'obj_id': episode.id})}",
+                "full_info": f"{EXTERNAL_URL}{reverse('stats_episode', kwargs={'episode_id': episode.id})}",
+                "dubbers": dubbers,
+            })
+
+        elif type == "scene":
+            scene = Scene.objects.filter(id=id).first()
+            if scene is None:
+                return JsonResponse({"error": "Scene not found"}, status=404)
+            
+            dubbers = []
+
+            for s_dubbers in scene.usercharacterstable.all():
+                if s_dubbers.done:
+                    continue
+                dubbers.append({
+                    "character_name": f"{s_dubbers.character}",
+                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}" if s_dubbers.user is not None and s_dubbers.user.social_auth.filter(provider="discord").exists() else None,
+                })
+
+            for s_dubbers in scene.usercharactertemporary.all():
+                if s_dubbers.done:
+                    continue
+                dubbers.append({
+                    "character_name": f"{s_dubbers.name}",
+                    "user_id": f"{s_dubbers.user.social_auth.filter(provider='discord').first().uid}" if s_dubbers.user is not None and s_dubbers.user.social_auth.filter(provider="discord").exists() else None,
+                })
+
+            if scene.dubbing.manager is not None:
+                discord_auth = scene.dubbing.manager.social_auth.filter(provider='discord').first()
+                if discord_auth:
+                    manager = discord_auth.uid
+            return JsonResponse({
+                "dubbing": f"{scene.dubbing}",
+                "manager": f"{manager}" if manager else None,
+                "name": scene.name,
+                "name_full": f"{scene}",
+                "deadline": scene.deadline.timestamp(),
+                "urls": scene.urls,
+                "script": f"{EXTERNAL_URL}{reverse('download_script', kwargs={'obj_type': 'scene', 'obj_id': scene.id})}",
+                "full_info": f"{EXTERNAL_URL}{reverse('stats_scene', kwargs={'scene_id': scene.id})}",
+                "dubbers": dubbers,
+            })
+    
+    except Exception as e:
+        return JsonResponse({"error": f"There was an error while trying to get {type}: {e}"}, status=500)
+    
 
 
     

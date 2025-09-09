@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 from .utils import manages_something, is_admin, get_character_user, is_superuser, have_permissions_changed, sanitize, to_utc_iso
 from database.utils import is_default_value, timezone
 import json
-from core.settingz.discord_commands import EPISODE_ANNOUNCEMENT, SCENE_ANNOUNCEMENT
+from core.settingz.discord_commands import EPISODE_ANNOUNCEMENT, SCENE_ANNOUNCEMENT, EPISODE_NOTIFY, SCENE_NOTIFY
 
 @login_required
 def home(request):
@@ -292,6 +292,7 @@ def stats_episode(request, episode_id):
     return custom_render(request, "stats/episode.html", {
         "episode": episode,
         "announcement_command": EPISODE_ANNOUNCEMENT(episode.id),
+        "notify_command": EPISODE_NOTIFY(episode.id),
         "stable_chars": stable_chars,
         "temporary_chars": temporary_chars,
         "add_character_temp_data": UserCharacterTemporary.get_add_modal_fields_json(episode=episode),
@@ -319,6 +320,7 @@ def stats_scene(request, scene_id):
     return custom_render(request, "stats/scene.html", {
         "scene": scene,
         "announcement_command": SCENE_ANNOUNCEMENT(scene.id),
+        "notify_command": SCENE_NOTIFY(scene.id),
         "stable_chars": stable_chars,
         "temporary_chars": temporary_chars,
         "add_character_temp_data": UserCharacterTemporary.get_add_modal_fields_json(scene=scene),
