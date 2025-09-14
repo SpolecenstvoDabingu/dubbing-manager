@@ -100,7 +100,8 @@ def parse_ass(ass_content):
             start_time = parts[1].strip()
             actor_raw = parts[4].strip()
             actor = " MYBREAK ".join(actor_raw.split("/"))
-            text = re.sub(r"{.*?}", "", parts[9]).strip()
+            pattern = r"\\([a-zA-Z]|[bius][01]|f(s\d+|n[a-zA-Z0-9]+)|((?:[234]?c)|alpha)&H[a-fA-F0-9]+|(bord|shad|xshad)\d+|pos\d+,\d+|move\d+,\d+,\d+,\d+|org\d+,\d+|fad\(\d+,\d+\)|t\([^)]*\))"
+            text = re.sub(pattern, " ", parts[9]).strip()
 
             characters_used.add((actor_raw, actor, actor_raw!=actor))
             dialog_lines.append(f"\\characterLine{{{actor_raw}}}{{{remove_ms(start_time)}}}{{{text}}}")

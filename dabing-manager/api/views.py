@@ -266,7 +266,7 @@ def delete_episode(request, id):
     except Exception as e:
         return JsonResponse({"episode": f"Error occured while deleting episode: {e}"}, status=400)
 
-    return JsonResponse({"sucess": True}, status=400)
+    return JsonResponse({"sucess": True}, status=200)
 
 
 
