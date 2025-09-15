@@ -290,7 +290,7 @@ msgstr "Typ"
 #: .\frontend\templates\stats.html:15
 msgctxt "Title charater's for done/not done"
 msgid "frontend.home.character_s"
-msgstr "Charakter(ři)"
+msgstr "Postava(y)"
 
 #: .\frontend\templates\home.html:19 .\frontend\templates\home.html:82
 #: .\frontend\templates\stats.html:16

@@ -55,6 +55,7 @@ def home(request):
             'object': {
                 "id": scene.id,
                 "name": scene.name,
+                "cover": scene.cover,
                 "started": to_utc_iso(scene.started),
                 "deadline": to_utc_iso(scene.deadline),
                 "created": to_utc_iso(scene.created),
@@ -82,6 +83,7 @@ def home(request):
             'object': {
                 "id": ep.id,
                 "name": ep.name,
+                "cover": ep.cover,
                 "started": to_utc_iso(ep.started),
                 "deadline": to_utc_iso(ep.deadline),
                 "created": to_utc_iso(ep.created),
