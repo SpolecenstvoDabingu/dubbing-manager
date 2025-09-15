@@ -133,16 +133,17 @@ def download_script(request, obj_type, obj_id):
 @login_required
 @user_passes_test(manages_something)
 def stats(request):
-    if is_admin(request.user):
-        dubbings = Dubbing.objects.order_by("name").all()
-    else:
-        dubbings = Dubbing.objects.filter(manager=request.user).order_by("name")
+    i_a = is_admin(request.user)
+    dubbings = Dubbing.objects.order_by("name").all()
+    d_now = timezone.now()
 
     result_dubs = {}
 
     for dubbing in dubbings:
         episodes = []
         for ep in dubbing.episode.order_by("season", "episode", "name").all():
+            if not i_a and d_now < ep.started:
+                continue
             total = ep.usercharacterstable.count() + ep.usercharactertemporary.count()
             done = ep.usercharacterstable.filter(done=True).count() + ep.usercharactertemporary.filter(done=True).count()
             episodes.append({
@@ -159,6 +160,8 @@ def stats(request):
             
         scenes = []
         for scene in dubbing.scene.order_by("name").all():
+            if not i_a and d_now < scene.started:
+                continue
             total = scene.usercharacterstable.count() + scene.usercharactertemporary.count()
             done = scene.usercharacterstable.filter(done=True).count() + scene.usercharactertemporary.filter(done=True).count()
             scenes.append({
