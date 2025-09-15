@@ -22,6 +22,7 @@ from database.models import Dubbing, Episode, Scene, Character, UserCharacterSta
 @is_admin
 def add_dubbing(request):
     name = request.POST.get("name")
+    cover = request.FILES.get("cover")
     description = request.POST.get("description")
     urls = request.POST.get("urls")
     manager = request.POST.get("manager")
@@ -34,7 +35,7 @@ def add_dubbing(request):
     if manager_user is None:
         return JsonResponse({"manager": "Manager needs to exist."}, status=400)
     
-    dubbing = Dubbing(name=str(name), description=str(description), urls=str(urls), manager=manager_user)
+    dubbing = Dubbing(name=str(name), cover=cover, description=str(description), urls=str(urls), manager=manager_user)
 
     try:
         dubbing.save(ia=is_admin_f(request.user))
@@ -60,6 +61,7 @@ def modify_dubbing(request, id):
 
 
     name = request.POST.get("name")
+    cover = request.FILES.get("cover")
     description = request.POST.get("description")
     urls = request.POST.get("urls")
     manager = request.POST.get("manager")
@@ -76,6 +78,10 @@ def modify_dubbing(request, id):
     
     if dubbing_old.name != str(name):
         dubbing_old.name = str(name)
+        save = True
+
+    if cover is not None:
+        dubbing_old.cover = cover
         save = True
 
     if dubbing_old.description != str(description):
@@ -115,6 +121,7 @@ def delete_dubbing(request, id):
 @validate_token
 def add_episode(request):
     name = request.POST.get("name")
+    cover = request.FILES.get("cover")
     dubbing_id = request.POST.get("dubbing")
     started = request.POST.get("started")
     deadline = request.POST.get("deadline")
@@ -153,6 +160,7 @@ def add_episode(request):
     handled_file, characters_list = handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", serie_number=f"{int(season):02d}", episode_number=f"{int(episode_number):02d}", title=f"{name}")
     episode = Episode(
         name=str(name),
+        cover=cover,
         dubbing=dubbing,
         started=dt_started,
         deadline=dt_deadline,
@@ -182,6 +190,7 @@ def modify_episode(request, id):
         return JsonResponse({"access": "You don't have neccessary access"}, status=403)
 
     name = request.POST.get("name")
+    cover = request.FILES.get("cover")
     dubbing_id = request.POST.get("dubbing")
     started = request.POST.get("started")
     deadline = request.POST.get("deadline")
@@ -202,6 +211,10 @@ def modify_episode(request, id):
 
     if episode_old.name != name:
         episode_old.name = name
+        save = True
+
+    if cover is not None:
+        episode_old.cover = cover
         save = True
 
     if episode_old.dubbing != dubbing:
@@ -274,6 +287,7 @@ def delete_episode(request, id):
 @validate_token
 def add_scene(request):
     name = request.POST.get("name")
+    cover = request.FILES.get("cover")
     dubbing_id = request.POST.get("dubbing")
     started = request.POST.get("started")
     deadline = request.POST.get("deadline")
@@ -309,6 +323,7 @@ def add_scene(request):
     handled_file, characters_list = handle_uploaded_script(request.FILES.get("script"), dubbing_id=dubbing.id, dubbing_title=f"{dubbing}", title=f"{name}")
     scene = Scene(
         name=str(name),
+        cover=cover,
         dubbing=dubbing,
         started=dt_started,
         deadline=dt_deadline,
@@ -336,6 +351,7 @@ def modify_scene(request, id):
         return JsonResponse({"access": "You don't have neccessary access"}, status=403)
 
     name = request.POST.get("name")
+    cover = request.FILES.get("cover")
     dubbing_id = request.POST.get("dubbing")
     started = request.POST.get("started")
     deadline = request.POST.get("deadline")
@@ -354,6 +370,10 @@ def modify_scene(request, id):
 
     if scene_old.name != name:
         scene_old.name = name
+        save = True
+
+    if cover is not None:
+        scene_old.cover = cover
         save = True
 
     if scene_old.dubbing != dubbing:

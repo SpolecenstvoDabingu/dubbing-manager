@@ -23,11 +23,11 @@
 {% include 'components/add_modal.html' %}
 {% endif %}
 {% for key, items in dubbing_data.items %}
-<div class="d-flex flex-column flex-md-row mb-2">
-    <h4 class="mb-2 mb-md-0 mr-md-3">
+<div class="d-flex flex-column flex-md-row mb-2 py-3{% if items.cover %} bg-cover{% endif %}" {% if items.cover %}style="background-image: url({{ items.cover.url }});"{% endif %}>
+    <h4 class="mb-2 mb-md-0 mx-md-3">
         <a href="{% url 'stats_dubbing' items.id %}" class="text-white"><b>{{ key }}</b></a>
     </h4>
-    <div class="d-flex flex-column flex-md-row ml-md-auto">
+    <div class="d-flex flex-column flex-md-row ml-md-auto mr-3">
         <button 
             class="btn btn-warning mb-2 mb-md-0"
             data-toggle="modal"
@@ -67,7 +67,7 @@
             <tr><td colspan="12"><h5>{% trans "frontend.dubbings.episodes" context "Title episodes" %}</h5></td></tr>
             {% for item in items.episodes %}
             <tr>
-                <td class="text-center align-middle"><a href="{% url 'stats_episode' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
+                <td class="text-center align-middle{% if item.cover %} bg-cover{% endif %}" {% if item.cover %}style="background-image: url({{ item.cover.url }});"{% endif %}><a href="{% url 'stats_episode' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
                 <td class="text-center align-middle">{{ item.started }}</td>
                 <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|to_utc_iso:"True" }}" data-started="{{ item.started|to_utc_iso:"True" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>
@@ -84,7 +84,7 @@
             <tr><td colspan="12"><h5>{% trans "frontend.dubbings.scenes" context "Title scenes" %}</h5></td></tr>
             {% for item in items.scenes %}
             <tr>
-                <td class="text-center align-middle"><a href="{% url 'stats_scene' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
+                <td class="text-center align-middle{% if item.cover %} bg-cover{% endif %}" {% if item.cover %}style="background-image: url({{ item.cover.url }});"{% endif %}><a href="{% url 'stats_episode' item.id %}"><a href="{% url 'stats_scene' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
                 <td class="text-center align-middle">{{ item.started }}</td>
                 <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|to_utc_iso:"True" }}" data-started="{{ item.started|to_utc_iso:"True" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>

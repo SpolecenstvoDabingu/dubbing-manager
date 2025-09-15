@@ -100,3 +100,29 @@ function copyToClipboard(text) {
       alert("Failed to copy: " + err);
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".download-cover-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const imageUrl = this.dataset.imageUrl;
+            let fileName = this.dataset.fileName || "cover";
+
+            if (!imageUrl) {
+                console.error("No image URL defined for this button");
+                return;
+            }
+
+            const extMatch = imageUrl.match(/\.[0-9a-z]+$/i);
+            const extension = extMatch ? extMatch[0] : ".jpg";
+
+            fileName = fileName + extension;
+
+            const a = document.createElement("a");
+            a.href = imageUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    });
+});

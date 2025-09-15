@@ -134,3 +134,11 @@
     line-height: 1.2em;
     max-height: 3.6em;
 }
+
+.bg-cover {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  background-blend-mode: darken;
+}

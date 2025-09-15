@@ -9,7 +9,7 @@
 
 {% block content %}
 <!-- Dubbing Info Section -->
-<div class="card mb-4 shadow background-light text-white">
+<div class="card mb-4 shadow background-light text-white{% if dubbing.cover %} bg-cover{% endif %}" {% if dubbing.cover %}style="background-image: url({{ dubbing.cover.url }});"{% endif %}>
   <div class="card-body">
     {% if request.user|manages_something %}
         <a href="{% url 'stats' %}" class="text-white"><i class="fa fa-chevron-left"></i></a>
@@ -32,6 +32,15 @@
 
     <div class="d-flex flex-column flex-md-row gap-2 mt-3">
     {% if request.user|is_admin or dubbing.manager == request.user %}
+    {% if dubbing.cover %}
+    <button 
+        class="btn btn-primary mb-2 mb-md-0 download-cover-btn"
+        data-image-url="{{ dubbing.cover.url }}"
+        data-file-name="{{ dubbing.name|slugify }}-cover">
+        {% trans "frontend.dubbing.download_cover" context "Download cover button" %}
+    </button>
+    {% endif %}
+
     <button 
         class="btn btn-success mb-2 mb-md-0 ml-md-auto"
         data-toggle="modal"
@@ -112,7 +121,7 @@
             <tr><td colspan="{% if request.user|is_admin or dubbing.manager == request.user %}13{% else %}12{% endif %}"><h5>{% trans "frontend.dubbing.episodes" context "Title episodes" %}</h5></td></tr>
             {% for item in episodes %}
             <tr>
-                <td class="text-center align-middle"><a href="{% url 'stats_episode' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
+                <td class="text-center align-middle{% if item.cover %} bg-cover{% endif %}" {% if item.cover %}style="background-image: url({{ item.cover.url }});"{% endif %}><a href="{% url 'stats_episode' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
                 <td class="text-center align-middle">{{ item.started }}</td>
                 <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|to_utc_iso:"True" }}" data-started="{{ item.started|to_utc_iso:"True" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>
@@ -153,7 +162,7 @@
             <tr><td colspan="{% if request.user|is_admin or dubbing.manager == request.user %}13{% else %}12{% endif %}"><h5>{% trans "frontend.dubbing.scenes" context "Title scenes" %}</h5></td></tr>
             {% for item in scenes %}
             <tr>
-                <td class="text-center align-middle"><a href="{% url 'stats_scene' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
+                <td class="text-center align-middle{% if item.cover %} bg-cover{% endif %}" {% if item.cover %}style="background-image: url({{ item.cover.url }});"{% endif %}><a href="{% url 'stats_scene' item.id %}"><b class="text-white">{{ item.name }}</b></a></td>
                 <td class="text-center align-middle">{{ item.started }}</td>
                 <td class="text-center align-middle"><span class="countdown" data-deadline="{{ item.deadline|to_utc_iso:"True" }}" data-started="{{ item.started|to_utc_iso:"True" }}"></span></td>
                 <td class="text-center align-middle">{{ item.progress }}</td>

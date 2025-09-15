@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save, pre_save, post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from .models import UserProfile, UserCharacterStable, Scene, Episode, Character
+from .models import UserProfile, UserCharacterStable, Scene, Episode, Character, Dubbing
 from core.utils import generate_unique_token
 from django.core.files.storage import default_storage
 from django.db.models.fields.files import FileField
@@ -13,6 +13,7 @@ def create_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance, token=generate_unique_token(UserProfile))
 
 @receiver(pre_save, sender=UserCharacterStable)
+@receiver(pre_save, sender=Dubbing)
 @receiver(pre_save, sender=Scene)
 @receiver(pre_save, sender=Episode)
 @receiver(pre_save, sender=Character)
@@ -38,6 +39,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
                     default_storage.delete(old_file.name)
 
 @receiver(post_delete, sender=UserCharacterStable)
+@receiver(post_delete, sender=Dubbing)
 @receiver(post_delete, sender=Scene)
 @receiver(post_delete, sender=Episode)
 @receiver(post_delete, sender=Character)

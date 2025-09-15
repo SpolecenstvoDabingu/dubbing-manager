@@ -11,7 +11,7 @@
 {% block content %}
 <!-- Scene Info Section -->
 <div class="card mb-4 shadow background-light text-white">
-  <div class="card-body">
+  <div class="card-body{% if scene.cover or scene.dubbing.cover %} bg-cover{% endif %}" {% if scene.cover %}style="background-image: url({{ scene.cover.url }});"{% elif scene.dubbing.cover %}style="background-image: url({{ scene.dubbing.cover.url }});"{% endif %}>
     <a href="{% url 'stats_dubbing' scene.dubbing.id %}" class="text-white"><i class="fa fa-chevron-left"></i></a>
     <h2 class="card-title">{{ scene.name }}</h2>
     <p class="card-text">
@@ -45,6 +45,16 @@
 
     <div class="d-flex flex-column flex-md-row gap-2 mt-3">
     {% if request.user|is_admin or scene.dubbing.manager == request.user %}
+    {% if scene.cover %}
+    <button 
+        class="btn btn-primary mb-2 mb-md-0 download-cover-btn"
+        data-image-url="{{ scene.cover.url }}"
+        data-file-name="{{scene.dubbing.name}}-{{ scene.name|slugify }}-cover">
+        {% trans "frontend.scene.download_cover" context "Download cover button" %}
+    </button>
+    {% endif %}
+
+
     <button 
         class="btn btn-success mb-2 mb-md-0 ml-md-auto"
         data-toggle="modal"

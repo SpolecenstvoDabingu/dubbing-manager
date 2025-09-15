@@ -146,6 +146,7 @@ def stats(request):
             episodes.append({
                 "id": ep.pk,
                 "name": ep.name,
+                "cover": ep.cover or dubbing.cover,
                 "created": to_utc_iso(ep.created),
                 "started": to_utc_iso(ep.started),
                 "deadline": to_utc_iso(ep.deadline),
@@ -161,6 +162,7 @@ def stats(request):
             scenes.append({
                 "id": scene.pk,
                 "name": scene.name,
+                "cover": scene.cover or dubbing.cover,
                 "created": to_utc_iso(scene.created),
                 "started": to_utc_iso(scene.started),
                 "deadline": to_utc_iso(scene.deadline),
@@ -170,6 +172,7 @@ def stats(request):
 
         result_dubs[dubbing.name] = {
             "id": dubbing.id,
+            "cover": dubbing.cover,
             "episodes": episodes,
             "scenes": scenes,
             "modify_dubbing_data": dubbing.get_modify_modal_fields_json()
@@ -214,6 +217,7 @@ def stats_dubbing(request, dubbing_id):
         episodes.append({
             "id": ep.pk,
             "name": ep.name,
+            "cover": ep.cover or dubbing.cover,
             "created": to_utc_iso(ep.created),
             "started": to_utc_iso(ep.started),
             "deadline": to_utc_iso(ep.deadline),
@@ -230,6 +234,7 @@ def stats_dubbing(request, dubbing_id):
         scenes.append({
             "id": scene.pk,
             "name": scene.name,
+            "cover": scene.cover or dubbing.cover,
             "created": to_utc_iso(scene.created),
             "started": to_utc_iso(scene.started),
             "deadline": to_utc_iso(scene.deadline),

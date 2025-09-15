@@ -39,6 +39,8 @@ class Dubbing(models.Model):
     name = models.CharField(max_length=128, default="Dubbing Name", unique=True)
     manager = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='dubbing', null=True, blank=True)
 
+    cover = models.ImageField(max_length=512, upload_to=HashedFilePath("cover", "covers/dubbing"), default=None, blank=True, null=True)
+
     description = models.TextField(max_length=1024, default="", blank=True)
     urls = models.TextField(max_length=1024, default="", blank=True)
 
@@ -67,6 +69,11 @@ class Dubbing(models.Model):
             {"type": "text", "label": pgettext('Dubbing name field label', 'frontend.database.models.dubbing.name'), "name": "name", "required": True},
             {"type": "textarea", "label": pgettext('Dubbing description field label', 'frontend.database.models.dubbing.description'), "name": "description"},
             {"type": "textarea", "label": pgettext('Dubbing urls field label', 'frontend.database.models.dubbing.urls'), "name": "urls"},
+            {   "type": "file",
+                "label": pgettext('Dubbing cover field label', 'frontend.database.models.dubbing.cover'),
+                "name": "cover",
+                "accept": "image/*"
+            },
             {
                 "type": "select",
                 "label": pgettext('Dubbing manager field label', 'frontend.database.models.dubbing.manager'),
@@ -93,6 +100,11 @@ class Dubbing(models.Model):
                 "name": "name",
                 "value": self.name,
                 "required": True,
+            },
+            {   "type": "file",
+                "label": pgettext('Dubbing cover field label', 'frontend.database.models.dubbing.cover'),
+                "name": "cover",
+                "accept": "image/*"
             },
             {
                 "type": "textarea",
@@ -237,6 +249,8 @@ class Episode(SceneEpisodeBase):
     season = models.PositiveSmallIntegerField(default=1)
     episode = models.PositiveSmallIntegerField(default=1)
 
+    cover = models.ImageField(max_length=512, upload_to=HashedFilePath("cover", "covers/episode"), default=None, blank=True, null=True)
+
     def get_se(self) -> str:
         return f"S{self.season:02d}E{self.episode:02d}"
 
@@ -280,6 +294,11 @@ class Episode(SceneEpisodeBase):
 
         fields = [
             {"type": "text", "label": pgettext('Episode name field label', 'frontend.database.models.episode.name'), "name": "name", "required": True},
+            {   "type": "file",
+                "label": pgettext('Episode cover field label', 'frontend.database.models.episode.cover'),
+                "name": "cover",
+                "accept": "image/*"
+            },
             {
                 "type": "select",
                 "label": pgettext('Dubbing field label', 'frontend.database.models.episode.dubbing'),
@@ -314,6 +333,11 @@ class Episode(SceneEpisodeBase):
                 "name": "name",
                 "value": self.name,
                 "required": True
+            },
+            {   "type": "file",
+                "label": pgettext('Episode cover field label', 'frontend.database.models.episode.cover'),
+                "name": "cover",
+                "accept": "image/*"
             },
             {
                 "type": "select",
@@ -370,6 +394,8 @@ class Episode(SceneEpisodeBase):
         return json.dumps(fields)
 
 class Scene(SceneEpisodeBase):
+    cover = models.ImageField(max_length=512, upload_to=HashedFilePath("cover", "covers/scene"), default=None, blank=True, null=True)
+
     def __str__(self):
         return f"{self.dubbing} - {self.name}"
     
@@ -410,6 +436,11 @@ class Scene(SceneEpisodeBase):
 
         fields = [
             {"type": "text", "label": pgettext('Scene name field label', 'frontend.database.models.scene.name'), "name": "name", "required": True},
+            {   "type": "file",
+                "label": pgettext('Scene cover field label', 'frontend.database.models.scene.cover'),
+                "name": "cover",
+                "accept": "image/*"
+            },
             {
                 "type": "select",
                 "label": pgettext('Dubbing field label', 'frontend.database.models.scene.dubbing'),
@@ -443,6 +474,11 @@ class Scene(SceneEpisodeBase):
                 "name": "name",
                 "value": self.name,
                 "required": True
+            },
+            {   "type": "file",
+                "label": pgettext('Scene cover field label', 'frontend.database.models.scene.cover'),
+                "name": "cover",
+                "accept": "image/*"
             },
             {
                 "type": "select",
