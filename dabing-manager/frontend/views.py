@@ -131,7 +131,6 @@ def download_script(request, obj_type, obj_id):
 
 
 @login_required
-@user_passes_test(manages_something)
 def stats(request):
     i_a = is_admin(request.user)
     dubbings = Dubbing.objects.order_by("name").all()

@@ -78,7 +78,7 @@
   #sidebar {
     transform: none !important;
   }
-  #content.admin {
+  #content {
     margin-left: 15%;
   }
   #sidebarToggle {
@@ -98,7 +98,7 @@
   #sidebar.show {
     transform: translateX(0);
   }
-  #content.admin {
+  #content {
     margin-left: 0;
   }
   #sidebarToggle {

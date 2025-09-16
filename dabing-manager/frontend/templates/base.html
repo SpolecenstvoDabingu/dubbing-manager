@@ -109,7 +109,7 @@
     </ul>
 </aside>
 
-<main id="content" class="px-4 my-3 {% if request.user|has_permition:"database.is_admin" or request.user|manages_something %}admin{% endif %} background-dark">
+<main id="content" class="px-4 my-3 background-dark">
   {% block content %}{% endblock %}
 </main>
 
