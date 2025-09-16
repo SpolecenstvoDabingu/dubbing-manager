@@ -28,6 +28,16 @@
         <a href="{% url 'download_script' 'scene' scene.id %}" class="btn btn-primary mb-2">
             {% trans "frontend.scene.download_script" context "Download script button title" %}
         </a>
+        {% if scene.file_url %}
+        <button 
+            class="btn btn-success mb-2"
+            data-toggle="modal"
+            data-target="#videoModal"
+            data-video-api="{% url 'api_get_video_scene' scene.id %}?token={{ user.profile.token }}"
+            data-video-title="{{ scene.name }}">
+            {% trans "frontend.scene.play_video" context "Play scene video button" %}
+        </button>
+        {% endif %}
         {% endif %}
         {% if request.user|is_admin or scene.dubbing.manager == request.user %}
         <button class="btn btn-primary mb-2" onclick="copyToClipboard('{{ announcement_command }}')">{% trans "frontend.scene.copy_announcement_command" context "Scene announcement command" %}</button>
@@ -394,6 +404,7 @@
     </table>
 </div>
 {% include "components/image_modal.html" %}
+{% include "components/video_modal.html" %}
 {% include "components/add_modal.html" %}
 {% include "components/modify_modal.html" %}
 {% include "components/confirm_modal.html" %}

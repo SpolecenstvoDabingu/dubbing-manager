@@ -9,10 +9,12 @@ urlpatterns = [
     path('episode/add', views.add_episode, name="api_add_episode"),
     path('episode/modify/<int:id>', views.modify_episode, name="api_modify_episode"),
     path('episode/delete/<int:id>', views.delete_episode, name="api_delete_episode"),
+    path('episode/video/<int:id>', views.get_video_episode, name="api_get_video_episode"),
 
     path('scene/add', views.add_scene, name="api_add_scene"),
     path('scene/modify/<int:id>', views.modify_scene, name="api_modify_scene"),
     path('scene/delete/<int:id>', views.delete_scene, name="api_delete_scene"),
+    path('scene/video/<int:id>', views.get_video_scene, name="api_get_video_scene"),
 
     path('character/add', views.add_character, name="api_add_character"),
     path('character/modify/<int:id>', views.modify_character, name="api_modify_character"),

@@ -232,6 +232,8 @@ class SceneEpisodeBase(models.Model):
 
     script = models.FileField(max_length=512, upload_to=HashedFilePath("script", "scripts"))
     urls = models.TextField(max_length=1024, default="", blank=True)
+
+    file_url = models.URLField(max_length=1024, default=None, blank=True, null=True)
     
     def save(self, ia=False, is_scene=False):
         if self.deadline is None or self.started > self.deadline:
@@ -244,6 +246,11 @@ class SceneEpisodeBase(models.Model):
             self.deadline = timezone.make_aware(datetime.combine(self.deadline.date(), time.max), timezone.get_current_timezone())
         
         super().save()
+
+    def get_video_url(self):
+        if self.file_url is not None:
+            return self.file_url
+        return None
 
 class Episode(SceneEpisodeBase):
     season = models.PositiveSmallIntegerField(default=1)
@@ -310,6 +317,7 @@ class Episode(SceneEpisodeBase):
             {"type": "number", "label": pgettext('Episode episode field label', 'frontend.database.models.episode.episode'), "name": "episode", "value": 1},
             {"type": "file", "label": pgettext('Episode script field label', 'frontend.database.models.episode.script'), "name": "script", "accept": ".pdf,.ass", "required": True},
             {"type": "textarea", "label": pgettext('Episode urls field label', 'frontend.database.models.episode.urls'), "name": "urls"},
+            {"type": "text", "label": pgettext('Episode file url field label', 'frontend.database.models.episode.file_url'), "name": "file_url"},
         ]
         if is_admin:
             fields.insert(
@@ -369,6 +377,11 @@ class Episode(SceneEpisodeBase):
                 "label": pgettext('Episode urls field label', 'frontend.database.models.episode.urls'),
                 "name": "urls",
                 "value": self.urls or ""
+            },
+            {   "type": "text",
+                "label": pgettext('Episode file url field label', 'frontend.database.models.episode.file_url'),
+                "name": "file_url",
+                "value": self.file_url or ""
             },
         ]
         if is_admin:
@@ -450,6 +463,7 @@ class Scene(SceneEpisodeBase):
             {"type": "date", "label": pgettext('Scene started field label', 'frontend.database.models.scene.started'), "name": "started", "value": today().strftime("%Y-%m-%d")},
             {"type": "file", "label": pgettext('Scene script field label', 'frontend.database.models.scene.script'), "name": "script", "accept": ".pdf,.ass", "required": True},
             {"type": "textarea", "label": pgettext('Scene urls field label', 'frontend.database.models.scene.urls'), "name": "urls"},
+            {"type": "text", "label": pgettext('Scene file url field label', 'frontend.database.models.scene.file_url'), "name": "file_url"},
         ]
         
         if is_admin:
@@ -498,6 +512,11 @@ class Scene(SceneEpisodeBase):
                 "label": pgettext('Scene urls field label', 'frontend.database.models.scene.urls'),
                 "name": "urls",
                 "value": self.urls or ""
+            },
+            {   "type": "text",
+                "label": pgettext('Scene file url field label', 'frontend.database.models.scene.file_url'),
+                "name": "file_url",
+                "value": self.file_url or ""
             },
         ]
         if is_admin:

@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from core.utils import require_DELETE
 from discord.utils import validate_token, is_manager, is_admin
 from frontend.utils import is_admin as is_admin_f, get_character_user
@@ -128,6 +128,7 @@ def add_episode(request):
     season = request.POST.get("season")
     episode_number = request.POST.get("episode")
     urls = request.POST.get("urls")
+    file_url = request.POST.get("file_url")
 
     dubbing = Dubbing.objects.filter(id=dubbing_id)
     if not dubbing.exists():
@@ -168,6 +169,7 @@ def add_episode(request):
         episode=int(episode_number),
         script=handled_file,
         urls=str(urls),
+        file_url=str(file_url),
     )
 
     try:
@@ -197,6 +199,7 @@ def modify_episode(request, id):
     season = request.POST.get("season")
     episode_number = request.POST.get("episode")
     urls = request.POST.get("urls")
+    file_url = request.POST.get("file_url")
 
     dubbing = Dubbing.objects.filter(id=dubbing_id)
     if not dubbing.exists():
@@ -255,6 +258,10 @@ def modify_episode(request, id):
         episode_old.urls = urls
         save = True
 
+    if episode_old.file_url != file_url:
+        episode_old.file_url = file_url
+        save = True
+
     if "script" in request.FILES:
         handled_file, characters_list = handle_uploaded_script(request.FILES["script"], dubbing_id=episode_old.dubbing.id, dubbing_title=f"{episode_old.dubbing}", serie_number=f"{int(episode_old.season):02d}", episode_number=f"{int(episode_old.episode):02d}", title=f"{episode_old.name}")
         add_characters_to_episode_or_scene(characters_list, episode=episode_old)
@@ -281,6 +288,20 @@ def delete_episode(request, id):
 
     return JsonResponse({"sucess": True}, status=200)
 
+@require_GET
+@validate_token
+def get_video_episode(request, id):
+    episode = Episode.objects.get(id=id)
+    if episode is None:
+        return JsonResponse({"episode": "Episode you tried to get does not exist."}, status=400)
+    
+    if episode.file_url is None:
+        return JsonResponse({"episode": "Episode does not have video"}, status=400)
+
+    try:
+        return JsonResponse({"sucess": True, "url": episode.get_video_url()}, status=200)
+    except:
+        return JsonResponse({"episode": "Unknown error ocurred"}, status=500)
 
 
 @require_POST
@@ -292,6 +313,7 @@ def add_scene(request):
     started = request.POST.get("started")
     deadline = request.POST.get("deadline")
     urls = request.POST.get("urls")
+    file_url = request.POST.get("file_url")
 
     dubbing = Dubbing.objects.filter(id=dubbing_id)
     if not dubbing.exists():
@@ -329,6 +351,7 @@ def add_scene(request):
         deadline=dt_deadline,
         script=handled_file,
         urls=str(urls),
+        file_url=str(file_url),
     )
 
     try:
@@ -356,6 +379,7 @@ def modify_scene(request, id):
     started = request.POST.get("started")
     deadline = request.POST.get("deadline")
     urls = request.POST.get("urls")
+    file_url = request.POST.get("file_url")
 
     dubbing = Dubbing.objects.filter(id=dubbing_id)
     if not dubbing.exists():
@@ -406,6 +430,10 @@ def modify_scene(request, id):
         scene_old.urls = urls
         save = True
 
+    if scene_old.file_url != file_url:
+        scene_old.file_url = file_url
+        save = True
+
     if "script" in request.FILES:
         handled_file, characters_list = handle_uploaded_script(request.FILES["script"], dubbing_id=scene_old.dubbing.id, dubbing_title=f"{scene_old.dubbing}", title=f"{scene_old.name}")
         add_characters_to_episode_or_scene(characters_list, scene=scene_old)
@@ -432,7 +460,20 @@ def delete_scene(request, id):
 
     return JsonResponse({"sucess": True}, status=200)
 
+@require_GET
+@validate_token
+def get_video_scene(request, id):
+    scene = Scene.objects.get(id=id)
+    if scene is None:
+        return JsonResponse({"scene": "Scene you tried to get does not exist."}, status=400)
+    
+    if scene.file_url is None:
+        return JsonResponse({"scene": "Scene does not have video"}, status=400)
 
+    try:
+        return JsonResponse({"sucess": True, "url": scene.get_video_url()}, status=200)
+    except:
+        return JsonResponse({"scene": "Unknown error ocurred"}, status=500)
 
 
 @require_POST

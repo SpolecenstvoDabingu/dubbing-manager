@@ -523,9 +523,7 @@ $(document).ready(function () {
       });
   });
 });
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
   $('#imageModal').on('show.bs.modal', function (event) {
     var img = $(event.relatedTarget);
     var url = img.data('img-url');
@@ -533,6 +531,46 @@ $(document).ready(function () {
     var modal = $(this);
     modal.find('#modalImage').attr('src', url).attr('alt', alt);
     modal.find('.modal-title').text(alt);
+  });
+
+  $('#videoModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); 
+    var apiUrl = button.data('video-api');  // API endpoint
+    var title = button.data('video-title') || 'Video';
+
+    var modal = $(this);
+    var video = modal.find('#modalVideoIframe');
+
+    modal.find('.modal-title').text(title);
+
+    // Clear old src and pause
+    video.attr('src', '');
+    // Fetch signed URL from Django API
+    fetch(apiUrl, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("Failed to load video URL");
+      return response.json();
+    })
+    .then(data => {
+      if (!data.url) throw new Error("No URL in API response");
+      video.attr('src', data.url);
+    })
+    .catch(err => {
+      console.error("Video load error:", err);
+      modal.find('.modal-body').html(
+        `<div class="alert alert-danger">Could not load video.</div>`
+      );
+    });
+  });
+
+  // Stop video when modal closes
+  $('#videoModal').on('hidden.bs.modal', function () {
+    var video = $(this).find('#modalVideoIframe');
+    video.attr('src', '');
   });
 });
 </script>

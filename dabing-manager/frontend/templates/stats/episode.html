@@ -29,6 +29,16 @@
             {% trans "frontend.episode.download_script" context "Download script button title" %}
         </a>
         {% endif %}
+        {% if episode.file_url %}
+        <button 
+            class="btn btn-success mb-2"
+            data-toggle="modal"
+            data-target="#videoModal"
+            data-video-api="{% url 'api_get_video_episode' episode.id %}?token={{ user.profile.token }}"
+            data-video-title="{{ episode.name }}">
+            {% trans "frontend.episode.play_video" context "Play episode video button" %}
+        </button>
+        {% endif %}
         {% if request.user|is_admin or episode.dubbing.manager == request.user %}
         <button class="btn btn-primary mb-2" onclick="copyToClipboard('{{ announcement_command }}')">{% trans "frontend.episode.copy_announcement_command" context "Episode announcement command" %}</button>
         <button class="btn btn-warning" onclick="copyToClipboard('{{ notify_command }}')">{% trans "frontend.episode.copy_notify_command" context "Episode notify command" %}</button>
@@ -391,6 +401,7 @@
     </table>
 </div>
 {% include "components/image_modal.html" %}
+{% include "components/video_modal.html" %}
 {% include "components/add_modal.html" %}
 {% include "components/modify_modal.html" %}
 {% include "components/confirm_modal.html" %}
