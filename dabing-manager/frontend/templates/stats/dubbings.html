@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 {% load is_admin %}
-{% load manages_something %}
+{% load manages_this %}
 {% load to_utc_iso %}
 
 {% block content %}
@@ -28,6 +28,7 @@
         <a href="{% url 'stats_dubbing' items.id %}" class="text-white"><b>{{ key }}</b></a>
     </h4>
     <div class="d-flex flex-column flex-md-row ml-md-auto mr-3">
+        {% if request.user|manages_this:items.id %}
         <button 
             class="btn btn-warning mb-2 mb-md-0"
             data-toggle="modal"
@@ -38,6 +39,7 @@
             data-fields='{{ items.modify_dubbing_data|escape }}'>
             {% trans "frontend.dubbings.edit_button" context "Edit dubbing button" %}
         </button>
+        {% endif %}
         {% if request.user|is_admin %}
         <button class="btn btn-danger ml-md-2" 
             data-toggle="modal" 

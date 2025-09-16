@@ -13,6 +13,9 @@ def is_superuser(user) -> bool:
 def manages_something(user):
     return is_admin(user) or Dubbing.objects.filter(manager=user).exists()
 
+def manages_this(user, dubbing):
+    return is_admin(user) or dubbing.manager == user
+
 def get_character_user(type, char_id):
     uc = get_character_user_type(type)
     if uc is not None:
