@@ -2,6 +2,7 @@
 {% load static %}
 {% load i18n %}
 {% load is_admin %}
+{% load can_manage_handover %}
 {% load discord_username %}
 {% load markdown_links %}
 {% load to_utc_iso %}
@@ -216,7 +217,7 @@
                     {% endif %}
                 </td>
                 <td class="text-center align-middle">
-                    {% if user == uc.user or user|is_admin %}
+                    {% if user|can_manage_handover:uc %}
                         {% if uc.done %}
                         <a href="{% url 'unhand-over-character' 'stable' uc.id %}" class="btn btn-sm btn-outline-danger w-100">{% trans "frontend.episode.unhand_over" context "Text unhand over" %}</a>
                         {% else %}
@@ -225,8 +226,10 @@
                             {% else %}
                             <a href="{% url 'hand-over-character' 'stable' uc.id %}" class="btn btn-sm btn-outline-success w-100">{% trans "frontend.episode.hand_over" context "Text hand over" %}</a>
                             {% endif %}
-                            {% if uc.episode.times_up and request.user|is_admin %}
+                            {% if uc.episode.times_up %}
+                            {% if request.user|is_admin or episode.dubbing.manager == request.user %}
                             <a href="{% url 'hand-over-character' 'stable' uc.id %}" class="btn btn-sm btn-outline-success w-100 mt-2">{% trans "frontend.episode.hand_over" context "Text hand over" %}</a>
+                            {% endif %}
                             {% endif %}
                         {% endif %}
                     {% endif %}
@@ -345,7 +348,7 @@
                     {% endif %}
                 </td>
                 <td class="text-center align-middle">
-                    {% if user == uc.user or user|is_admin %}
+                    {% if user|can_manage_handover:uc %}
                         {% if uc.done %}
                         <a href="{% url 'unhand-over-character' 'temporary' uc.id %}" class="btn btn-sm btn-outline-danger w-100">{% trans "frontend.episode.unhand_over" context "Text unhand over" %}</a>
                         {% else %}
@@ -354,8 +357,10 @@
                             {% else %}
                             <a href="{% url 'hand-over-character' 'temporary' uc.id %}" class="btn btn-sm btn-outline-success w-100">{% trans "frontend.episode.hand_over" context "Text hand over" %}</a>
                             {% endif %}
-                            {% if uc.episode.times_up and request.user|is_admin %}
+                            {% if uc.episode.times_up %}
+                            {% if request.user|is_admin or episode.dubbing.manager == request.user %}
                             <a href="{% url 'hand-over-character' 'temporary' uc.id %}" class="btn btn-sm btn-outline-success w-100 mt-2">{% trans "frontend.episode.hand_over" context "Text hand over" %}</a>
+                            {% endif %}
                             {% endif %}
                         {% endif %}
                     {% endif %}

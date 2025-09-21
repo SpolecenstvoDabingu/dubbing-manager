@@ -1,6 +1,7 @@
 from database.models import UserCharacterStable, UserCharacterTemporary, Character, Episode, Scene
 from django.db.models import OuterRef
 from django.db.models.functions import Coalesce
+from frontend.utils import is_admin as is_admin_f
 
 
 def add_characters_to_episode_or_scene(names:list, episode:Episode=None, scene:Scene=None):
@@ -71,3 +72,18 @@ def add_characters_to_episode_or_scene(names:list, episode:Episode=None, scene:S
 
     created_objects.extend(stable_bulk + temporary_bulk)
     return created_objects
+
+def can_manage_handover(r_user, ch_user):
+    if r_user == ch_user.user:
+        return True
+
+    if is_admin_f(r_user):
+        return True
+    
+    if ch_user.episode and ch_user.episode.is_manager(user=r_user):
+        return True
+    
+    if ch_user.scene and ch_user.scene.is_manager(user=r_user):
+        return True
+
+    return False

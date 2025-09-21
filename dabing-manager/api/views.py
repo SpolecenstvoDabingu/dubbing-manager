@@ -13,7 +13,7 @@ from database.utils import get_character_user_type
 from datetime import datetime
 from django.utils import timezone
 from script.utils import handle_uploaded_script
-from .utils import add_characters_to_episode_or_scene
+from .utils import add_characters_to_episode_or_scene, can_manage_handover
 
 from database.models import Dubbing, Episode, Scene, Character, UserCharacterStable, UserCharacterTemporary
 
@@ -792,7 +792,7 @@ def hand_over(request, type, char_id):
     if character_user is None:
         return redirect('stats')
     
-    if character_user.user == request.user or is_admin(request.user):
+    if can_manage_handover(request.user, character_user):
         character_user.done = True
         character_user.save()
 
@@ -810,7 +810,7 @@ def unhand_over(request, type, char_id):
     if character_user is None:
         return redirect('stats')
     
-    if character_user.user == request.user or is_admin(request.user):
+    if can_manage_handover(request.user, character_user):
         character_user.done = False
         character_user.save()
 

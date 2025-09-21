@@ -251,6 +251,9 @@ class SceneEpisodeBase(models.Model):
         if self.file_url is not None:
             return self.file_url
         return None
+    
+    def is_manager(self, user) -> bool:
+        return self.dubbing.manager == user
 
 class Episode(SceneEpisodeBase):
     season = models.PositiveSmallIntegerField(default=1)
@@ -283,10 +286,6 @@ class Episode(SceneEpisodeBase):
     @property
     def times_up(self) -> bool:
         return self.deadline < timezone.now()
-    
-    @property
-    def is_manager(self, user) -> bool:
-        return self.dubbing.manager == user
     
     @property
     def modify_episode_data(self):
@@ -415,10 +414,6 @@ class Scene(SceneEpisodeBase):
     @property
     def times_up(self) -> bool:
         return self.deadline < timezone.now()
-    
-    @property
-    def is_manager(self, user) -> bool:
-        return self.dubbing.manager == user
     
     @property
     def modify_scene_data(self):
