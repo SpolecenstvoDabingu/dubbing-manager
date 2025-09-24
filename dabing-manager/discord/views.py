@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .utils import validate_token, is_admin
 from .models import DiscordUser
 from database.models import UserCharacterStable, UserCharacterTemporary
+from django.contrib.auth.models import User
+from social_django.models import UserSocialAuth
 import json
 from core.settingz.config import EXTERNAL_URL
 from core.utils import require_GET_or_POST
@@ -137,6 +139,54 @@ def add_users(request):
         "created": len(to_create),
         "updated": len(to_update),
         "total_processed": len(data)
+    }, status=200)
+
+@csrf_exempt
+@require_POST
+@validate_token
+@is_admin
+def add_custom_user(request):
+    try:
+        data = (json.loads(request.body)).get("data")
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    if not isinstance(data, dict):
+        return JsonResponse({"error": "Expected a user dict"}, status=400)
+    
+    discord_id = str(data.get("id"))
+    name = data.get("name")
+    display_name = data.get("display_name")
+    avatar = data.get("avatar")
+
+    if not (discord_id and name and display_name and avatar):
+        return JsonResponse({"error": "Expected ID, name, display_name, avatar"}, status=400)
+
+    try:
+        user, created = User.objects.get_or_create(
+            username=f"{name}_{discord_id}"
+        )
+
+        UserSocialAuth.objects.get_or_create(
+            user=user,
+            provider="discord",
+            uid=discord_id
+        )
+
+        DiscordUser.objects.get_or_create(
+            discord_id=discord_id,
+            name=name,
+            display_name=display_name,
+            avatar_url=avatar,
+            user=user,
+            is_member=False
+        )
+    except Exception as e:
+        return JsonResponse({"error": f"Unexpected error {e}"}, status=500)
+
+
+    return JsonResponse({
+        "success": True
     }, status=200)
 
 

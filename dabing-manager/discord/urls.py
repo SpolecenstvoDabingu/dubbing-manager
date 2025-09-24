@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path("users/sync", views.sync_users, name="discord_sync_users"),
     path("users/add", views.add_users, name="discord_add_users"),
+    path("user/custom/add", views.add_custom_user, name="discord_add_custom_user"),
     path("users/remove", views.remove_users, name="discord_sync_users"),
     path("dubbings/characters", views.get_dubbings_characters, name="discord_get_dubbings_characters"),
 

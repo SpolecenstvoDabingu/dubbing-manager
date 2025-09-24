@@ -80,11 +80,11 @@ class DiscordUser(models.Model):
                 instance.avatar_url = None
         return instances
     
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.avatar_url is not None and len(self.avatar_url) > 0:
             self.avatar = self.avatar_url
             self.avatar_url = None
-        super().save()
+        super().save(*args, **kwargs)
     
 
 @property
