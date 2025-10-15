@@ -179,7 +179,7 @@ def stats(request):
             "cover": dubbing.cover,
             "episodes": episodes,
             "scenes": scenes,
-            "modify_dubbing_data": dubbing.get_modify_modal_fields_json()
+            "modify_dubbing_data": dubbing.get_modify_modal_fields_json(is_admin=is_admin(request.user))
         }
 
 
@@ -271,7 +271,7 @@ def stats_dubbing(request, dubbing_id):
     user_id_admin = is_admin(request.user)
     return custom_render(request, "stats/dubbing.html", {
         "dubbing": dubbing,
-        "modify_dubbing_data": dubbing.get_modify_modal_fields_json(),
+        "modify_dubbing_data": dubbing.get_modify_modal_fields_json(is_admin=is_admin(request.user)),
         "add_episode_data": filter_options(Episode.get_add_modal_fields_json(user_id_admin), dubbing.id),
         "add_scene_data": filter_options(Scene.get_add_modal_fields_json(user_id_admin), dubbing.id),
         "add_character_data": Character.get_add_modal_fields_json(dubbing),

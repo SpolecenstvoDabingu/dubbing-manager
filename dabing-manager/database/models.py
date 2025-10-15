@@ -57,7 +57,7 @@ class Dubbing(models.Model):
     
     
     @staticmethod
-    def get_add_modal_fields_json():
+    def get_add_modal_fields_json(is_admin=False):
         discord_users = sorted([u for u in User.objects.filter(social_auth__provider="discord").distinct() if u.discord_display_name], key=lambda u: (u.discord_display_name.lower(), u.discord_display_name))
 
         manager_options = [
@@ -74,18 +74,22 @@ class Dubbing(models.Model):
                 "name": "cover",
                 "accept": "image/*"
             },
-            {
-                "type": "select",
-                "label": pgettext('Dubbing manager field label', 'frontend.database.models.dubbing.manager'),
-                "name": "manager",
-                "options": manager_options
-            },
         ]
+
+        if is_admin:
+            fields.append(
+                {
+                    "type": "select",
+                    "label": pgettext('Dubbing manager field label', 'frontend.database.models.dubbing.manager'),
+                    "name": "manager",
+                    "options": manager_options
+                }
+            )
 
         return json.dumps(fields)
     
     
-    def get_modify_modal_fields_json(self):
+    def get_modify_modal_fields_json(self, is_admin=False):
         discord_users = sorted([u for u in User.objects.filter(social_auth__provider="discord").distinct() if u.discord_display_name], key=lambda u: (u.discord_display_name.lower(), u.discord_display_name))
 
         manager_options = [
@@ -118,14 +122,18 @@ class Dubbing(models.Model):
                 "name": "urls",
                 "value": self.urls,
             },
-            {
-                "type": "select",
-                "label": pgettext('Dubbing manager field label', 'frontend.database.models.dubbing.manager'),
-                "name": "manager",
-                "value": self.manager.id if self.manager else None,
-                "options": manager_options,
-            },
         ]
+
+        if is_admin:
+            fields.append(
+                {
+                    "type": "select",
+                    "label": pgettext('Dubbing manager field label', 'frontend.database.models.dubbing.manager'),
+                    "name": "manager",
+                    "value": self.manager.id if self.manager else None,
+                    "options": manager_options,
+                },
+            )
 
         return json.dumps(fields)
 
