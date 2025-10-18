@@ -529,7 +529,7 @@ msgstr "Žádné epizody"
 #: .\frontend\templates\stats\dubbing.html:162
 msgctxt "Title scenes"
 msgid "frontend.dubbing.scenes"
-msgstr "Snénky"
+msgstr "Scénky"
 
 #: .\frontend\templates\stats\dubbing.html:198
 msgctxt "No scenes found"
