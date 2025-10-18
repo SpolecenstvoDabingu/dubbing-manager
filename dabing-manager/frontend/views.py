@@ -186,7 +186,7 @@ def stats(request):
     return custom_render(request, "stats/dubbings.html", {
         "card": "stats",
         "dubbing_data": result_dubs,
-        "add_dubbing_data": Dubbing.get_add_modal_fields_json(),
+        "add_dubbing_data": Dubbing.get_add_modal_fields_json(is_admin=is_admin(request.user)),
     })
 
 @login_required
